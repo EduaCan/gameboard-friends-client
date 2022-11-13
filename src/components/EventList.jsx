@@ -7,6 +7,8 @@ import {  useNavigate } from "react-router-dom"
 
 function EventList({ gameid }) {
     const [showList, setShowList] = useState(false)
+    const [showEventForm, setShowEventForm] = useState(false)
+
     const [eventList, setEventList] = useState(null)
     const [isFetching, setIsFetching] = useState(true)
 
@@ -24,6 +26,10 @@ function EventList({ gameid }) {
     const handleEventList = () => {
         setShowList(true)
     }  
+
+    const handleAddEvent = () => {
+        setShowEventForm(true)
+    }
 
 const getData = async () =>{
     try {
@@ -58,7 +64,8 @@ if (isFetching === true) {
                     </div>
                 )
             })}
-            <button>Add Event</button>
+            <button onClick={handleAddEvent}>Add Event</button>
+            {/* {showEventForm=== true && <} */}
         </div>
     </div>
   )

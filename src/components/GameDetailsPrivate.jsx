@@ -1,6 +1,7 @@
 import React from 'react'
 import {useContext} from 'react'
 import {AuthContext} from "../context/auth.context"
+import AddEventForm from './AddEventForm'
 import CommentList from './CommentList'
 import EventList from './EventList'
 
@@ -15,6 +16,7 @@ function GameDetailsPrivate({gameid}) {
             <h5>Aqui los comentarios y demas</h5>
             <CommentList gameid={gameid}/>
             <EventList gameid={gameid}/>
+            <AddEventForm gameid={gameid}/>
         </div>
         )
       } 
