@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react"
-import { eventListService } from "../services/event.service"
+import { eventListService, addPlayerToEventService } from "../services/event.service"
 import {  useNavigate } from "react-router-dom"
 
 
@@ -31,11 +31,18 @@ function EventList({ gameid }) {
         setShowEventForm(true)
     }
 
+    const handleAddPlayer = async (eventid) => {
+        try {
+            await addPlayerToEventService(eventid)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 const getData = async () =>{
     try {
         const response = await eventListService(gameid)
         setEventList(response.data)
-        console.log("EVENT LIST RESPONSE:DATA", response.data, "GAMEID", gameid)
         setIsFetching(false)
         
     } catch (error) {
@@ -61,6 +68,7 @@ if (isFetching === true) {
                                 <p key={eachPlayer._id}>Player: {eachPlayer.username}</p>
                             )
                         })}
+                        <button onClick={() => handleAddPlayer(eachEvent._id)}>Join to Event</button>
                     </div>
                 )
             })}

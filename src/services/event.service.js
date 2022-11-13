@@ -8,7 +8,12 @@ const addEventService = (gameid, newEvent) => {
     return service.post(`/event/${gameid}`, newEvent)
 }
 
+const addPlayerToEventService = (eventid) => {
+    return service.patch(`/event/${eventid}/addplayer`)
+}
+
 export {
     eventListService,
-    addEventService
+    addEventService,
+    addPlayerToEventService
   }
