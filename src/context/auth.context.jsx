@@ -15,7 +15,7 @@ function AuthWrapper(props) {
 
   const authenticaUser = async () => {
     // ejecutar para validar el token del usuario y actualizar los estados
-    setIsFetching(true) // cambiar esto a true mientras se vuelve a validar el token
+    setIsFetching(true) 
     try {
       
       const response = await verifyService()

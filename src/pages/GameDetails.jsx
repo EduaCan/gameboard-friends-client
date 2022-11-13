@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom"
 import { useEffect } from 'react'
 import { useState } from 'react'
 import CommentList from "../components/CommentList"
+import GameDetailsPrivate from "../components/GameDetailsPrivate"
 
 
 function GameDetails() {
@@ -35,13 +36,13 @@ function GameDetails() {
 
   return (
     <div>
-        <img src={details.image_url} alt={details.name} width/>
+        <img src={details.image_url} alt={details.name} width={100}/>
                 <h5>{details.name}</h5>
                 <p>Price: {details.price}</p>
                 <p>Min Players: {details.min_players}</p>
                 <p>Max Players: {details.max_players}</p>
-                {details.description}
-                <CommentList gameid={gameid}/>
+                <p>{details.description}</p>
+                <GameDetailsPrivate gameid={gameid}/>
     </div>
   )
 }
