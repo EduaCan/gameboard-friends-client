@@ -9,6 +9,11 @@ import EventList from './EventList'
 
 function GameDetailsPrivate({gameid}) {
     const { isLoggedIn } = useContext(AuthContext)
+
+    const handleAddGameToFavourites = (gameid) => {
+        //setUser remember
+    }
+
     if (isLoggedIn === true) {
         
         return (
@@ -19,6 +24,7 @@ function GameDetailsPrivate({gameid}) {
             <AddComment gameid={gameid}/>
             <EventList gameid={gameid}/>
             <AddEventForm gameid={gameid}/>
+            <button onClick={()=>handleAddGameToFavourites(gameid)}>Add game to favourite</button>
         </div>
         )
       } 

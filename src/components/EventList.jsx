@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react"
 import { eventListService, addPlayerToEventService } from "../services/event.service"
 import {  useNavigate } from "react-router-dom"
+import {AuthContext} from "../context/auth.context"
+import {useContext} from 'react'
 
 
 
@@ -13,6 +15,7 @@ function EventList({ gameid }) {
     const [isFetching, setIsFetching] = useState(true)
 
     const navigate = useNavigate()
+  const { user } = useContext(AuthContext)
 
 
 
@@ -68,7 +71,13 @@ if (isFetching === true) {
                                 <p key={eachPlayer._id}>Player: {eachPlayer.username}</p>
                             )
                         })}
+            {/* {eachEvent.players.filter((eachPlayer)=> {
+                return eachPlayer.includes(user.user.username)
+            }).length === 0 ? 
                         <button onClick={() => handleAddPlayer(eachEvent._id)}>Join to Event</button>
+            :
+            <p>You already in this group</p>
+            } */}
                     </div>
                 )
             })}

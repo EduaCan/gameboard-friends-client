@@ -2,7 +2,6 @@ import { gameDetailsService } from "../services/game.service"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { useEffect } from 'react'
 import { useState } from 'react'
-import CommentList from "../components/CommentList"
 import GameDetailsPrivate from "../components/GameDetailsPrivate"
 
 
@@ -21,7 +20,7 @@ function GameDetails() {
         try {
             const response = await gameDetailsService(gameid)
             console.log("RESPONSE GAMEDDETAILS", response)
-            setDetails(response.data)
+            setDetails(response.data[0])
             setIsFetching(false)
 
         } catch (error) {

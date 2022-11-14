@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom"
 function CommentList({ gameid }) {
   const navigate = useNavigate()
 
-  const { comments, setComments } = useState(null);
-  const { isFetching, setIsFetching } = useState(true);
+  const  [comments, setComments]  = useState(null);
+  const  [isFetching, setIsFetching]  = useState(true);
   const [errorMessage, setErrorMessage] = useState("")
 
 
@@ -46,14 +46,14 @@ function CommentList({ gameid }) {
         <h3>No comments</h3>
       ) : ( */}
         <div>
-          {/* {comments.map((eachComment) => {
+          {comments.map((eachComment) => {
             return (
               <div key={eachComment._id}>
-                <h6>{eachComment.idUser}</h6>
+                <h6>{eachComment.idUser.username}</h6>
                 <p>{eachComment.content}</p>
               </div>
             );
-          })} */}
+          })}
           <h6>COmments don't work?</h6>
         </div>
       {/* )} */}

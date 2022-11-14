@@ -12,8 +12,13 @@ const addPlayerToEventService = (eventid) => {
     return service.patch(`/event/${eventid}/addplayer`)
 }
 
+const searchPlayerEventsService = (eventid) => {
+  return service.get(`/event/${eventid}/addplayer`)
+}
+
 export {
     eventListService,
     addEventService,
-    addPlayerToEventService
+    addPlayerToEventService,
+    searchPlayerEventsService
   }
