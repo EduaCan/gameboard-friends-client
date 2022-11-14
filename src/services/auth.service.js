@@ -12,9 +12,14 @@ const verifyService = () => {
   return service.get("/auth/verify")
 }
 
+const changePasswordService = (newPassword) => {
+  return service.patch("/auth/newpassword", newPassword)
+}
+
 
 export {
   signupService,
   loginService,
-  verifyService
+  verifyService,
+  changePasswordService
 }
