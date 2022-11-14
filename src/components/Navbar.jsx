@@ -28,9 +28,11 @@ function Navbar() {
         <NavLink to="/profile" >
           <button>Perfíl</button>
         </NavLink>
-        <span className='nav-inactive'>
+        <NavLink to="/changepassword" >
+          <button>Cambiar password</button>
+        </NavLink>
           <button onClick={handleLogout}>Cerrar Sesión</button>
-        </span>
+        
       </div>
     ) : (
       <div>

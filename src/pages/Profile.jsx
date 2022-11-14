@@ -14,7 +14,8 @@ function Profile() {
 
     <h2>Hello {user.user.username}</h2>
         <h3>Fav Games:</h3>
-    {user.user.favGames.map((eachFavGameId) => {
+        <FavGamesList />
+    {/* {user.user.favGames.map((eachFavGameId) => {
       return (
 
         <div>
@@ -23,7 +24,7 @@ function Profile() {
         <p>Algo--{eachFavGameId}--</p>
         </div>
       )
-    })}
+    })} */}
     <h3>Joined Events:</h3>
     <JoinedEvents />
     
