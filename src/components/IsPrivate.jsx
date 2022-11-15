@@ -2,6 +2,8 @@ import { Navigate } from "react-router-dom"
 import {useContext} from 'react'
 import {AuthContext} from "../context/auth.context"
 
+//!ESTE COMPONENTE NO SE USA; BORRAR
+
 //componente envoltoria para comprobar si el user esta logged, en funcion de eso renderiza...
 //... info común o exclusiva
 

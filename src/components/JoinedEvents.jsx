@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { eventListJoinedService } from "../services/event.service";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+//Muestra una lista de eventos en los que el user participa
 function JoinedEvents() {
   const [showList, setShowList] = useState(false);
 
@@ -9,7 +10,6 @@ function JoinedEvents() {
   const [isFetching, setIsFetching] = useState(true);
 
   const navigate = useNavigate();
-
 
   useEffect(() => {
     getData();
@@ -34,8 +34,8 @@ function JoinedEvents() {
       {eventList.map((eachEvent) => {
         return (
           <div key={eachEvent._id}>
-          <Link to={`/event/${eachEvent._id}`}>
-            <h5>Location: {eachEvent.location}</h5>
+            <Link to={`/event/${eachEvent._id}`}>
+              <h5>Location: {eachEvent.location}</h5>
             </Link>
             {eachEvent.players.map((eachPlayer) => {
               return <p key={eachPlayer._id}>Player: {eachPlayer.username}</p>;

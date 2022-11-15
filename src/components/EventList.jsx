@@ -7,7 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 
+//Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
+  //estados para futuros pop-ups o modals
   const [showList, setShowList] = useState(false);
   const [showEventForm, setShowEventForm] = useState(false);
 
@@ -21,14 +23,17 @@ function EventList({ gameid }) {
     getData();
   }, []);
 
+  //para pop-up, que aparezca la lista de eventos
   const handleEventList = () => {
     setShowList(true);
   };
 
+  //para pop-up, que aparezca el formulario de crear eventos
   const handleAddEvent = () => {
     setShowEventForm(true);
   };
 
+  //para añadir el user al evento mediante boton
   const handleAddPlayer = async (eventid) => {
     try {
       await addPlayerToEventService(eventid);
@@ -58,8 +63,8 @@ function EventList({ gameid }) {
         {eventList.map((eachEvent) => {
           return (
             <div key={eachEvent._id}>
-            <Link to={`/event/${eachEvent._id}`}>
-              <h5>Location: {eachEvent.location}</h5>
+              <Link to={`/event/${eachEvent._id}`}>
+                <h5>Location: {eachEvent.location}</h5>
               </Link>
               {eachEvent.players.map((eachPlayer) => {
                 return (

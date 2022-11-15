@@ -1,40 +1,43 @@
 import { useState, useEffect } from "react";
-import { commentListGameService, commentListEventService } from "../services/comment.service";
-import { useNavigate } from "react-router-dom"
+import {
+  commentListGameService,
+  commentListEventService,
+} from "../services/comment.service";
+import { useNavigate } from "react-router-dom";
 
-
+//Muestra la lista de comments, sea del juego o del evento
 function CommentList({ elementId }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const  [comments, setComments]  = useState(null);
-  const  [isFetching, setIsFetching]  = useState(true);
-
+  const [comments, setComments] = useState(null);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     getData(elementId);
-
   }, []);
 
   const getData = async (elementId) => {
-      try {
-        let commentList
-          if (elementId.length > 12){ //mayor de 10 es un evento
-             commentList = await commentListEventService(elementId);
-          }else { //sino, es un juego
-             commentList = await commentListGameService(elementId);
-          }
-          setComments(commentList.data);
-          setIsFetching(false);
-        
+    try {
+      let commentList;
+      //este if nos permite reusar el componente para juegos y eventos
+      if (elementId.length > 12) {
+        //mayor de 12 es un evento
+        commentList = await commentListEventService(elementId);
+      } else {
+        //sino, es un juego
+        commentList = await commentListGameService(elementId);
+      }
+      setComments(commentList.data);
+      setIsFetching(false);
     } catch (error) {
-        // if (error.response && error.response.status === 400) {
-        //     // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        //     setErrorMessage(error.response.data.errorMessage)
-        //   } else {
-        //     // si el error es otro (500) entonces si redirecciono a /error
-        //     navigate("/error")
-        //   }
-        console.log(error)
+      // if (error.response && error.response.status === 400) {
+      //     // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+      //     setErrorMessage(error.response.data.errorMessage)
+      //   } else {
+      //     // si el error es otro (500) entonces si redirecciono a /error
+      //     navigate("/error")
+      //   }
+      console.log(error);
     }
   };
 

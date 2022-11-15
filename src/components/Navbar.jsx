@@ -2,6 +2,7 @@ import {useContext} from 'react'
 import { NavLink } from 'react-router-dom'
 import {AuthContext} from "../context/auth.context"
 
+//Barra de navegacion con info privada, que muestra si estas logged
 function Navbar() {
     const { authenticaUser, isLoggedIn, setUser, setIsLoggedIn } = useContext(AuthContext)
   
@@ -9,7 +10,6 @@ function Navbar() {
         localStorage.removeItem("authToken")
         // despues de borrar el token, volvemos a invocar la funcion de validarlo
         authenticaUser()
-        //y lo dirigimos a home
          }
 
 

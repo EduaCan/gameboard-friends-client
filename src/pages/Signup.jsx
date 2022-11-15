@@ -2,6 +2,7 @@ import { useState } from "react";
 import { signupService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom"
 
+//Muestra un formulario para que el user se registre
 function Signup() {
 
   // configuramos el uso de navigate

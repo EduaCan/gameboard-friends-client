@@ -1,37 +1,41 @@
 import { useState } from "react";
 import { addEventService } from "../services/event.service";
 
+//Formulario para añadir evento
+function AddEventForm({ gameid }) {
+  const [location, setLocation] = useState("");
 
-function AddEventForm({gameid}) {
+  const handleLocationChange = (event) => setLocation(event.target.value);
 
-    const [location, setLocation] = useState("");
+  const handleComfirmEvent = async (event) => {
+    event.preventDefault();
 
-    const handleLocationChange = (event) => setLocation(event.target.value);
+    const newEvent = {
+      location: location,
+    };
 
-    const handleComfirmEvent = async (event) => {
-        event.preventDefault()
-
-        const newEvent = {
-            location: location
-        }
-
-        try {
-            await addEventService(gameid, newEvent)
-        } catch (error) {
-            console.log(error)
-        }
+    try {
+      await addEventService(gameid, newEvent);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
   return (
     <div>
-        <form onSubmit={handleComfirmEvent}>
-            <label >Location: </label>
-            <input type="text" name="location" value={location} onChange={handleLocationChange}/>
+      <form onSubmit={handleComfirmEvent}>
+        <label>Location: </label>
+        <input
+          type="text"
+          name="location"
+          value={location}
+          onChange={handleLocationChange}
+        />
 
-            <button typr="submit">Comfirm Event</button>
-        </form>
+        <button typr="submit">Comfirm Event</button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default AddEventForm
+export default AddEventForm;
