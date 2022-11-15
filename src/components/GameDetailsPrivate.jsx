@@ -2,15 +2,17 @@ import React from 'react'
 import {useContext} from 'react'
 import {AuthContext} from "../context/auth.context"
 import AddComment from './AddComment'
-import AddEventForm from './AddEventForm'
 import CommentList from './CommentList'
+import AddEventForm from './AddEventForm'
 import EventList from './EventList'
+import { addGameToFavouritesService } from '../services/user.service'
 
 
 function GameDetailsPrivate({gameid}) {
     const { isLoggedIn } = useContext(AuthContext)
 
     const handleAddGameToFavourites = (gameid) => {
+        addGameToFavouritesService(gameid)
         //setUser remember
     }
 
@@ -20,8 +22,8 @@ function GameDetailsPrivate({gameid}) {
         <div>
 
             <h5>Aqui los comentarios y demas</h5>
-            <CommentList gameid={gameid}/>
-            <AddComment gameid={gameid}/>
+            <CommentList elementId={gameid}/>
+            <AddComment elementId={gameid}/>
             <EventList gameid={gameid}/>
             <AddEventForm gameid={gameid}/>
             <button onClick={()=>handleAddGameToFavourites(gameid)}>Add game to favourite</button>

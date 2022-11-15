@@ -6,7 +6,7 @@ import JoinedEvents from "../components/JoinedEvents"
 
 
 function Profile() {
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext) 
   console.log(user)
 
   return (

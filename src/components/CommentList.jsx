@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
-import { commentListService } from "../services/comment.service";
+import { commentListGameService, commentListEventService } from "../services/comment.service";
 import { useNavigate } from "react-router-dom"
 
 
-function CommentList({ gameid }) {
+function CommentList({ elementId }) {
   const navigate = useNavigate()
 
   const  [comments, setComments]  = useState(null);
   const  [isFetching, setIsFetching]  = useState(true);
-  const [errorMessage, setErrorMessage] = useState("")
 
 
   useEffect(() => {
-    getData(gameid);
-    // console.log("COMMENTLISTSTATE", comments.)
+    getData(elementId);
 
   }, []);
 
-  const getData = async (gameid) => {
+  const getData = async (elementId) => {
       try {
-          const commentList = await commentListService(gameid);
-          console.log("COMMENTLISTSTATE", commentList.data)
+        let commentList
+          if (elementId.length > 12){ //mayor de 10 es un evento
+             commentList = await commentListEventService(elementId);
+          }else { //sino, es un juego
+             commentList = await commentListGameService(elementId);
+          }
           setComments(commentList.data);
           setIsFetching(false);
         
@@ -42,9 +44,9 @@ function CommentList({ gameid }) {
 
   return (
     <div>
-      {/* {comments.length === 0 ? (
+      {comments.length === 0 ? (
         <h3>No comments</h3>
-      ) : ( */}
+      ) : (
         <div>
           {comments.map((eachComment) => {
             return (
@@ -54,9 +56,8 @@ function CommentList({ gameid }) {
               </div>
             );
           })}
-          <h6>COmments don't work?</h6>
         </div>
-      {/* )} */}
+      )}
     </div>
   );
 }

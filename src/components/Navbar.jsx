@@ -1,16 +1,15 @@
 import {useContext} from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {AuthContext} from "../context/auth.context"
 
 function Navbar() {
     const { authenticaUser, isLoggedIn, setUser, setIsLoggedIn } = useContext(AuthContext)
-  const{navigate} = useNavigate()
+  
     const handleLogout = () => {
         localStorage.removeItem("authToken")
         // despues de borrar el token, volvemos a invocar la funcion de validarlo
         authenticaUser()
         //y lo dirigimos a home
-        navigate("/")
          }
 
 
@@ -31,8 +30,10 @@ function Navbar() {
         <NavLink to="/changepassword" >
           <button>Cambiar password</button>
         </NavLink>
+        <NavLink to="/" >
         
           <button onClick={handleLogout}>Cerrar Sesión</button>
+          </NavLink>
         
       </div>
     ) : (

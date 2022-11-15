@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { gameDetailsService } from "../services/game.service";
 import { getFavGamesArrayService } from "../services/user.service";
 
@@ -14,11 +15,10 @@ function FavGamesList({ gameid }) {
   const getData = async () => {
     try {
       const response = await getFavGamesArrayService();
-      console.log(response.favGames);
-      // const finalResponse = await gameDetailsService(response.data);
-      // console.log(finalResponse.data);
-      // setDetails(finalResponse.data);
-      // setIsFetching(false);
+      const finalResponse = await gameDetailsService(response.data);
+      console.log(finalResponse.data)
+      setDetails(finalResponse.data);
+      setIsFetching(false);
     } catch (error) {
       console.log(error);
     }
@@ -33,8 +33,11 @@ function FavGamesList({ gameid }) {
       {details.map((eachGame) => {
         return (
           <div key={eachGame.id}>
-            <img src={details.image_url} alt={details.name} width={50} />
-            <h5>{details.name}</h5>
+          <Link to={`/game/${eachGame.id}`}>
+
+            <img src={eachGame.image_url} alt={eachGame.name} width={50} />
+            <h5>{eachGame.name}</h5>
+            </Link>
             <p>juego favorito</p>
           </div>
         );

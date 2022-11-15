@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { commentAddService } from "../services/comment.service";
+import { commentAddGameService, commentAddEventService } from "../services/comment.service";
 
-function AddComment({gameid}) {
+function AddComment({elementId}) {
     const [content, setContent]  = useState("")
 
     const handleContentChange = (event) => setContent(event.target.value);
@@ -14,7 +14,11 @@ function AddComment({gameid}) {
         }
 
         try {
-            await commentAddService(gameid, newComment)
+            if (elementId.length > 12){ //mayor de 10 es un evento
+                await commentAddEventService(elementId, newComment)
+             }else { //sino, es un juego
+                await commentAddGameService(elementId, newComment)
+             }
         } catch (error) {
             console.log(error)
         }

@@ -20,10 +20,15 @@ const getAnEventInfoService = (eventid) => {
   return service.get(`/event/details/${eventid}/`)
 }
 
+const eventListJoinedService = () => {
+  return service.get("event/user")
+}
+
 export {
     eventListService,
     addEventService,
     addPlayerToEventService,
     searchPlayerEventsService,
-    getAnEventInfoService
+    getAnEventInfoService,
+    eventListJoinedService
   }

@@ -40,7 +40,6 @@ function EventList({ gameid }) {
   const getData = async () => {
     try {
       const response = await eventListService(gameid);
-      console.log("EVENTS", response.data);
       setEventList(response.data);
       setIsFetching(false);
     } catch (error) {
