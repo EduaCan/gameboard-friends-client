@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import GameList from "./pages/GameList";
 import GameDetails from "./pages/GameDetails";
 import ChangePassword from "./pages/ChangePassword";
+import EventDetails from "./pages/EventDetails";
 
 function App() {
   return (
@@ -21,10 +22,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/game" element={<GameList />} />
         <Route path="/game/:gameid" element={<GameDetails />} />
-        "/changepassword"
 
+        {/* rutas privadas */}
         <Route path="/profile" element={<Profile />} />
         <Route path="/changepassword" element={<ChangePassword />} />
+        <Route path="/event/:eventid" element={<EventDetails />} />
 
         {/* potenciales errores */}
         <Route path="/error" element={<Error />} />

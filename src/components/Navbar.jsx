@@ -31,6 +31,7 @@ function Navbar() {
         <NavLink to="/changepassword" >
           <button>Cambiar password</button>
         </NavLink>
+        
           <button onClick={handleLogout}>Cerrar Sesión</button>
         
       </div>
