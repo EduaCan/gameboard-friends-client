@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { addEventService } from "../services/event.service";
+import { useNavigate } from "react-router-dom";
+
 
 //Formulario para añadir evento
 function AddEventForm({ gameid, getData }) {
   const [location, setLocation] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
+
+  const navigate = useNavigate();
+
+
 
   const handleLocationChange = (event) => setLocation(event.target.value);
 
@@ -17,7 +24,13 @@ function AddEventForm({ gameid, getData }) {
     try {
       await addEventService(gameid, newEvent);
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error")
+      }
     }
     getData(gameid)
     setLocation("")

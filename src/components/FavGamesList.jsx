@@ -1,13 +1,19 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { gameDetailsService } from "../services/game.service";
 import { getFavGamesArrayService } from "../services/user.service";
 
+
 //Muestra la lista de eventos en los que participa el user
 function FavGamesList({ gameid }) {
+
+  const navigate = useNavigate();
+
   const [details, setDetails] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("")
+
 
   useEffect(() => {
     getData();
@@ -26,7 +32,13 @@ function FavGamesList({ gameid }) {
         setIsFetching(false);
       }
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error")
+      }
     }
   };
 
@@ -46,6 +58,8 @@ function FavGamesList({ gameid }) {
           </div>
         );
       })}
+      {errorMessage !== "" && <p>{errorMessage}</p>}
+
     </div>
   );
 }

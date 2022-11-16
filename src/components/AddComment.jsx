@@ -3,10 +3,16 @@ import {
   commentAddGameService,
   commentAddEventService,
 } from "../services/comment.service";
+import { useNavigate } from "react-router-dom";
+
 
 //Formulario para añadir un comment
 function AddComment({ elementId, getData }) {
   const [content, setContent] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
+
+
+  const navigate = useNavigate();
 
   const handleContentChange = (event) => setContent(event.target.value);
 
@@ -30,7 +36,13 @@ function AddComment({ elementId, getData }) {
       getData(elementId)
       setContent("")
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error")
+      }
     }
   };
 
@@ -47,6 +59,7 @@ function AddComment({ elementId, getData }) {
         ></textarea>
         <button type="submit">Send Your Comment</button>
       </form>
+      {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );
 }

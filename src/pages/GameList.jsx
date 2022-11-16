@@ -54,6 +54,8 @@ function GameList() {
           </div>
         );
       })}
+      {errorMessage !== "" && <p>{errorMessage}</p>}
+
     </div>
   );
 }

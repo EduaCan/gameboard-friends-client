@@ -12,12 +12,11 @@ import AddEventForm from "./AddEventForm";
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
-  //estados para futuros pop-ups o modals
-  const [showList, setShowList] = useState(false);
-  const [showEventForm, setShowEventForm] = useState(false);
 
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("")
+
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -26,16 +25,7 @@ function EventList({ gameid }) {
     getData();
   }, []);
 
-  //para pop-up, que aparezca la lista de eventos
-  const handleEventList = () => {
-    setShowList(true);
-  };
-
-  //para pop-up, que aparezca el formulario de crear eventos
-  const handleAddEvent = () => {
-    setShowEventForm(true);
-  };
-
+  
   //para añadir el user al evento mediante boton
   const handleAddPlayer = async (eventid) => {
     try {
@@ -50,7 +40,13 @@ function EventList({ gameid }) {
     try {
       await removePlayerFromEventService(eventid);
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error")
+      }
     }
   };
 
@@ -76,7 +72,7 @@ function EventList({ gameid }) {
 
   return (
     <div>
-      <button onClick={handleEventList}>View Events</button>
+      
       <div>
         {eventList.map((eachEvent) => {
           return (
@@ -108,9 +104,11 @@ function EventList({ gameid }) {
             </div>
           );
         })}
-        <button onClick={handleAddEvent}>Add Event</button>
+        
       </div>
       <AddEventForm gameid={gameid} getData={getData}/>
+      {errorMessage !== "" && <p>{errorMessage}</p>}
+
     </div>
   );
 }

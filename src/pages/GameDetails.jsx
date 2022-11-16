@@ -10,6 +10,7 @@ function GameDetails() {
   const navigate = useNavigate();
 
   const [details, setDetails] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("")
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -23,7 +24,13 @@ function GameDetails() {
       setDetails(response.data[0]);
       setIsFetching(false);
     } catch (error) {
-      navigate("/error");
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error")
+      }
     }
   };
 
@@ -40,6 +47,8 @@ function GameDetails() {
       <p>Max Players: {details.max_players}</p>
       <p>{details.description}</p>
       <GameDetailsPrivate gameid={gameid} />
+      {errorMessage !== "" && <p>{errorMessage}</p>}
+
     </div>
   );
 }

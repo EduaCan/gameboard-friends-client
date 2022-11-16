@@ -7,13 +7,20 @@ import { addGameToFavouritesService, removeGameFromFavouritesService, getFavGame
 import {
   commentModifyService
 } from "../services/comment.service";
+import { useNavigate } from "react-router-dom";
+
 
 //componente que evita que veas info privada si no estas logged
 function GameDetailsPrivate({ gameid }) {
   const { isLoggedIn, user } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
+
   const [favorites, setFavorites] = useState(null)
   const [isFetching, setIsFetching] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("")
+
 
 
   useEffect(()=>{
@@ -34,7 +41,13 @@ function GameDetailsPrivate({ gameid }) {
       setFavorites(response.data)
       setIsFetching(false)
     } catch (error) {
-      console.log(error)
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error")
+      }
     }
     
   }
@@ -52,7 +65,6 @@ function GameDetailsPrivate({ gameid }) {
       <div>
         <CommentList elementId={gameid}/>
         <EventList gameid={gameid}/>
-        {/* <AddEventForm gameid={gameid} /> */}
         
         {favorites.some((elem)=> elem===gameid) ? 
         <button onClick={() => handleRemoveGameFromFavourites(gameid)}>
@@ -63,6 +75,7 @@ function GameDetailsPrivate({ gameid }) {
           Add game to favourite
         </button>
         }
+      {errorMessage !== "" && <p>{errorMessage}</p>}
 
       </div>
     );

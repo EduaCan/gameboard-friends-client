@@ -6,7 +6,6 @@ import JoinedEvents from "../components/JoinedEvents";
 //Muestra la info personal del usuario
 function Profile() {
   const { user } = useContext(AuthContext);
-  console.log(user);
 
   return (
     <div>
@@ -15,6 +14,7 @@ function Profile() {
       <FavGamesList />
       <h3>Joined Events:</h3>
       <JoinedEvents />
+
     </div>
   );
 }

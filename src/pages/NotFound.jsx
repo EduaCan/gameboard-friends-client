@@ -3,7 +3,7 @@ import React from 'react'
 //Muestra error de ruta inexistente
 function NotFound() {
   return (
-    <div>NotFound</div>
+    <div>There are not the drones you looking for.</div>
   )
 }
 
