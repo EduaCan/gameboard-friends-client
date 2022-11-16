@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAnEventInfoService } from "../services/event.service";
 import { useParams, useNavigate } from "react-router-dom";
-import AddComment from "../components/AddComment";
 import CommentList from "../components/CommentList";
 
 //Muestra los detalles de un evento
@@ -38,7 +37,6 @@ function EventDetails() {
         return <p key={eachPlayer._id}>Player: {eachPlayer.username}</p>;
       })}
       <CommentList elementId={details._id} />
-      <AddComment elementId={eventid} />
     </div>
   );
 }

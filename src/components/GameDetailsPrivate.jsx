@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";  //si no lo uso, quitalo
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import AddComment from "./AddComment";
 import CommentList from "./CommentList";
-import AddEventForm from "./AddEventForm";
 import EventList from "./EventList";
 import { addGameToFavouritesService, removeGameFromFavouritesService, getFavGamesArrayService } from "../services/user.service";
 import {
@@ -43,11 +41,7 @@ function GameDetailsPrivate({ gameid }) {
   
 
 
-  //!hay que hacer algo con esto
-  //funcion para modificar comments, que se invoca desde los childs
-  const handleModifyComment = async (commentid, updateContent) => {
-    await commentModifyService(commentid, updateContent)
-  };
+ 
 
   if (isFetching === true) {
     return <h3>....buscando event list</h3>;
@@ -57,9 +51,8 @@ function GameDetailsPrivate({ gameid }) {
     return (
       <div>
         <CommentList elementId={gameid}/>
-        <AddComment elementId={gameid}/>
         <EventList gameid={gameid}/>
-        <AddEventForm gameid={gameid} />
+        {/* <AddEventForm gameid={gameid} /> */}
         
         {favorites.some((elem)=> elem===gameid) ? 
         <button onClick={() => handleRemoveGameFromFavourites(gameid)}>

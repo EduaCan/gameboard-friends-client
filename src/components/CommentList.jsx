@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
+import AddComment from "./AddComment";
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentList({ elementId }) {
@@ -56,11 +57,11 @@ function CommentList({ elementId }) {
     await commentDeleteService(commentid)
   };
 
-  //!hay que hacer algo con esto
-  //funcion para modificar comments
-  const handleModifyComment = async (commentid, updateContent) => {
-    await commentModifyService(commentid, updateContent)
-  };
+  //  //!hay que hacer algo con esto
+  // //funcion para modificar comments, que se invoca desde los childs
+  // const handleModifyComment = async (commentid, updateContent) => {
+  //   await commentModifyService(commentid, updateContent)
+  // };
 
   if (isFetching === true) {
     return <h3>...LoAdiNg</h3>;
@@ -79,11 +80,7 @@ function CommentList({ elementId }) {
                 <p>{eachComment.content}</p>
                 {(eachComment.idUser.username === user.user.username || user.user.role === "admin") && (
                   <div>
-                    <button
-                      onClick={() => handleModifyComment()}
-                    >
-                      Modify Comment
-                    </button>
+                    
                     <button
                       onClick={() => handleDeleteComment(eachComment._id)}
                     >
@@ -96,6 +93,7 @@ function CommentList({ elementId }) {
           })}
         </div>
       )}
+      <AddComment elementId={elementId} getData={getData}/>
     </div>
   );
 }

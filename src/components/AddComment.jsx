@@ -5,7 +5,7 @@ import {
 } from "../services/comment.service";
 
 //Formulario para añadir un comment
-function AddComment({ elementId, where }) {
+function AddComment({ elementId, getData }) {
   const [content, setContent] = useState("");
 
   const handleContentChange = (event) => setContent(event.target.value);
@@ -27,7 +27,8 @@ function AddComment({ elementId, where }) {
         //sino, es un juego
         await commentAddGameService(elementId, newComment);
       }
-      // window.location.reload
+      getData(elementId)
+      setContent("")
     } catch (error) {
       console.log(error);
     }

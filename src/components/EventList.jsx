@@ -8,6 +8,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
+import AddEventForm from "./AddEventForm";
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
@@ -108,8 +109,8 @@ function EventList({ gameid }) {
           );
         })}
         <button onClick={handleAddEvent}>Add Event</button>
-        {/* {showEventForm=== true && <} */}
       </div>
+      <AddEventForm gameid={gameid} getData={getData}/>
     </div>
   );
 }

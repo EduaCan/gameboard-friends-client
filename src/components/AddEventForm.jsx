@@ -2,7 +2,7 @@ import { useState } from "react";
 import { addEventService } from "../services/event.service";
 
 //Formulario para añadir evento
-function AddEventForm({ gameid }) {
+function AddEventForm({ gameid, getData }) {
   const [location, setLocation] = useState("");
 
   const handleLocationChange = (event) => setLocation(event.target.value);
@@ -19,6 +19,8 @@ function AddEventForm({ gameid }) {
     } catch (error) {
       console.log(error);
     }
+    getData(gameid)
+    setLocation("")
   };
 
   return (
