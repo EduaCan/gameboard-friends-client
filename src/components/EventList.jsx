@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import {
   eventListService,
   addPlayerToEventService,
+  removePlayerFromEventService,
+  eventDeleteService
 } from "../services/event.service";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
@@ -42,6 +44,21 @@ function EventList({ gameid }) {
     }
   };
 
+  //para quitar al user del evento
+  const handleRemovePlayer = async (eventid) => {
+    try {
+      await removePlayerFromEventService(eventid);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //para que el admin borre el evento
+  const handleDeleteEvent = async (eventid) =>{
+    await eventDeleteService(eventid)
+  }
+
+
   const getData = async () => {
     try {
       const response = await eventListService(gameid);
@@ -74,12 +91,19 @@ function EventList({ gameid }) {
               {eachEvent.players.some(
                 (eachPlayer) => eachPlayer.username === user.user.username
               ) ? (
-                <p>You're already in this group</p>
+                <button onClick={() => handleRemovePlayer(eachEvent._id)}>
+                  Quit Event
+                </button>
               ) : (
                 <button onClick={() => handleAddPlayer(eachEvent._id)}>
                   Join to Event
                 </button>
               )}
+              {user.user.role === "admin" &&
+              <button onClick={() => handleDeleteEvent(eachEvent._id)}>
+                  Delete Event
+                </button>
+              }
             </div>
           );
         })}

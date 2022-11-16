@@ -16,11 +16,21 @@ const commentAddEventService = (eventid, newComment) => {
   return service.post(`comment/event/${eventid}`, newComment)
 }
 
+const commentDeleteService = (commentid) => {
+  return service.delete(`/comment/${commentid}`)
+}
+
+const commentModifyService = (commentid, updateContent) => {
+  return service.patch(`/comment/${commentid}`, updateContent)
+}
+
 
 
 export {
   commentListGameService,
     commentAddGameService,
     commentListEventService,
-    commentAddEventService
+    commentAddEventService,
+    commentDeleteService,
+    commentModifyService
   }

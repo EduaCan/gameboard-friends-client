@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import {
   commentListGameService,
   commentListEventService,
+  commentModifyService,
+  commentDeleteService
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../context/auth.context";
+import { useContext } from "react";
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentList({ elementId }) {
@@ -12,9 +17,14 @@ function CommentList({ elementId }) {
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     getData(elementId);
   }, []);
+
+
+  
 
   const getData = async (elementId) => {
     try {
@@ -41,6 +51,17 @@ function CommentList({ elementId }) {
     }
   };
 
+  //para eliminar un comment
+  const handleDeleteComment = async (commentid) => {
+    await commentDeleteService(commentid)
+  };
+
+  //!hay que hacer algo con esto
+  //funcion para modificar comments
+  const handleModifyComment = async (commentid, updateContent) => {
+    await commentModifyService(commentid, updateContent)
+  };
+
   if (isFetching === true) {
     return <h3>...LoAdiNg</h3>;
   }
@@ -56,6 +77,20 @@ function CommentList({ elementId }) {
               <div key={eachComment._id}>
                 <h6>{eachComment.idUser.username}</h6>
                 <p>{eachComment.content}</p>
+                {(eachComment.idUser.username === user.user.username || user.user.role === "admin") && (
+                  <div>
+                    <button
+                      onClick={() => handleModifyComment()}
+                    >
+                      Modify Comment
+                    </button>
+                    <button
+                      onClick={() => handleDeleteComment(eachComment._id)}
+                    >
+                      Delete Comment
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}

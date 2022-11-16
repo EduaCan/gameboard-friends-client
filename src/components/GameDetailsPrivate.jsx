@@ -1,30 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";  //si no lo uso, quitalo
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import AddEventForm from "./AddEventForm";
 import EventList from "./EventList";
-import { addGameToFavouritesService } from "../services/user.service";
+import { addGameToFavouritesService, removeGameFromFavouritesService, getFavGamesArrayService } from "../services/user.service";
+import {
+  commentModifyService
+} from "../services/comment.service";
 
 //componente que evita que veas info privada si no estas logged
 function GameDetailsPrivate({ gameid }) {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, user } = useContext(AuthContext);
+
+  const [favorites, setFavorites] = useState(null)
+  const [isFetching, setIsFetching] = useState(true);
+
+
+  useEffect(()=>{
+     checkFavorites()
+  }, [])
 
   const handleAddGameToFavourites = (gameid) => {
     addGameToFavouritesService(gameid);
   };
 
+  const handleRemoveGameFromFavourites = (gameid) => {
+    removeGameFromFavouritesService(gameid);
+  };
+
+  const checkFavorites = async () => {
+    try {
+      const response = await getFavGamesArrayService();
+      setFavorites(response.data)
+      setIsFetching(false)
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+  
+
+
+  //!hay que hacer algo con esto
+  //funcion para modificar comments, que se invoca desde los childs
+  const handleModifyComment = async (commentid, updateContent) => {
+    await commentModifyService(commentid, updateContent)
+  };
+
+  if (isFetching === true) {
+    return <h3>....buscando event list</h3>;
+  }
+
   if (isLoggedIn === true) {
     return (
       <div>
-        <CommentList elementId={gameid} />
-        <AddComment elementId={gameid} />
-        <EventList gameid={gameid} />
+        <CommentList elementId={gameid}/>
+        <AddComment elementId={gameid}/>
+        <EventList gameid={gameid}/>
         <AddEventForm gameid={gameid} />
+        
+        {favorites.some((elem)=> elem===gameid) ? 
+        <button onClick={() => handleRemoveGameFromFavourites(gameid)}>
+          Remove game from favourites
+        </button>
+        :
         <button onClick={() => handleAddGameToFavourites(gameid)}>
           Add game to favourite
         </button>
+        }
+
       </div>
     );
   }

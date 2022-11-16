@@ -5,13 +5,14 @@ import {
 } from "../services/comment.service";
 
 //Formulario para añadir un comment
-function AddComment({ elementId }) {
+function AddComment({ elementId, where }) {
   const [content, setContent] = useState("");
 
   const handleContentChange = (event) => setContent(event.target.value);
 
   const handleComfirmContent = async (event) => {
     event.preventDefault();
+    
 
     const newComment = {
       content: content,
@@ -26,6 +27,7 @@ function AddComment({ elementId }) {
         //sino, es un juego
         await commentAddGameService(elementId, newComment);
       }
+      // window.location.reload
     } catch (error) {
       console.log(error);
     }

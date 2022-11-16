@@ -12,6 +12,11 @@ const addPlayerToEventService = (eventid) => {
     return service.patch(`/event/${eventid}/addplayer`)
 }
 
+
+const removePlayerFromEventService = (eventid) => {
+  return service.patch(`/event/${eventid}/removeplayer`)
+}
+
 const searchPlayerEventsService = (eventid) => {
   return service.get(`/event/${eventid}/addplayer`)
 }
@@ -24,11 +29,17 @@ const eventListJoinedService = () => {
   return service.get("event/user")
 }
 
+const eventDeleteService = (eventid) => {
+  return service.delete(`/event/${eventid}`)
+}
+
 export {
     eventListService,
     addEventService,
     addPlayerToEventService,
     searchPlayerEventsService,
     getAnEventInfoService,
-    eventListJoinedService
+    eventListJoinedService,
+    removePlayerFromEventService,
+    eventDeleteService
   }
