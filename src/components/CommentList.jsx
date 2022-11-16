@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   commentListGameService,
   commentListEventService,
-  commentModifyService,
   commentDeleteService
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +17,9 @@ function CommentList({ elementId }) {
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [errorMessage, setErrorMessage] = useState("")
+  const [isModifyingComment, setIsModifyingComment] = useState(false)
+  const [commentId, setCommentId] = useState(null)
+  // const [content, setContent] = useState(null)
 
 
   const { user } = useContext(AuthContext);
@@ -26,8 +28,18 @@ function CommentList({ elementId }) {
     getData(elementId);
   }, []);
 
-
+  const handleModifyComment = (elemId, content) => {
+    setCommentId(elemId)
+    // setContent(content)
+    setIsModifyingComment(true)
+    
+  }
   
+  //para eliminar un comment
+  const handleDeleteComment = async (commentid) => {
+    await commentDeleteService(commentid)
+    getData(elementId);
+  };
 
   const getData = async (elementId) => {
     try {
@@ -53,16 +65,8 @@ function CommentList({ elementId }) {
     }
   };
 
-  //para eliminar un comment
-  const handleDeleteComment = async (commentid) => {
-    await commentDeleteService(commentid)
-  };
 
-  //  //!hay que hacer algo con esto
-  // //funcion para modificar comments, que se invoca desde los childs
-  // const handleModifyComment = async (commentid, updateContent) => {
-  //   await commentModifyService(commentid, updateContent)
-  // };
+   
 
   if (isFetching === true) {
     return <h3>...LoAdiNg</h3>;
@@ -83,18 +87,24 @@ function CommentList({ elementId }) {
                   <div>
                     
                     <button
+                      onClick={() => handleModifyComment(eachComment._id, eachComment.content)}
+                    >
+                      Modify Comment
+                    </button>
+                    <button
                       onClick={() => handleDeleteComment(eachComment._id)}
                     >
                       Delete Comment
                     </button>
                   </div>
+                  
                 )}
               </div>
             );
           })}
         </div>
       )}
-      <AddComment elementId={elementId} getData={getData} />
+      <AddComment elementId={elementId} getData={getData} commentId={commentId} isModifyingComment={isModifyingComment} setIsModifyingComment={setIsModifyingComment}/>
       {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );
