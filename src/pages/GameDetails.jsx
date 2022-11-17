@@ -1,4 +1,6 @@
 import { gameDetailsService } from "../services/game.service";
+import DotLoader from "react-spinners/ClipLoader";
+
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -34,8 +36,20 @@ function GameDetails() {
     }
   };
 
+
   if (isFetching === true) {
-    return <h3>...buscando</h3>;
+    return (
+      <div>
+
+    <DotLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
+    )
   }
 
   return (

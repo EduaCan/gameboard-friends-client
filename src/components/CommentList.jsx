@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties  } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   commentListGameService,
   commentListEventService,
@@ -19,8 +20,7 @@ function CommentList({ elementId }) {
   const [errorMessage, setErrorMessage] = useState("")
   const [isModifyingComment, setIsModifyingComment] = useState(false)
   const [commentId, setCommentId] = useState(null)
-  // const [content, setContent] = useState(null)
-
+  const [content, setContent] = useState(null)
 
   const { user } = useContext(AuthContext);
 
@@ -30,7 +30,8 @@ function CommentList({ elementId }) {
 
   const handleModifyComment = (elemId, content) => {
     setCommentId(elemId)
-    // setContent(content)
+    setContent(content)
+    console.log(content)
     setIsModifyingComment(true)
     
   }
@@ -65,11 +66,27 @@ function CommentList({ elementId }) {
     }
   };
 
-
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
    
 
   if (isFetching === true) {
-    return <h3>...LoAdiNg</h3>;
+    return (
+      <div>
+
+    <ClipLoader
+        color={"grey"}
+        loading={true}
+        cssOverride={override}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
+    )
   }
 
   return (
@@ -85,9 +102,10 @@ function CommentList({ elementId }) {
                 <p>{eachComment.content}</p>
                 {(eachComment.idUser.username === user.user.username || user.user.role === "admin") && (
                   <div>
-                    
+                  
                     <button
                       onClick={() => handleModifyComment(eachComment._id, eachComment.content)}
+                      
                     >
                       Modify Comment
                     </button>
@@ -97,14 +115,13 @@ function CommentList({ elementId }) {
                       Delete Comment
                     </button>
                   </div>
-                  
                 )}
               </div>
             );
           })}
         </div>
       )}
-      <AddComment elementId={elementId} getData={getData} commentId={commentId} isModifyingComment={isModifyingComment} setIsModifyingComment={setIsModifyingComment}/>
+      <AddComment elementId={elementId} getData={getData} oldContent={content} commentId={commentId} isModifyingComment={isModifyingComment} setIsModifyingComment={setIsModifyingComment}/>
       {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { gameDetailsService } from "../services/game.service";
+import DotLoader from "react-spinners/ClipLoader";
 import { getFavGamesArrayService } from "../services/user.service";
 
 
@@ -30,6 +31,9 @@ function FavGamesList({ gameid }) {
         const finalResponse = await gameDetailsService(response.data);
         setDetails(finalResponse.data);
         setIsFetching(false);
+      }else {
+        setDetails(response.data)
+        setIsFetching(false);
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -43,12 +47,21 @@ function FavGamesList({ gameid }) {
   };
 
   if (isFetching === true) {
-    return <h3>...buscando</h3>;
+    return <DotLoader
+    color={"grey"}
+    loading={true}
+    size={150}
+    aria-label="Loading Spinner"
+    data-testid="loader"
+  />;
   }
 
   return (
     <div>
-      {details.map((eachGame) => {
+      {/* {details.length === 0 ?
+        <h5>No hay favoritos</h5>
+        :  */}
+        {details.map((eachGame) => {
         return (
           <div key={eachGame.id}>
             <Link to={`/game/${eachGame.id}`}>
@@ -58,6 +71,9 @@ function FavGamesList({ gameid }) {
           </div>
         );
       })}
+      
+      {/* } */}
+    
       {errorMessage !== "" && <p>{errorMessage}</p>}
 
     </div>

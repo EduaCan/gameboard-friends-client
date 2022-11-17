@@ -1,6 +1,7 @@
 import { gameListService } from "../services/game.service";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DotLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
 
 //Muestra la lista de juegos que viene de la API
@@ -32,7 +33,16 @@ function GameList() {
   };
 
   if (isFetching === true) {
-    return <h3>....buscando</h3>;
+    return <div>
+
+    <DotLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
   }
 
   return (

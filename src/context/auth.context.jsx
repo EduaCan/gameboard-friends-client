@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { verifyService } from "../services/auth.service";
+import DotLoader from "react-spinners/ClipLoader";
 
 const AuthContext = createContext();
 
@@ -40,7 +41,13 @@ function AuthWrapper(props) {
   if (isFetching === true) {
     return (
       <div className="App">
-        <h3>... Validando al usuario</h3>
+        <DotLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
       </div>
     );
   }

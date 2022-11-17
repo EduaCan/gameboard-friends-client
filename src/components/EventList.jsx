@@ -9,6 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddEventForm from "./AddEventForm";
+import DotLoader from "react-spinners/ClipLoader";
+
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
@@ -67,7 +69,13 @@ function EventList({ gameid }) {
   };
 
   if (isFetching === true) {
-    return <h3>....buscando event list</h3>;
+    return <DotLoader
+    color={"grey"}
+    loading={true}
+    size={150}
+    aria-label="Loading Spinner"
+    data-testid="loader"
+  />;
   }
 
   return (

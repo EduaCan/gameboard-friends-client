@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   commentAddGameService,
   commentAddEventService,
@@ -12,8 +12,11 @@ function AddComment({
   getData,
   setIsModifyingComment,
   isModifyingComment,
-  commentId
+  commentId,
+  oldComment
 }) {
+
+  const [contentUpdate, setContentUpdate] = useState("");
   
   const [content, setContent] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,6 +25,10 @@ function AddComment({
 
   const handleContentChange = (event) => setContent(event.target.value);
 
+  useEffect(()=>  {
+    console.log(oldComment)
+    setContentUpdate(oldComment)
+  },[oldComment])
 
   //funcion para modificar comments, que se invoca desde los childs
   const handleModifyComment = async (event) => {
@@ -33,6 +40,7 @@ function AddComment({
 
     try {
       await commentModifyService(commentId, updateComment)
+      setContent("");
       getData(elementId);
      setIsModifyingComment(false);
 
@@ -64,8 +72,8 @@ function AddComment({
         //sino, es un juego
         await commentAddGameService(elementId, newComment);
       }
-      getData(elementId);
       setContent("");
+      getData(elementId);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
@@ -86,7 +94,7 @@ function AddComment({
             name="content"
             cols="30"
             rows="10"
-            value={content}
+            value={oldComment}
             onChange={handleContentChange}
           ></textarea>
           <button type="submit">Modify Comment</button>

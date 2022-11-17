@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { eventListJoinedService } from "../services/event.service";
+import ClipLoader from "react-spinners/ClipLoader";
 import { Link, useNavigate } from "react-router-dom";
 
 //Muestra una lista de eventos en los que el user participa
@@ -32,7 +33,16 @@ function JoinedEvents() {
   };
 
   if (isFetching === true) {
-    return <h3>....buscando event list</h3>;
+    return <div>
+
+    <ClipLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
   }
 
   return (

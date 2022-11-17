@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";  //si no lo uso, quitalo
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import CommentList from "./CommentList";
 import EventList from "./EventList";
 import { addGameToFavouritesService, removeGameFromFavouritesService, getFavGamesArrayService } from "../services/user.service";
-import {
-  commentModifyService
-} from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 
 //componente que evita que veas info privada si no estas logged
@@ -26,6 +25,8 @@ function GameDetailsPrivate({ gameid }) {
   useEffect(()=>{
      checkFavorites()
   }, [])
+  
+  
 
   const handleAddGameToFavourites = (gameid) => {
     addGameToFavouritesService(gameid);
@@ -57,7 +58,16 @@ function GameDetailsPrivate({ gameid }) {
  
 
   if (isFetching === true) {
-    return <h3>....buscando event list</h3>;
+    return <div>
+
+    <ClipLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
   }
 
   if (isLoggedIn === true) {

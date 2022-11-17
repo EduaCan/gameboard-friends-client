@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAnEventInfoService } from "../services/event.service";
 import { useParams, useNavigate } from "react-router-dom";
+import DotLoader from "react-spinners/ClipLoader";
 import CommentList from "../components/CommentList";
 
 //Muestra los detalles de un evento
@@ -33,7 +34,13 @@ function EventDetails() {
   };
 
   if (isFetching === true) {
-    return <h3>....buscando</h3>;
+    return <DotLoader
+    color={"grey"}
+    loading={true}
+    size={150}
+    aria-label="Loading Spinner"
+    data-testid="loader"
+  />;
   }
 
   return (
