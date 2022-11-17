@@ -2,7 +2,7 @@
 //Pagina principal con info descriptiva del sitio
 function Home() {
   return (
-    <div>Home</div>
+    <div className="Home">Home</div>
   )
 }
 

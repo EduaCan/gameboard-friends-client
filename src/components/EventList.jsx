@@ -11,6 +11,9 @@ import { useContext } from "react";
 import AddEventForm from "./AddEventForm";
 import DotLoader from "react-spinners/ClipLoader";
 
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
@@ -18,6 +21,11 @@ function EventList({ gameid }) {
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [errorMessage, setErrorMessage] = useState("")
+
+  const [showEventForm, setShowEventForm] = useState(false);
+
+  const handleCloseEventForm = () => setShowEventForm(false);
+  const handleShowEventForm = () => setShowEventForm(true);
 
 
   const navigate = useNavigate();
@@ -117,7 +125,13 @@ function EventList({ gameid }) {
         })}
         
       </div>
-      <AddEventForm gameid={gameid} getData={getData}/>
+      <Button variant="primary" onClick={handleShowEventForm}>
+        Create an Event
+      </Button>
+      <Modal show={showEventForm} onHide={handleCloseEventForm}>
+       <Modal.Header closeButton></Modal.Header>
+      <AddEventForm gameid={gameid} getData={getData} handleCloseEventForm={handleCloseEventForm}/>
+      </Modal>
       {errorMessage !== "" && <p>{errorMessage}</p>}
 
     </div>

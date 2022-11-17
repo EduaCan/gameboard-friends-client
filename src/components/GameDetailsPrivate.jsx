@@ -6,6 +6,8 @@ import EventList from "./EventList";
 import { addGameToFavouritesService, removeGameFromFavouritesService, getFavGamesArrayService } from "../services/user.service";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 
 
@@ -20,7 +22,14 @@ function GameDetailsPrivate({ gameid }) {
   const [isFetching, setIsFetching] = useState(true);
   const [errorMessage, setErrorMessage] = useState("")
 
+  const [showCommentsList, setShowCommentsList] = useState(false);
+  const [showEventList, setShowEventList] = useState(false);
 
+  const handleCloseCommentsList = () => setShowCommentsList(false);
+  const handleShowCommentsList = () => setShowCommentsList(true);
+
+  const handleCloseEventList = () => setShowEventList(false);
+  const handleShowEventList = () => setShowEventList(true);
 
   useEffect(()=>{
      checkFavorites()
@@ -77,17 +86,33 @@ function GameDetailsPrivate({ gameid }) {
   if (isLoggedIn === true) {
     return (
       <div>
+        <Button variant="primary" onClick={handleShowCommentsList}>
+        See Comments
+      </Button>
+      <Button variant="primary" onClick={handleShowEventList}>
+        See Events
+      </Button>
+
+       <Modal show={showCommentsList} onHide={handleCloseCommentsList}>
+       <Modal.Header closeButton></Modal.Header>
+
         <CommentList elementId={gameid} />
+       </Modal>
+       <Modal show={showEventList} onHide={handleCloseEventList}>
+       <Modal.Header closeButton></Modal.Header>
+
         <EventList gameid={gameid} />
         
+       </Modal>
+        
         {favorites.some((elem)=> elem===gameid) ? 
-        <button onClick={() => handleRemoveGameFromFavourites(gameid)}>
+        <Button variant="primary" onClick={() => handleRemoveGameFromFavourites(gameid)}>
           Remove game from favourites
-        </button>
+        </Button >
         :
-        <button onClick={() => handleAddGameToFavourites(gameid)}>
+        <Button variant="primary" onClick={() => handleAddGameToFavourites(gameid)}>
           Add game to favorite
-        </button>
+        </Button>
         }
       {errorMessage !== "" && <p>{errorMessage}</p>}
 

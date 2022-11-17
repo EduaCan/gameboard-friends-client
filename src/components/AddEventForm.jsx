@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 
 //Formulario para añadir evento
-function AddEventForm({ gameid, getData }) {
+function AddEventForm({ gameid, getData, handleCloseEventForm }) {
   const [location, setLocation] = useState("");
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -23,6 +23,7 @@ function AddEventForm({ gameid, getData }) {
 
     try {
       await addEventService(gameid, newEvent);
+      handleCloseEventForm()
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error

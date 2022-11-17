@@ -1,4 +1,4 @@
-import { useState, useEffect, CSSProperties  } from "react";
+import { useState, useEffect  } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
   commentListGameService,
@@ -10,9 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddComment from "./AddComment";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentList({ elementId }) {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [comments, setComments] = useState(null);
@@ -22,7 +25,12 @@ function CommentList({ elementId }) {
   const [commentId, setCommentId] = useState(null)
   const [content, setContent] = useState(null)
 
-  const { user } = useContext(AuthContext);
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   useEffect(() => {
     getData(elementId);
@@ -30,10 +38,11 @@ function CommentList({ elementId }) {
 
   const handleModifyComment = (elemId, content) => {
     setCommentId(elemId)
-    setContent(content)
+    
     console.log(content)
     setIsModifyingComment(true)
-    
+    handleShow()
+    setContent(content)
   }
   
   //para eliminar un comment
@@ -66,11 +75,7 @@ function CommentList({ elementId }) {
     }
   };
 
-  const override: CSSProperties = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "red",
-  };
+  
    
 
   if (isFetching === true) {
@@ -80,7 +85,6 @@ function CommentList({ elementId }) {
     <ClipLoader
         color={"grey"}
         loading={true}
-        cssOverride={override}
         size={150}
         aria-label="Loading Spinner"
         data-testid="loader"
@@ -121,7 +125,14 @@ function CommentList({ elementId }) {
           })}
         </div>
       )}
-      <AddComment elementId={elementId} getData={getData} oldContent={content} commentId={commentId} isModifyingComment={isModifyingComment} setIsModifyingComment={setIsModifyingComment}/>
+      <Button variant="primary" onClick={handleShow}>
+        Share a comment
+      </Button>
+
+       <Modal show={show} onHide={handleClose}>
+       <Modal.Header closeButton></Modal.Header>
+      <AddComment elementId={elementId} getData={getData} oldContent={content} commentId={commentId} isModifyingComment={isModifyingComment} setIsModifyingComment={setIsModifyingComment} handleClose={handleClose}/>
+      </Modal>
       {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );
