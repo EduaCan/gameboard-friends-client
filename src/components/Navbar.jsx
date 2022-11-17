@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {AuthContext} from "../context/auth.context"
 
 //Barra de navegacion con info privada, que muestra si estas logged
-function Navbar() {
+function Navbar({toggleTheme, cambiarTemaBtn}) {
     const { authenticaUser, isLoggedIn, setUser, setIsLoggedIn } = useContext(AuthContext)
   
     const handleLogout = () => {
@@ -18,6 +18,7 @@ function Navbar() {
     <NavLink to="/game" >
           <button>Game List</button>
         </NavLink>
+        <button style={cambiarTemaBtn()} onClick={toggleTheme}>Switch Night Mode</button>
       
     {isLoggedIn === true ? (
       <div>

@@ -8,6 +8,7 @@ function AuthWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [ darkMode, setDarkMode ] = useState(false)
 
   useEffect(() => {
     authenticaUser();
@@ -30,12 +31,46 @@ function AuthWrapper(props) {
     }
   };
 
+  const darkTheme = {
+    backgroundColor: "black",
+    color: "darkGray"
+  }
+
+  const lightTheme = {
+    backgroundColor: "white",
+    color: "black"
+  }
+
+  const darkThemeBtn = {
+    backgroundColor: "darkgrey"
+  }
+
+  const lightThemeBtn = {
+    backgroundColor: "lightgrey"
+  }
+
+  const cambiarTemaBtn = () => {
+    return darkMode === true ? darkThemeBtn : lightThemeBtn
+  }
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode)
+  }
+
+  const cambiarTema = () => {
+    return darkMode === true ? darkTheme : lightTheme
+  }
+
+
   const passedContext = {
     isLoggedIn,
     user,
     authenticaUser,
     setIsLoggedIn,
     setUser,
+    cambiarTemaBtn,
+    toggleTheme,
+    cambiarTema,
   };
 
   if (isFetching === true) {

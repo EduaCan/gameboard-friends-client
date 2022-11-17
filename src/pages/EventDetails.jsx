@@ -45,8 +45,7 @@ function EventDetails() {
 
   return (
     <div>
-      <h3>{details.location}</h3>
-      <h2>Aqui faltan unos pequeños detalles del game</h2>
+      <h3>Players group in {details.location}</h3>
       {details.players.map((eachPlayer) => {
         return <p key={eachPlayer._id}>Player: {eachPlayer.username}</p>;
       })}

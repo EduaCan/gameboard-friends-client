@@ -12,10 +12,18 @@ import GameDetails from "./pages/GameDetails";
 import ChangePassword from "./pages/ChangePassword";
 import EventDetails from "./pages/EventDetails";
 
+import { useContext } from "react"
+import { AuthContext } from "./context/auth.context"
+
 function App() {
+
+  const { cambiarTema, cambiarTemaBtn, toggleTheme } = useContext(AuthContext)
+
   return (
-    <div className="App">
-      <Navbar />
+    <div className="App" style={ cambiarTema() }>
+
+    
+      <Navbar toggleTheme={toggleTheme} cambiarTemaBtn={cambiarTemaBtn}/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />

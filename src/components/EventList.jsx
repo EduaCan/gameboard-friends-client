@@ -24,6 +24,7 @@ function EventList({ gameid }) {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
+    
     getData();
   }, []);
 
@@ -32,6 +33,7 @@ function EventList({ gameid }) {
   const handleAddPlayer = async (eventid) => {
     try {
       await addPlayerToEventService(eventid);
+      getData();
     } catch (error) {
       console.log(error);
     }
@@ -41,6 +43,7 @@ function EventList({ gameid }) {
   const handleRemovePlayer = async (eventid) => {
     try {
       await removePlayerFromEventService(eventid);
+      getData();
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error

@@ -30,14 +30,18 @@ function GameDetailsPrivate({ gameid }) {
 
   const handleAddGameToFavourites = (gameid) => {
     addGameToFavouritesService(gameid);
+    checkFavorites()
   };
 
   const handleRemoveGameFromFavourites = (gameid) => {
     removeGameFromFavouritesService(gameid);
+    checkFavorites()
   };
 
   const checkFavorites = async () => {
     try {
+    // setIsFetching(true)
+
       const response = await getFavGamesArrayService();
       setFavorites(response.data)
       setIsFetching(false)
@@ -73,8 +77,8 @@ function GameDetailsPrivate({ gameid }) {
   if (isLoggedIn === true) {
     return (
       <div>
-        <CommentList elementId={gameid}/>
-        <EventList gameid={gameid}/>
+        <CommentList elementId={gameid} />
+        <EventList gameid={gameid} />
         
         {favorites.some((elem)=> elem===gameid) ? 
         <button onClick={() => handleRemoveGameFromFavourites(gameid)}>
@@ -82,7 +86,7 @@ function GameDetailsPrivate({ gameid }) {
         </button>
         :
         <button onClick={() => handleAddGameToFavourites(gameid)}>
-          Add game to favourite
+          Add game to favorite
         </button>
         }
       {errorMessage !== "" && <p>{errorMessage}</p>}
