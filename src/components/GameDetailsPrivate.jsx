@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button';
 
 //componente que evita que veas info privada si no estas logged
 function GameDetailsPrivate({ gameid }) {
-  const { isLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, user, cambiarTemaButton } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -86,10 +86,10 @@ function GameDetailsPrivate({ gameid }) {
   if (isLoggedIn === true) {
     return (
       <div>
-        <Button variant="primary" onClick={handleShowCommentsList}>
+        <Button variant={cambiarTemaButton()} onClick={handleShowCommentsList}>
         See Comments
       </Button>
-      <Button variant="primary" onClick={handleShowEventList}>
+      <Button variant={cambiarTemaButton()} onClick={handleShowEventList}>
         See Events
       </Button>
 
@@ -105,12 +105,15 @@ function GameDetailsPrivate({ gameid }) {
         
        </Modal>
         
+
+
+        
         {favorites.some((elem)=> elem===gameid) ? 
-        <Button variant="primary" onClick={() => handleRemoveGameFromFavourites(gameid)}>
+        <Button variant={cambiarTemaButton()} onClick={() => handleRemoveGameFromFavourites(gameid)}>
           Remove game from favourites
         </Button >
         :
-        <Button variant="primary" onClick={() => handleAddGameToFavourites(gameid)}>
+        <Button variant={cambiarTemaButton()} onClick={() => handleAddGameToFavourites(gameid)}>
           Add game to favorite
         </Button>
         }

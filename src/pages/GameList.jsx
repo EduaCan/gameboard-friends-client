@@ -3,12 +3,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DotLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { useContext } from "react";
+import { AuthContext } from "../context/auth.context";
 
 //Muestra la lista de juegos que viene de la API
 function GameList() {
   const [errorMessage, setErrorMessage] = useState("");
   const [list, setList] = useState("");
   const [isFetching, setIsFetching] = useState(true);
+  const { cambiarTema } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,22 +52,35 @@ function GameList() {
   }
 
   return (
-    <div>
+    <div style={{display: "flex", gap: "1vw", flexWrap: "wrap", justifyContent: "center"}}>
       {errorMessage !== "" && <p>{errorMessage}</p>}
 
-      <h2>game list</h2>
+      
+      
       {list.map((eachGame) => {
         return (
-          <div key={eachGame.id}>
-            <Link to={`/game/${eachGame.id}`}>
-              <img src={eachGame.image_url} alt={eachGame.name} width="50vw" />
-              <h5>{eachGame.name}</h5>
+
+          <Card key={eachGame.id} style={{ minWidth: '300px', width: "50vw", maxWidth: "500px" }}>
+      <Card.Img variant="top" src={eachGame.image_url} alt={eachGame.name} style={cambiarTema()}/>
+      <Card.Body style={cambiarTema()}>
+        <Card.Title style={cambiarTema()}>{eachGame.name}</Card.Title>
+        <Card.Text style={cambiarTema()}>
+        {eachGame.description}
+        </Card.Text>
+      </Card.Body>
+      <ListGroup className="list-group-flush" style={cambiarTema()}>
+        <ListGroup.Item style={cambiarTema()}>Price: {eachGame.price}</ListGroup.Item>
+        <ListGroup.Item style={cambiarTema()}>Min Players: {eachGame.min_players}</ListGroup.Item>
+        <ListGroup.Item style={cambiarTema()}>Max Players: {eachGame.max_players}</ListGroup.Item>
+      </ListGroup>
+      <Card.Body style={cambiarTema()}>
+      <Link to={`/game/${eachGame.id}`}>
+              View Details
             </Link>
-              <p>Price: {eachGame.price}</p>
-              <p>Min Players: {eachGame.min_players}</p>
-              <p>Max Players: {eachGame.max_players}</p>
-              <p>{eachGame.description}</p>
-          </div>
+      </Card.Body>
+    </Card>
+
+
         );
       })}
       {errorMessage !== "" && <p>{errorMessage}</p>}
@@ -69,5 +88,6 @@ function GameList() {
     </div>
   );
 }
+          
 
 export default GameList;

@@ -1,10 +1,17 @@
 .App {
   text-align: center;
   min-height: 100vh;
+  padding-top: 10vh;
 }
 
 .padding0, ::before, ::after {
   padding: 0;
   box-sizing: content-box;
   color-scheme: rgb(20, 20, 20);
+}
+
+.NapVar {
+  position: fixed;
+  width: 100vw;
+  top: 0;
 }
