@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { signupService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom"
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { useContext } from "react";
+import { AuthContext } from "../context/auth.context";
 
 //Muestra un formulario para que el user se registre
 function Signup() {
+
+  const { cambiarTemaButton } = useContext(AuthContext);
 
   // configuramos el uso de navigate
   const navigate = useNavigate()
@@ -59,9 +65,49 @@ function Signup() {
   return (
     <div>
 
+      
+
       <h1>Sign Up</h1>
+
+      <Form onSubmit={handleSignup}>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Username</Form.Label>
+        <Form.Control type="text" placeholder="Username" name="username" value={username} onChange={handleUsernameChange}/>
+        <Form.Text className="text-muted">
+          Nice to meet you!
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email</Form.Label>
+        <Form.Control type="email" placeholder="Email" name="email" value={email} onChange={handleEmailChange}/>
+        <Form.Text className="text-muted">
+          We don't send you any spam!
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Email</Form.Label>
+        <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={handlePasswordChange}/>
+        <Form.Text className="text-muted">
+          We encrypt passwords very very carefully, promise.
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Email</Form.Label>
+        <Form.Control type="password" placeholder="Password" name="password2" value={password2} onChange={handlePassword2Change}/>
+        <Form.Text className="text-muted">
+          Please re-type for security reasons.
+        </Form.Text>
+      </Form.Group>
+      <Button variant={cambiarTemaButton()} type="submit">
+        Submit
+      </Button>
+      {errorMessage !== "" && <p>{errorMessage}</p>}
+    </Form>
     
-      <form onSubmit={handleSignup}>
+      {/* <form onSubmit={handleSignup}>
 
         <label>Username:</label>
         <input
@@ -99,7 +145,7 @@ function Signup() {
 
         {errorMessage !== "" && <p>{errorMessage}</p>}
 
-      </form>
+      </form> */}
       
     </div>
   );

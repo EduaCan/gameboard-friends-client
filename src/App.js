@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navibar from "./components/Navbar";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -18,13 +18,13 @@ import { AuthContext } from "./context/auth.context"
 
 function App() {
 
-  const { cambiarTema, cambiarTemaBtn, toggleTheme } = useContext(AuthContext)
+  const { cambiarTema, toggleTheme } = useContext(AuthContext)
 
   return (
     <div className="App" style={ cambiarTema() }>
 
     
-      <Navbar toggleTheme={toggleTheme} cambiarTemaBtn={cambiarTemaBtn}/>
+      <Navibar toggleTheme={toggleTheme} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />

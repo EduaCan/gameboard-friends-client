@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { loginService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
-
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
 //Muestra un formulario para que el user haga login
 function Login() {
-  const { authenticaUser } = useContext(AuthContext);
+  const { authenticaUser, cambiarTemaButton } = useContext(AuthContext);
 
   // configuramos el uso de navigate
   const navigate = useNavigate();
@@ -53,12 +54,31 @@ function Login() {
   };
   return (
     <div>
-      <h1>Log In</h1>
+       <Form onSubmit={handleLogin}>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Username</Form.Label>
+        <Form.Control type="text" placeholder="Username" name="username" value={username} onChange={handleUsernameChange}/>
+        <Form.Text className="text-muted">
+          Nice to see you again!
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={handlePasswordChange}/>
+      </Form.Group>
+      <Button variant={cambiarTemaButton()} type="submit">
+        Submit
+      </Button>
+      {errorMessage !== "" && <p>{errorMessage}</p>}
+    </Form>
+
+      {/* <h1>Log In</h1>
 
       <form onSubmit={handleLogin}>
         <label>Username:</label>
         <input
-          type="username"
+          type="text"
           name="username"
           value={username}
           onChange={handleUsernameChange}
@@ -75,7 +95,7 @@ function Login() {
         <button type="submit">Login</button>
 
         {errorMessage !== "" && <p>{errorMessage}</p>}
-      </form>
+      </form> */}
     </div>
   );
 }
