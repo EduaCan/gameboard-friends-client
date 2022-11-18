@@ -14,22 +14,20 @@ function AddComment({
   isModifyingComment,
   commentId,
   oldContent,
-  handleClose
+  handleClose,
 }) {
-
   const [contentUpdate, setContentUpdate] = useState(oldContent);
-  
+
   const [content, setContent] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
   const handleContentChange = (event) => setContent(event.target.value);
-  
-  useEffect(()=>  {
-    setContentUpdate(oldContent)
 
-  },[oldContent])
+  useEffect(() => {
+    setContentUpdate(oldContent);
+  }, [oldContent]);
 
   //funcion para modificar comments, que se invoca desde los childs
   const handleModifyComment = async (event) => {
@@ -40,12 +38,11 @@ function AddComment({
     };
 
     try {
-      await commentModifyService(commentId, updateComment)
+      await commentModifyService(commentId, updateComment);
       setContent("");
       getData(elementId);
-     setIsModifyingComment(false);
-     handleClose()
-
+      setIsModifyingComment(false);
+      handleClose();
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
@@ -56,7 +53,6 @@ function AddComment({
       }
     }
   };
-  
 
   const handleComfirmContent = async (event) => {
     event.preventDefault();
@@ -76,8 +72,7 @@ function AddComment({
       }
       setContent("");
       getData(elementId);
-     handleClose()
-
+      handleClose();
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error

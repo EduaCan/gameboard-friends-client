@@ -8,8 +8,8 @@ function AuthWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [ darkMode, setDarkMode ] = useState(false)  //setDarkModeButton
-  const [ darkModeButton, setDarkModeButton ] = useState("light")
+  const [darkMode, setDarkMode] = useState(false); //setDarkModeButton
+  const [darkModeButton, setDarkModeButton] = useState("light");
 
   useEffect(() => {
     authenticaUser();
@@ -25,7 +25,6 @@ function AuthWrapper(props) {
       setUser(response.data);
       setIsFetching(false);
     } catch (error) {
-      console.log(error);
       setIsLoggedIn(false);
       setUser(null);
       setIsFetching(false);
@@ -34,26 +33,28 @@ function AuthWrapper(props) {
 
   const darkTheme = {
     backgroundColor: "rgb(20, 20, 20)",
-    color: "wheat"
-  }
+    color: "wheat",
+  };
 
   const lightTheme = {
     backgroundColor: "#ffffff",
-    color: "black"
-  }
-  
+    color: "black",
+  };
+
   const toggleTheme = () => {
-    setDarkMode(!darkMode)
-    darkModeButton === "light" ? setDarkModeButton("dark") : setDarkModeButton("light")
-  }
+    setDarkMode(!darkMode);
+    darkModeButton === "light"
+      ? setDarkModeButton("dark")
+      : setDarkModeButton("light");
+  };
 
   const cambiarTema = () => {
-    return darkMode === true ? darkTheme : lightTheme
-  }
+    return darkMode === true ? darkTheme : lightTheme;
+  };
 
   const cambiarTemaButton = () => {
-    return darkModeButton === "dark" ? "dark" : "light"
-  }
+    return darkModeButton === "dark" ? "dark" : "light";
+  };
 
   const passedContext = {
     isLoggedIn,
@@ -63,19 +64,19 @@ function AuthWrapper(props) {
     setUser,
     toggleTheme,
     cambiarTema,
-    cambiarTemaButton
+    cambiarTemaButton,
   };
 
   if (isFetching === true) {
     return (
       <div className="App">
         <DotLoader
-        color={"grey"}
-        loading={true}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+          color={"grey"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
     );
   }

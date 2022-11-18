@@ -12,7 +12,7 @@ function GameDetails() {
   const navigate = useNavigate();
 
   const [details, setDetails] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -22,34 +22,31 @@ function GameDetails() {
   const getData = async () => {
     try {
       const response = await gameDetailsService(gameid);
-      console.log("RESPONSE GAMEDDETAILS", response);
       setDetails(response.data[0]);
       setIsFetching(false);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage)
+        setErrorMessage(error.response.data.errorMessage);
       } else {
         // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error")
+        navigate("/error");
       }
     }
   };
 
-
   if (isFetching === true) {
     return (
       <div>
-
-    <DotLoader
-        color={"grey"}
-        loading={true}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+        <DotLoader
+          color={"grey"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
-    )
+    );
   }
 
   return (
@@ -62,7 +59,6 @@ function GameDetails() {
       <p>{details.description}</p>
       <GameDetailsPrivate gameid={gameid} />
       {errorMessage !== "" && <p>{errorMessage}</p>}
-
     </div>
   );
 }

@@ -5,22 +5,17 @@ import { gameDetailsService } from "../services/game.service";
 import DotLoader from "react-spinners/ClipLoader";
 import { getFavGamesArrayService } from "../services/user.service";
 
-
 //Muestra la lista de eventos en los que participa el user
 function FavGamesList({ gameid }) {
-
   const navigate = useNavigate();
 
   const [details, setDetails] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("")
-
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     getData();
   }, []);
-
-  
 
   const getData = async () => {
     try {
@@ -31,37 +26,36 @@ function FavGamesList({ gameid }) {
         const finalResponse = await gameDetailsService(response.data);
         setDetails(finalResponse.data);
         setIsFetching(false);
-      }else {
-        setDetails(response.data)
+      } else {
+        setDetails(response.data);
         setIsFetching(false);
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage)
+        setErrorMessage(error.response.data.errorMessage);
       } else {
         // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error")
+        navigate("/error");
       }
     }
   };
 
   if (isFetching === true) {
-    return <DotLoader
-    color={"grey"}
-    loading={true}
-    size={150}
-    aria-label="Loading Spinner"
-    data-testid="loader"
-  />;
+    return (
+      <DotLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
   }
 
   return (
     <div>
-      {/* {details.length === 0 ?
-        <h5>No hay favoritos</h5>
-        :  */}
-        {details.map((eachGame) => {
+      {details.map((eachGame) => {
         return (
           <div key={eachGame.id}>
             <Link to={`/game/${eachGame.id}`}>
@@ -71,11 +65,10 @@ function FavGamesList({ gameid }) {
           </div>
         );
       })}
-      
-      {/* } */}
-    
-      {errorMessage !== "" && <p>{errorMessage}</p>}
 
+      {/* } */}
+
+      {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );
 }

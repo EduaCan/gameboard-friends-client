@@ -14,7 +14,6 @@ function Profile() {
       <FavGamesList />
       <h3>Joined Events:</h3>
       <JoinedEvents />
-
     </div>
   );
 }

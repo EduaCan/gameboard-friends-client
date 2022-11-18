@@ -5,9 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 //Muestra una lista de eventos en los que el user participa
 function JoinedEvents() {
-
   const [eventList, setEventList] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
   const [isFetching, setIsFetching] = useState(true);
 
   const navigate = useNavigate();
@@ -24,25 +23,26 @@ function JoinedEvents() {
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage)
+        setErrorMessage(error.response.data.errorMessage);
       } else {
         // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error")
+        navigate("/error");
       }
     }
   };
 
   if (isFetching === true) {
-    return <div>
-
-    <ClipLoader
-        color={"grey"}
-        loading={true}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+    return (
+      <div>
+        <ClipLoader
+          color={"grey"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
+    );
   }
 
   return (
@@ -60,7 +60,6 @@ function JoinedEvents() {
         );
       })}
       {errorMessage !== "" && <p>{errorMessage}</p>}
-
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Navibar from "./components/Navbar";
@@ -13,17 +13,14 @@ import GameDetails from "./pages/GameDetails";
 import ChangePassword from "./pages/ChangePassword";
 import EventDetails from "./pages/EventDetails";
 
-import { useContext } from "react"
-import { AuthContext } from "./context/auth.context"
+import { useContext } from "react";
+import { AuthContext } from "./context/auth.context";
 
 function App() {
-
-  const { cambiarTema, toggleTheme } = useContext(AuthContext)
+  const { cambiarTema, toggleTheme } = useContext(AuthContext);
 
   return (
-    <div className="App" style={ cambiarTema() }>
-
-    
+    <div className="App" style={cambiarTema()}>
       <Navibar toggleTheme={toggleTheme} />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -19,10 +19,17 @@ function Navibar({ toggleTheme }) {
   };
 
   return (
-    <Navbar key={false} expand={false} className="mb-3 NapVar" style={cambiarTema()}>
+    <Navbar
+      key={false}
+      expand={false}
+      className="mb-3 NapVar"
+      style={cambiarTema()}
+    >
       <Container fluid style={cambiarTema()}>
         <Navbar.Brand href="#" style={cambiarTema()}>
-          <NavLink to="/">Boardgame Friends</NavLink>
+          <NavLink to="/">
+            <img src="../../public/logo.png" alt="Logo" />
+          </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls={`offcanvasNavbar-expand-${false}`}

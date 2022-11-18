@@ -1,17 +1,17 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
   commentListGameService,
   commentListEventService,
-  commentDeleteService
+  commentDeleteService,
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddComment from "./AddComment";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentList({ elementId }) {
@@ -20,34 +20,30 @@ function CommentList({ elementId }) {
 
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("")
-  const [isModifyingComment, setIsModifyingComment] = useState(false)
-  const [commentId, setCommentId] = useState(null)
-  const [content, setContent] = useState(null)
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isModifyingComment, setIsModifyingComment] = useState(false);
+  const [commentId, setCommentId] = useState(null);
+  const [content, setContent] = useState(null);
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
   useEffect(() => {
     getData(elementId);
   }, []);
 
   const handleModifyComment = (elemId, content) => {
-    setCommentId(elemId)
-    
-    console.log(content)
-    setIsModifyingComment(true)
-    handleShow()
-    setContent(content)
-  }
-  
+    setCommentId(elemId);
+    setIsModifyingComment(true);
+    handleShow();
+    setContent(content);
+  };
+
   //para eliminar un comment
   const handleDeleteComment = async (commentid) => {
-    await commentDeleteService(commentid)
+    await commentDeleteService(commentid);
     getData(elementId);
   };
 
@@ -66,31 +62,27 @@ function CommentList({ elementId }) {
       setIsFetching(false);
     } catch (error) {
       if (error.response && error.response.status === 400) {
-          // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-          setErrorMessage(error.response.data.errorMessage)
-        } else {
-          // si el error es otro (500) entonces si redirecciono a /error
-          navigate("/error")
-        }
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage);
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error");
+      }
     }
   };
-
-  
-   
 
   if (isFetching === true) {
     return (
       <div>
-
-    <ClipLoader
-        color={"grey"}
-        loading={true}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+        <ClipLoader
+          color={"grey"}
+          loading={true}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
-    )
+    );
   }
 
   return (
@@ -104,12 +96,16 @@ function CommentList({ elementId }) {
               <div key={eachComment._id}>
                 <h6>{eachComment.idUser.username}</h6>
                 <p>{eachComment.content}</p>
-                {(eachComment.idUser.username === user.user.username || user.user.role === "admin") && (
+                {(eachComment.idUser.username === user.user.username ||
+                  user.user.role === "admin") && (
                   <div>
-                  
                     <button
-                      onClick={() => handleModifyComment(eachComment._id, eachComment.content)}
-                      
+                      onClick={() =>
+                        handleModifyComment(
+                          eachComment._id,
+                          eachComment.content
+                        )
+                      }
                     >
                       Modify Comment
                     </button>
@@ -129,9 +125,17 @@ function CommentList({ elementId }) {
         Share a comment
       </Button>
 
-       <Modal show={show} onHide={handleClose}>
-       <Modal.Header closeButton></Modal.Header>
-      <AddComment elementId={elementId} getData={getData} oldContent={content} commentId={commentId} isModifyingComment={isModifyingComment} setIsModifyingComment={setIsModifyingComment} handleClose={handleClose}/>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton></Modal.Header>
+        <AddComment
+          elementId={elementId}
+          getData={getData}
+          oldContent={content}
+          commentId={commentId}
+          isModifyingComment={isModifyingComment}
+          setIsModifyingComment={setIsModifyingComment}
+          handleClose={handleClose}
+        />
       </Modal>
       {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>

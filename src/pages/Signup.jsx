@@ -43,8 +43,6 @@ function Signup() {
       // redirecciónar a login
       navigate("/login");
     } catch (error) {
-      // console.log(error.response.status)
-      // console.log(error.response.data.errorMessage)
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
         setErrorMessage(error.response.data.errorMessage);

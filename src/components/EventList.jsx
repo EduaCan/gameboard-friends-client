@@ -3,7 +3,7 @@ import {
   eventListService,
   addPlayerToEventService,
   removePlayerFromEventService,
-  eventDeleteService
+  eventDeleteService,
 } from "../services/event.service";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
@@ -11,32 +11,27 @@ import { useContext } from "react";
 import AddEventForm from "./AddEventForm";
 import DotLoader from "react-spinners/ClipLoader";
 
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
-
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [showEventForm, setShowEventForm] = useState(false);
 
   const handleCloseEventForm = () => setShowEventForm(false);
   const handleShowEventForm = () => setShowEventForm(true);
 
-
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    
     getData();
   }, []);
 
-  
   //para añadir el user al evento mediante boton
   const handleAddPlayer = async (eventid) => {
     try {
@@ -55,19 +50,18 @@ function EventList({ gameid }) {
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage)
+        setErrorMessage(error.response.data.errorMessage);
       } else {
         // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error")
+        navigate("/error");
       }
     }
   };
 
   //para que el admin borre el evento
-  const handleDeleteEvent = async (eventid) =>{
-    await eventDeleteService(eventid)
-  }
-
+  const handleDeleteEvent = async (eventid) => {
+    await eventDeleteService(eventid);
+  };
 
   const getData = async () => {
     try {
@@ -80,18 +74,19 @@ function EventList({ gameid }) {
   };
 
   if (isFetching === true) {
-    return <DotLoader
-    color={"grey"}
-    loading={true}
-    size={150}
-    aria-label="Loading Spinner"
-    data-testid="loader"
-  />;
+    return (
+      <DotLoader
+        color={"grey"}
+        loading={true}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
   }
 
   return (
     <div>
-      
       <div>
         {eventList.map((eachEvent) => {
           return (
@@ -115,25 +110,27 @@ function EventList({ gameid }) {
                   Join to Event
                 </button>
               )}
-              {user.user.role === "admin" &&
-              <button onClick={() => handleDeleteEvent(eachEvent._id)}>
+              {user.user.role === "admin" && (
+                <button onClick={() => handleDeleteEvent(eachEvent._id)}>
                   Delete Event
                 </button>
-              }
+              )}
             </div>
           );
         })}
-        
       </div>
       <Button variant="primary" onClick={handleShowEventForm}>
         Create an Event
       </Button>
       <Modal show={showEventForm} onHide={handleCloseEventForm}>
-       <Modal.Header closeButton></Modal.Header>
-      <AddEventForm gameid={gameid} getData={getData} handleCloseEventForm={handleCloseEventForm}/>
+        <Modal.Header closeButton></Modal.Header>
+        <AddEventForm
+          gameid={gameid}
+          getData={getData}
+          handleCloseEventForm={handleCloseEventForm}
+        />
       </Modal>
       {errorMessage !== "" && <p>{errorMessage}</p>}
-
     </div>
   );
 }
