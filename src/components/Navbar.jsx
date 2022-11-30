@@ -22,7 +22,7 @@ function Navibar({ toggleTheme }) {
     <Navbar
       key={false}
       expand={false}
-      className="mb-3 NapVar"
+      className="mb-3 NavBar"
       style={cambiarTema()}
     >
       <Container fluid style={cambiarTema()}>

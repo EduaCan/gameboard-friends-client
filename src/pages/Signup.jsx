@@ -85,7 +85,7 @@ function Signup() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"
@@ -99,7 +99,7 @@ function Signup() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Re-type Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"
