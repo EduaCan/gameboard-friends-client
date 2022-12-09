@@ -23,7 +23,7 @@ function AddComment({
 
   const navigate = useNavigate();
 
-  const handleContentChange = (event) => setContent(event.target.value);
+  const handleContentChange = (event) => {setContent(event.target.value); setContentUpdate(event.target.value);}
 
   useEffect(() => {
     setContentUpdate(oldContent);

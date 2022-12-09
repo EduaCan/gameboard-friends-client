@@ -15,7 +15,7 @@ import Button from "react-bootstrap/Button";
 
 //componente que evita que veas info privada si no estas logged
 function GameDetailsPrivate({ gameid }) {
-  const { isLoggedIn, user, cambiarTemaButton } = useContext(AuthContext);
+  const { isLoggedIn, cambiarTemaButton } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -36,20 +36,40 @@ function GameDetailsPrivate({ gameid }) {
     checkFavorites();
   }, []);
 
-  const handleAddGameToFavourites = (gameid) => {
-    addGameToFavouritesService(gameid);
-    checkFavorites();
+  const handleAddGameToFavourites = async (gameid) => {
+    setIsFetching(true)
+    try {
+      await addGameToFavouritesService(gameid);
+      await checkFavorites();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage);
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error");
+      }
+    }
   };
 
-  const handleRemoveGameFromFavourites = (gameid) => {
-    removeGameFromFavouritesService(gameid);
-    checkFavorites();
+  const handleRemoveGameFromFavourites = async (gameid) => {
+    setIsFetching(true)
+    try {
+      await removeGameFromFavouritesService(gameid);
+      await checkFavorites();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+        setErrorMessage(error.response.data.errorMessage);
+      } else {
+        // si el error es otro (500) entonces si redirecciono a /error
+        navigate("/error");
+      }
+    }
   };
 
   const checkFavorites = async () => {
     try {
-      // setIsFetching(true)
-
       const response = await getFavGamesArrayService();
       setFavorites(response.data);
       setIsFetching(false);
@@ -99,7 +119,7 @@ function GameDetailsPrivate({ gameid }) {
           <EventList gameid={gameid} />
         </Modal>
 
-        {favorites.some((elem) => elem === gameid) ? (
+        {favorites.some(elem => elem === gameid) ? (
           <Button
             variant={cambiarTemaButton()}
             onClick={() => handleRemoveGameFromFavourites(gameid)}

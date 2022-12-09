@@ -16,6 +16,7 @@ import Button from "react-bootstrap/Button";
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
+  const {  cambiarTemaButton } = useContext(AuthContext);
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -86,8 +87,9 @@ function EventList({ gameid }) {
   }
 
   return (
-    <div>
-      <div>
+    <div>{eventList.length === 0 ?
+      (<h3>No events</h3>):
+      (<div>
         {eventList.map((eachEvent) => {
           return (
             <div key={eachEvent._id}>
@@ -102,28 +104,28 @@ function EventList({ gameid }) {
               {eachEvent.players.some(
                 (eachPlayer) => eachPlayer.username === user.user.username
               ) ? (
-                <button onClick={() => handleRemovePlayer(eachEvent._id)}>
+                <Button variant={cambiarTemaButton()} onClick={() => handleRemovePlayer(eachEvent._id)}>
                   Quit Event
-                </button>
+                </Button>
               ) : (
-                <button onClick={() => handleAddPlayer(eachEvent._id)}>
+                <Button variant={cambiarTemaButton()} onClick={() => handleAddPlayer(eachEvent._id)}>
                   Join to Event
-                </button>
+                </Button>
               )}
               {user.user.role === "admin" && (
-                <button onClick={() => handleDeleteEvent(eachEvent._id)}>
+                <Button variant={cambiarTemaButton()} onClick={() => handleDeleteEvent(eachEvent._id)}>
                   Delete Event
-                </button>
+                </Button>
               )}
             </div>
           );
         })}
-      </div>
-      <Button variant="primary" onClick={handleShowEventForm}>
+      </div>)}
+      <Button variant={cambiarTemaButton()} onClick={handleShowEventForm}>
         Create an Event
       </Button>
       <Modal show={showEventForm} onHide={handleCloseEventForm}>
-        <Modal.Header closeButton></Modal.Header>
+        <Modal.Header closeButton><Modal.Title>Start event</Modal.Title></Modal.Header>
         <AddEventForm
           gameid={gameid}
           getData={getData}

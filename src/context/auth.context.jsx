@@ -43,9 +43,9 @@ function AuthWrapper(props) {
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
-    darkModeButton === "light"
+    darkModeButton === "success"
       ? setDarkModeButton("dark")
-      : setDarkModeButton("light");
+      : setDarkModeButton("success");
   };
 
   const cambiarTema = () => {
@@ -53,7 +53,7 @@ function AuthWrapper(props) {
   };
 
   const cambiarTemaButton = () => {
-    return darkModeButton === "dark" ? "dark" : "light";
+    return darkModeButton === "dark" ? "dark" : "success";
   };
 
   const passedContext = {

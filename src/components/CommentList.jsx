@@ -6,7 +6,6 @@ import {
   commentDeleteService,
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
-
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddComment from "./AddComment";
@@ -15,7 +14,7 @@ import Button from "react-bootstrap/Button";
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentList({ elementId }) {
-  const { user } = useContext(AuthContext);
+  const { user, cambiarTemaButton } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [comments, setComments] = useState(null);
@@ -121,7 +120,7 @@ function CommentList({ elementId }) {
           })}
         </div>
       )}
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant={cambiarTemaButton()} onClick={handleShow}>
         Share a comment
       </Button>
 

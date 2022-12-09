@@ -11,7 +11,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 function Navibar({ toggleTheme }) {
   const { authenticaUser, isLoggedIn, user, cambiarTema, cambiarTemaButton } =
     useContext(AuthContext);
-
+  
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     // despues de borrar el token, volvemos a invocar la funcion de validarlo
@@ -28,7 +28,7 @@ function Navibar({ toggleTheme }) {
       <Container fluid style={cambiarTema()}>
         <Navbar.Brand href="#" style={cambiarTema()}>
           <NavLink to="/">
-            <img src="https://w7.pngwing.com/pngs/647/116/png-transparent-yahtzee-starcraft-the-board-game-dixit-games-game-text-logo.png" alt="Logo" style={{maxWidth: "10vw", height: "auto"}}/>
+            <img id="logo-navbar" src="https://w7.pngwing.com/pngs/647/116/png-transparent-yahtzee-starcraft-the-board-game-dixit-games-game-text-logo.png" alt="Logo" style={{maxWidth: "10vw", height: "auto"}}/>
           </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle
