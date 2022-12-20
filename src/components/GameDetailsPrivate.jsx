@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import CommentList from "./CommentList";
+import CommentListGame from "./CommentListGame";
 import EventList from "./EventList";
 import {
   addGameToFavouritesService,
@@ -14,8 +14,8 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 //componente que evita que veas info privada si no estas logged
-function GameDetailsPrivate({ gameid }) {
-  const { isLoggedIn, cambiarTemaButton } = useContext(AuthContext);
+function GameDetailsPrivate({ gameid, gameName }) {
+  const { isLoggedIn, cambiarTemaButton, cambiarTema } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -109,12 +109,12 @@ function GameDetailsPrivate({ gameid }) {
         </Button>
 
         <Modal show={showCommentsList} onHide={handleCloseCommentsList}>
-          <Modal.Header closeButton></Modal.Header>
+          <Modal.Header closeButton style={cambiarTema()}> {gameName} </Modal.Header>
 
-          <CommentList elementId={gameid} />
+          <CommentListGame elementId={gameid} />
         </Modal>
         <Modal show={showEventList} onHide={handleCloseEventList}>
-          <Modal.Header closeButton></Modal.Header>
+          <Modal.Header closeButton style={cambiarTema()}> Events </Modal.Header>
 
           <EventList gameid={gameid} />
         </Modal>

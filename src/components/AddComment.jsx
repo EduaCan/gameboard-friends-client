@@ -5,6 +5,9 @@ import {
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
 import { commentModifyService } from "../services/comment.service";
+import { AuthContext } from "../context/auth.context";
+import { useContext } from "react";
+import Button from "react-bootstrap/Button";
 
 //Formulario para añadir un comment
 function AddComment({
@@ -16,6 +19,11 @@ function AddComment({
   oldContent,
   handleClose,
 }) {
+  const {
+    cambiarTema,
+    cambiarTemaButton
+  } = useContext(AuthContext);
+
   const [contentUpdate, setContentUpdate] = useState(oldContent);
 
   const [content, setContent] = useState("");
@@ -23,7 +31,10 @@ function AddComment({
 
   const navigate = useNavigate();
 
-  const handleContentChange = (event) => {setContent(event.target.value); setContentUpdate(event.target.value);}
+  const handleContentChange = (event) => {
+    setContent(event.target.value);
+    setContentUpdate(event.target.value);
+  };
 
   useEffect(() => {
     setContentUpdate(oldContent);
@@ -85,32 +96,43 @@ function AddComment({
   };
 
   return (
-    <div>
+    <div style={cambiarTema()}>
       {isModifyingComment === true ? (
-        <form onSubmit={handleModifyComment}>
-          <label>Type your comment</label>
-          <textarea
-            name="content"
-            cols="30"
-            rows="10"
-            value={contentUpdate}
-            onChange={handleContentChange}
-          ></textarea>
-          <button type="submit">Modify Comment</button>
-        </form>
+        <div className="form-outline mb-3" >
+          <form onSubmit={handleModifyComment} >
+            <textarea
+              className="form-control"
+              id="textAreaExample2"
+              name="content"
+              cols="30"
+              rows="10"
+              value={contentUpdate}
+              style={cambiarTema()}
+              onChange={handleContentChange}
+            ></textarea>
+            <Button variant={cambiarTemaButton()} type="submit">
+              Modify Comment
+            </Button>
+          </form>
+        </div>
       ) : (
-        <form onSubmit={handleComfirmContent}>
-          <label>Type your comment</label>
+        <div className="form-outline mb-3" >
+        <form onSubmit={handleComfirmContent} >
           <textarea
+          className="form-control"
+              id="textAreaExample2"
             name="content"
             cols="30"
             rows="10"
             value={content}
+            style={cambiarTema()}
             onChange={handleContentChange}
           ></textarea>
-
-          <button type="submit">Send Your Comment</button>
+          <Button variant={cambiarTemaButton()} type="submit">
+            Send
+          </Button>
         </form>
+        </div>
       )}
 
       {errorMessage !== "" && <p>{errorMessage}</p>}

@@ -57,7 +57,7 @@ function GameDetails() {
       <p>Min Players: {details.min_players}</p>
       <p>Max Players: {details.max_players}</p>
       <p>{details.description}</p>
-      <GameDetailsPrivate gameid={gameid} />
+      <GameDetailsPrivate gameid={gameid} gameName={details.name}/>
       {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );

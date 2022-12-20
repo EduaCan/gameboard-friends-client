@@ -11,7 +11,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 function Navibar({ toggleTheme }) {
   const { authenticaUser, isLoggedIn, user, cambiarTema, cambiarTemaButton } =
     useContext(AuthContext);
-  
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     // despues de borrar el token, volvemos a invocar la funcion de validarlo
@@ -28,7 +28,12 @@ function Navibar({ toggleTheme }) {
       <Container fluid style={cambiarTema()}>
         <Navbar.Brand href="#" style={cambiarTema()}>
           <NavLink to="/">
-            <img id="logo-navbar" src="https://w7.pngwing.com/pngs/647/116/png-transparent-yahtzee-starcraft-the-board-game-dixit-games-game-text-logo.png" alt="Logo" style={{maxWidth: "10vw", height: "auto"}}/>
+            <img
+              id="logo-navbar"
+              src="https://w7.pngwing.com/pngs/647/116/png-transparent-yahtzee-starcraft-the-board-game-dixit-games-game-text-logo.png"
+              alt="Logo"
+              style={{ maxWidth: "10vw", height: "auto" }}
+            />
           </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle
@@ -46,7 +51,17 @@ function Navibar({ toggleTheme }) {
               style={cambiarTema()}
             >
               {user ? (
-                <NavLink to="/profile">{user.user.username}</NavLink>
+                <NavLink to="/profile">
+                  <div id="avatar-name-navbar">
+                  <img
+                    src={`https://i.pravatar.cc/150?u=${user.user._id}`}
+                    alt="avatar"
+                    className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
+                    width="60"
+                  />
+                  <p>{user.user.username}</p>
+                  </div>
+                </NavLink>
               ) : (
                 "Menu"
               )}
@@ -72,7 +87,7 @@ function Navibar({ toggleTheme }) {
               </Button>
 
               {isLoggedIn === true ? (
-                <div className="d-grid gap-2 pe-3">
+                <div className="d-grid gap-2 pe-3 padding0" style={{ minWidth: "100%", padding: "0px" }}>
                   <NavLink to="/changepassword">
                     <Button
                       variant={cambiarTemaButton()}

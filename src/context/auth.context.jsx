@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { verifyService } from "../services/auth.service";
 import DotLoader from "react-spinners/ClipLoader";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 const AuthContext = createContext();
 
@@ -9,7 +10,9 @@ function AuthWrapper(props) {
   const [user, setUser] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [darkMode, setDarkMode] = useState(false); //setDarkModeButton
-  const [darkModeButton, setDarkModeButton] = useState("light");
+  const [darkModeButton, setDarkModeButton] = useState("success");
+  const [darkModeButtonRed, setDarkModeButtonRed] = useState("danger");
+  const [darkModeButtonBlue, setDarkModeButtonBlue] = useState("primary");
 
   useEffect(() => {
     authenticaUser();
@@ -31,6 +34,19 @@ function AuthWrapper(props) {
     }
   };
 
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    if (darkModeButton === "success") {
+      setDarkModeButton("dark");
+      setDarkModeButtonRed("dark");
+      setDarkModeButtonBlue("dark");
+    } else {
+      setDarkModeButton("success");
+      setDarkModeButtonRed("danger");
+      setDarkModeButtonBlue("primary");
+    }
+  };
+
   const darkTheme = {
     backgroundColor: "rgb(20, 20, 20)",
     color: "wheat",
@@ -41,20 +57,84 @@ function AuthWrapper(props) {
     color: "black",
   };
 
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    darkModeButton === "success"
-      ? setDarkModeButton("dark")
-      : setDarkModeButton("success");
+  const darkThemeListScroll = {
+    backgroundColor: "rgb(20, 20, 20)",
+    color: "wheat",
+    maxHeight: "70vh",
+    overflowY: "scroll",
+    display: "flex",
+    flexDirection: "column-reverse",
+  };
+
+  const lightThemeListScroll = {
+    backgroundColor: "#ffffff",
+    color: "black",
+    maxHeight: "70vh",
+    overflowY: "scroll",
+    display: "flex",
+    flexDirection: "column-reverse",
   };
 
   const cambiarTema = () => {
     return darkMode === true ? darkTheme : lightTheme;
   };
 
+  const cambiarTemaListScroll = () => {
+    return darkMode === true ? darkThemeListScroll : lightThemeListScroll;
+  };
+
   const cambiarTemaButton = () => {
     return darkModeButton === "dark" ? "dark" : "success";
   };
+
+  const cambiarTemaButtonRed = () => {
+    return darkModeButtonRed === "dark" ? "dark" : "danger";
+  };
+
+  const cambiarTemaButtonBlue = () => {
+    return darkModeButtonBlue === "dark" ? "dark" : "primary";
+  };
+
+  const dateFormat = (time) => {
+    let date = new Date(time)
+    let str = "";
+    let min = "";
+    let sec = "";
+    if (date.getMinutes() < 10) {
+      min += "0" + date.getMinutes();
+    } else {
+      min += date.getMinutes();
+    }
+    if (date.getSeconds() < 10) {
+      sec += "0" + date.getSeconds();
+    } else {
+      sec += date.getSeconds();
+    }
+    str =
+      date.getDate() +
+      "-" +
+      (date.getMonth() + 1) +
+      "-" +
+      date.getFullYear() +
+      " " +
+      date.getHours() +
+      ":" +
+      min +
+      ":" +
+      sec;
+    return str;
+  };
+
+
+  const createdEdited = (comment) => {
+      if (comment.createdAt >= comment.updatedAt) {
+        let strDate = dateFormat(comment.createdAt);
+        return "created on " + strDate;
+      } else {
+        let strDate = dateFormat(comment.updatedAt);
+        return "edited on " + strDate;
+      }
+  }
 
   const passedContext = {
     isLoggedIn,
@@ -64,7 +144,12 @@ function AuthWrapper(props) {
     setUser,
     toggleTheme,
     cambiarTema,
+    cambiarTemaListScroll,
     cambiarTemaButton,
+    cambiarTemaButtonBlue,
+    cambiarTemaButtonRed,
+    dateFormat,
+    createdEdited
   };
 
   if (isFetching === true) {

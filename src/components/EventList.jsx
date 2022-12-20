@@ -16,7 +16,7 @@ import Button from "react-bootstrap/Button";
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
-  const {  cambiarTemaButton } = useContext(AuthContext);
+  const {  user, createdEdited, cambiarTema, cambiarTemaButton } = useContext(AuthContext);
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,7 +27,6 @@ function EventList({ gameid }) {
   const handleShowEventForm = () => setShowEventForm(true);
 
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getData();
@@ -76,31 +75,40 @@ function EventList({ gameid }) {
 
   if (isFetching === true) {
     return (
+      <div style={cambiarTema()}>
       <DotLoader
-        color={"grey"}
+        color={"red"}
         loading={true}
         size={150}
         aria-label="Loading Spinner"
         data-testid="loader"
       />
+      </div>
     );
   }
 
   return (
-    <div>{eventList.length === 0 ?
+    <div style={cambiarTema()}>{eventList.length === 0 ?
       (<h3>No events</h3>):
-      (<div>
+      (<div >
         {eventList.map((eachEvent) => {
           return (
-            <div key={eachEvent._id}>
+
+
+            <div key={eachEvent._id} class="card text-center" style={cambiarTema()}>
+            <div class="card-body">
               <Link to={`/event/${eachEvent._id}`}>
-                <h5>Location: {eachEvent.location}</h5>
+                <h5 class="card-title">{eachEvent.location}</h5>
               </Link>
-              {eachEvent.players.map((eachPlayer) => {
-                return (
-                  <p key={eachPlayer._id}>Player: {eachPlayer.username}</p>
-                );
-              })}
+
+
+
+             
+                  <p class="card-text">Number of Players Joined: {eachEvent.players.length}</p>
+
+
+
+
               {eachEvent.players.some(
                 (eachPlayer) => eachPlayer.username === user.user.username
               ) ? (
@@ -117,10 +125,18 @@ function EventList({ gameid }) {
                   Delete Event
                 </Button>
               )}
+
+
+                </div>
+                <div class="card-footer text-muted">{createdEdited(eachEvent)}</div>
             </div>
           );
         })}
       </div>)}
+
+
+
+
       <Button variant={cambiarTemaButton()} onClick={handleShowEventForm}>
         Create an Event
       </Button>
