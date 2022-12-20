@@ -149,15 +149,8 @@ function CommentListEvent({ elementId, players }) {
                                 <p className="fw-bold mb-0">
                                   {eachMember.username}
                                 </p>
-                                {/* <p className="small text-muted">
-                          Hello, Are you there?
-                        </p> */}
                               </div>
                             </div>
-                            {/* <div className="pt-1">
-                      <p className="small text-muted mb-1">Just now</p>
-                      <span className="badge bg-danger float-end">1</span>
-                    </div> */}
                           </div>
                         </li>
                       );
@@ -178,8 +171,8 @@ function CommentListEvent({ elementId, players }) {
                     .map((eachComment) => {
                       return (
                         <div>
-                          {eachComment.idUser.username !==
-                          user.user.username ? (
+                          {(eachComment.idUser.username !==
+                          user.user.username && user.user.role !== "admin") ? (
                             <li
                               key={eachComment._id}
                               className="d-flex justify-content-between mb-4"
@@ -227,6 +220,7 @@ function CommentListEvent({ elementId, players }) {
                                   </p>
                                   <div>
                                     <Button
+                                    size="sm"
                                       variant={cambiarTemaButtonBlue()}
                                       onClick={() =>
                                         handleModifyComment(
@@ -235,15 +229,16 @@ function CommentListEvent({ elementId, players }) {
                                         )
                                       }
                                     >
-                                      Modify Comment
+                                      Modify
                                     </Button>
                                     <Button
+                                    size="sm"
                                       variant={cambiarTemaButtonRed()}
                                       onClick={() =>
                                         handleDeleteComment(eachComment._id)
                                       }
                                     >
-                                      Delete Comment
+                                      Delete
                                     </Button>
                                   </div>
                                   <p className="fw-bold mb-0">
