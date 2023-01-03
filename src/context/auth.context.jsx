@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { verifyService } from "../services/auth.service";
 import DotLoader from "react-spinners/ClipLoader";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 const AuthContext = createContext();
 
