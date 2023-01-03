@@ -5,10 +5,13 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
+import {formHook} from "../hooks/formHook.js"
 
 //Muestra un formulario para que el user haga login
 function Login() {
   const { authenticaUser, cambiarTemaButton } = useContext(AuthContext);
+
+  const {handleChange} = formHook()
 
   // configuramos el uso de navigate
   const navigate = useNavigate();
@@ -17,8 +20,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleUsernameChange = (event) => setUsername(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
+  
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -60,7 +62,7 @@ function Login() {
             placeholder="Username"
             name="username"
             value={username}
-            onChange={handleUsernameChange}
+            onChange={handleChange}
           />
           <Form.Text className="text-muted">Nice to see you again!</Form.Text>
         </Form.Group>
@@ -72,7 +74,7 @@ function Login() {
             placeholder="Password"
             name="password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={handleChange}
           />
         </Form.Group>
         <Button variant={cambiarTemaButton()} type="submit">

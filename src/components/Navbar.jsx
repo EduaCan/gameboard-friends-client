@@ -29,8 +29,9 @@ function Navibar({ toggleTheme }) {
       className="mb-3 NavBar"
       style={cambiarTema()}
       expanded={expanded}
+      
     >
-      <Container fluid style={cambiarTema()}>
+      <Container fluid style={cambiarTema()} onClick={() => setExpanded(expanded ? false : "expanded")}>
         <Navbar.Brand href="#" style={cambiarTema()}>
           <NavLink to="/" >
             <img
@@ -44,14 +45,15 @@ function Navibar({ toggleTheme }) {
         <Navbar.Toggle
           aria-controls={`offcanvasNavbar-expand-${false}`}
           style={{ backgroundColor: "grey" }}
-          onClick={() => setExpanded(expanded ? false : "expanded")}
+          
         />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${false}`}
           aria-labelledby={`offcanvasNavbarLabel-expand-${false}`}
           placement="end"
+          onClick={() => setExpanded(true)}
         >
-          <Offcanvas.Header closeButton style={cambiarTema()}>
+          <Offcanvas.Header  style={cambiarTema()}>
             <Offcanvas.Title
               id={`offcanvasNavbarLabel-expand-${false}`}
               style={cambiarTema()}
@@ -75,7 +77,6 @@ function Navibar({ toggleTheme }) {
           </Offcanvas.Header>
           <Offcanvas.Body style={cambiarTema()}>
             <Nav className="d-grid gap-2 pe-3" style={cambiarTema()}>
-              {/* <div id="navbar align-self-end "> */}
               <NavLink to="/game" onClick={() => setExpanded(false)}>
                 <Button
                   variant={cambiarTemaButton()}
