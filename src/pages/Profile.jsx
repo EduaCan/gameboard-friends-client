@@ -33,12 +33,14 @@ function Profile() {
       setEventList(responseEvents.data);
       //get events games pics
       if (responseEvents.data.length !== 0) {
-        const finalResponse = await gameDetailsService(responseEvents.data.map((eachEvent) => {
-          return eachEvent.game
-        }));
-        let gameListImg = finalResponse.data.map(({id,image_url}) => {
-          return {'id': id, 'image_url': image_url}
-        })
+        const finalResponse = await gameDetailsService(
+          responseEvents.data.map((eachEvent) => {
+            return eachEvent.game;
+          })
+        );
+        let gameListImg = finalResponse.data.map(({ id, image_url }) => {
+          return { id: id, image_url: image_url };
+        });
         setEventListGames(gameListImg);
       }
       //segundo buscamos esos juegos de la API, todos a la vez
@@ -59,8 +61,7 @@ function Profile() {
         navigate("/error");
       }
     }
-    console.log("eventListGames", eventListGames)
-
+    console.log("eventListGames", eventListGames);
   };
 
   if (isFetching === true) {
@@ -78,10 +79,20 @@ function Profile() {
   return (
     <div>
       <h2>Hello {user.user.username}</h2>
-      <h3>Fav Games:</h3>
-      <FavGamesList details={details} />
-      <h3>Joined Events:</h3>
-      <JoinedEvents eventList={eventList} eventGamesImg={eventListGames} />
+      <div className="container py-5">
+        <div>
+          <h3>Fav Games:</h3>
+          <FavGamesList details={details} />
+        </div>
+        <div>
+          <h3>Joined Events:</h3>
+          <JoinedEvents
+            eventList={eventList}
+            eventGamesImg={eventListGames}
+            getData={getData}
+          />
+        </div>
+      </div>
     </div>
   );
 }

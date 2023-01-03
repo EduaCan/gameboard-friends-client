@@ -248,7 +248,7 @@ function CommentListEvent({ elementId, players }) {
                                   className="card-body"
                                   style={cambiarTema()}
                                 >
-                                  <p className="mb-0 " style={cambiarTema()}>
+                                  <p className="mb-0 mb-0-right" style={cambiarTema()}>
                                     {eachComment.content}
                                   </p>
                                 </div>

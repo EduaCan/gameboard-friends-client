@@ -6,9 +6,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { useState } from "react";
 
 //Barra de navegacion con info privada, que muestra si estas logged
 function Navibar({ toggleTheme }) {
+
+  const [expanded, setExpanded] = useState(false)
+
   const { authenticaUser, isLoggedIn, user, cambiarTema, cambiarTemaButton } =
     useContext(AuthContext);
 
@@ -24,10 +28,11 @@ function Navibar({ toggleTheme }) {
       expand={false}
       className="mb-3 NavBar"
       style={cambiarTema()}
+      expanded={expanded}
     >
       <Container fluid style={cambiarTema()}>
         <Navbar.Brand href="#" style={cambiarTema()}>
-          <NavLink to="/">
+          <NavLink to="/" >
             <img
               id="logo-navbar"
               src="https://w7.pngwing.com/pngs/647/116/png-transparent-yahtzee-starcraft-the-board-game-dixit-games-game-text-logo.png"
@@ -39,6 +44,7 @@ function Navibar({ toggleTheme }) {
         <Navbar.Toggle
           aria-controls={`offcanvasNavbar-expand-${false}`}
           style={{ backgroundColor: "grey" }}
+          onClick={() => setExpanded(expanded ? false : "expanded")}
         />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${false}`}
@@ -51,7 +57,7 @@ function Navibar({ toggleTheme }) {
               style={cambiarTema()}
             >
               {user ? (
-                <NavLink to="/profile">
+                <NavLink to="/profile" onClick={() => setExpanded(false)}>
                   <div id="avatar-name-navbar">
                   <img
                     src={`https://i.pravatar.cc/150?u=${user.user._id}`}
@@ -70,25 +76,25 @@ function Navibar({ toggleTheme }) {
           <Offcanvas.Body style={cambiarTema()}>
             <Nav className="d-grid gap-2 pe-3" style={cambiarTema()}>
               {/* <div id="navbar align-self-end "> */}
-              <NavLink to="/game">
+              <NavLink to="/game" onClick={() => setExpanded(false)}>
                 <Button
                   variant={cambiarTemaButton()}
                   style={{ minWidth: "100%" }}
                 >
                   Game List
                 </Button>
-              </NavLink>
+              </NavLink >
               <Button
                 variant={cambiarTemaButton()}
                 style={{ minWidth: "100%" }}
-                onClick={toggleTheme}
+                onClick={()=> {toggleTheme() ; setExpanded(false)}}
               >
                 Switch Night Mode
               </Button>
 
               {isLoggedIn === true ? (
                 <div className="d-grid gap-2 pe-3 padding0" style={{ minWidth: "100%", padding: "0px" }}>
-                  <NavLink to="/changepassword">
+                  <NavLink to="/changepassword" onClick={() => setExpanded(false)}>
                     <Button
                       variant={cambiarTemaButton()}
                       style={{ minWidth: "100%" }}
@@ -111,7 +117,7 @@ function Navibar({ toggleTheme }) {
                   className="d-grid gap-2 pe-3 padding0"
                   style={{ minWidth: "100%", padding: "0px" }}
                 >
-                  <NavLink to="/signup">
+                  <NavLink to="/signup" onClick={() => setExpanded(false)}>
                     <Button
                       variant={cambiarTemaButton()}
                       style={{ minWidth: "100%" }}
@@ -119,7 +125,7 @@ function Navibar({ toggleTheme }) {
                       Signup
                     </Button>
                   </NavLink>
-                  <NavLink to="/login">
+                  <NavLink to="/login" onClick={() => setExpanded(false)}>
                     <Button
                       variant={cambiarTemaButton()}
                       style={{ minWidth: "100%" }}

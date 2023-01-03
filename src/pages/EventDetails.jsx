@@ -55,7 +55,6 @@ function EventDetails() {
     <div>
       {errorMessage !== "" && <p>{errorMessage}</p>}
       <h3>Details of this event and game {details.location}</h3>
-      
       <CommentListEvent elementId={details._id} players={details.players}/>
     </div>
   );
