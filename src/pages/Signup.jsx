@@ -6,46 +6,35 @@ import Form from "react-bootstrap/Form";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
+import { useForm } from "./Login";
+
 //Muestra un formulario para que el user se registre
 function Signup() {
+
+  const {handleChange, showData, editData, showErrorMessage, changeErrorMessage} = useForm()
+
   const { cambiarTemaButton } = useContext(AuthContext);
 
   // configuramos el uso de navigate
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const handleUsernameChange = (event) => setUsername(event.target.value);
-  const handleEmailChange = (event) => setEmail(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
-  const handlePassword2Change = (event) => setPassword2(event.target.value);
 
   const handleSignup = async (event) => {
     event.preventDefault();
     // ... signup logic here
 
     // recopilar la informacion del usuario
-    const newUser = {
-      email: email,
-      username: username,
-      password: password,
-      password2: password2,
-    };
 
     try {
       // contactar el backend para crear el usuario (servicio)
-      await signupService(newUser);
+      await signupService(showData());
 
       // redirecciónar a login
       navigate("/login");
     } catch (error) {
       if (error.response && error.response.status === 400) {
         // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
+        changeErrorMessage(error.response.data.errorMessage);
       } else {
         // si el error es otro (500) entonces si redirecciono a /error
         navigate("/error");
@@ -64,8 +53,8 @@ function Signup() {
             type="text"
             placeholder="Username"
             name="username"
-            value={username}
-            onChange={handleUsernameChange}
+            value={showData.username}
+            onChange={handleChange}
           />
           <Form.Text className="text-muted">Nice to meet you!</Form.Text>
         </Form.Group>
@@ -76,8 +65,8 @@ function Signup() {
             type="email"
             placeholder="Email"
             name="email"
-            value={email}
-            onChange={handleEmailChange}
+            value={showData.email}
+            onChange={handleChange}
           />
           <Form.Text className="text-muted">
             We don't send you any spam!
@@ -90,8 +79,8 @@ function Signup() {
             type="password"
             placeholder="Password"
             name="password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={showData.password}
+            onChange={handleChange}
           />
           <Form.Text className="text-muted">
             We encrypt passwords very very carefully, promise.
@@ -104,8 +93,8 @@ function Signup() {
             type="password"
             placeholder="Password"
             name="password2"
-            value={password2}
-            onChange={handlePassword2Change}
+            value={showData.password2}
+            onChange={handleChange}
           />
           <Form.Text className="text-muted">
             Please re-type for security reasons.
@@ -114,7 +103,7 @@ function Signup() {
         <Button variant={cambiarTemaButton()} type="submit">
           Submit
         </Button>
-        {errorMessage !== "" && <p>{errorMessage}</p>}
+        {showErrorMessage && <p>{showErrorMessage()}</p>}
       </Form>
     </div>
   );
