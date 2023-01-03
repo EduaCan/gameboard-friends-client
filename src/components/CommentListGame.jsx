@@ -82,10 +82,10 @@ function CommentListGame({ elementId }) {
 
   return (
     <section style={cambiarTema()}>
-      <div class="container my-2 py-1">
-        <div class="row d-flex justify-content-center">
-          <div class="col-md-12 col-lg-10">
-            <div class="card text-dark" style={cambiarTema()}>
+      <div className="container my-2 py-1">
+        <div className="row d-flex justify-content-center">
+          <div className="col-md-12 col-lg-10">
+            <div className="card text-dark" style={cambiarTema()}>
       {errorMessage !== "" && <p>{errorMessage}</p>}
             <Button variant={cambiarTemaButton()} onClick={handleShow}>
         Share a comment
@@ -109,23 +109,23 @@ function CommentListGame({ elementId }) {
                 <div>
                   {comments.slice(0).reverse().map((eachComment) => {
                     return (
-                      <div key={eachComment._id} class="card-body p-3" style={cambiarTema()}>
-                        <div class="d-flex flex-start">
+                      <div key={eachComment._id} className="card-body p-3" style={cambiarTema()}>
+                        <div className="d-flex flex-start">
                           <img
-                            class="rounded-circle shadow-1-strong me-3"
+                            className="rounded-circle shadow-1-strong me-3"
                             src={`https://i.pravatar.cc/150?u=${eachComment.idUser._id}`}
                             alt="avatar"
                             width="60"
                             height="60"
                           />
-                          <div class="container my-0 py-0">
-                            <h6 class="fw-bold mb-1 game-comment-name-title">
+                          <div className="container my-0 py-0">
+                            <h6 className="fw-bold mb-1 game-comment-name-title">
                               {eachComment.idUser.username}
                             </h6>
                                   {(eachComment.idUser.username ===
                                     user.user.username ||
                                     user.user.role === "admin") && (
-                                    <span  class="game-comment-button-span">
+                                    <span  className="game-comment-button-span">
                                       <Button
                                       variant={cambiarTemaButtonBlue()}
                                         size="sm"
@@ -150,15 +150,15 @@ function CommentListGame({ elementId }) {
                                       </Button>
                                     </span>
                                   )}
-                            <div class="d-flex align-items-center mb-3">
-                              <p class="text-muted small mb-0">
+                            <div className="d-flex align-items-center mb-3">
+                              <p className="text-muted small mb-0">
                                 {createdEdited(eachComment)}
                               </p>
                             </div>
-                            <p class="mb-0">{eachComment.content}</p>
+                            <p className="mb-0">{eachComment.content}</p>
                           </div>
                         </div>
-                        <hr class="my-0" />
+                        <hr className="my-0" />
                       </div>
                     );
                   })}
@@ -170,65 +170,6 @@ function CommentListGame({ elementId }) {
       </div>
     </section>
   );
-}
-
-{
-  /* /*
-      {comments.length === 0 ? (
-        <h3>No comments</h3>
-      ) : (
-        <div>
-          {comments.map((eachComment) => {
-            return (
-              <div key={eachComment._id}>
-                <h6>{eachComment.idUser.username}</h6>
-                <p>{eachComment.content}</p>
-                {(eachComment.idUser.username === user.user.username ||
-                  user.user.role === "admin") && (
-                  <div>
-                    <button
-                      onClick={() =>
-                        handleModifyComment(
-                          eachComment._id,
-                          eachComment.content
-                        )
-                      }
-                    >
-                      Modify Comment
-                    </button>
-                    <button
-                      onClick={() => handleDeleteComment(eachComment._id)}
-                    >
-                      Delete Comment
-                    </button>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <Button variant={cambiarTemaButton()} onClick={handleShow}>
-        Share a comment
-      </Button>
-
-      <Modal show={show} onHide={handleClose} style={cambiarTema()}>
-        <Modal.Header style={cambiarTema()} closeButton> Share your opinion </Modal.Header>
-        <AddComment
-          elementId={elementId}
-          getData={getData}
-          oldContent={content}
-          commentId={commentId}
-          isModifyingComment={isModifyingComment}
-          setIsModifyingComment={setIsModifyingComment}
-          handleClose={handleClose}
-        />
-      </Modal>
-      {errorMessage !== "" && <p>{errorMessage}</p>}
-    </div>
-  );
-}</div>
-*/
 }
 
 export default CommentListGame;

@@ -5,12 +5,8 @@ const gameListService = () => {
 };
 
 const gameDetailsService = (...params) => {
-  if (params.length === 1) {
-    return service.get(`/game/${params}`);
-  } else {
-    params.join(",");
-    return service.get(`/game/${params}`);
-  }
+  params.join(",");
+  return service.get(`/game/${params}`);
 };
 
 export { gameListService, gameDetailsService };

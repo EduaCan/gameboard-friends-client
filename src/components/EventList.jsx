@@ -95,16 +95,16 @@ function EventList({ gameid }) {
           return (
 
 
-            <div key={eachEvent._id} class="card text-center" style={cambiarTema()}>
-            <div class="card-body">
+            <div key={eachEvent._id} className="card text-center" style={cambiarTema()}>
+            <div className="card-body">
               <Link to={`/event/${eachEvent._id}`}>
-                <h5 class="card-title">{eachEvent.location}</h5>
+                <h5 className="card-title">{eachEvent.location}</h5>
               </Link>
 
 
 
              
-                  <p class="card-text">Number of Players Joined: {eachEvent.players.length}</p>
+                  <p className="card-text">Number of Players Joined: {eachEvent.players.length}</p>
 
 
 
@@ -128,7 +128,7 @@ function EventList({ gameid }) {
 
 
                 </div>
-                <div class="card-footer text-muted">{createdEdited(eachEvent)}</div>
+                <div className="card-footer text-muted">{createdEdited(eachEvent)}</div>
             </div>
           );
         })}

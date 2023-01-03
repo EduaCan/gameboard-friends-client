@@ -6,52 +6,52 @@ import DotLoader from "react-spinners/ClipLoader";
 import { getFavGamesArrayService } from "../services/user.service";
 
 //Muestra la lista de eventos en los que participa el user
-function FavGamesList({ gameid }) {
-  const navigate = useNavigate();
+function FavGamesList({ details }) {
+  //const navigate = useNavigate();
 
-  const [details, setDetails] = useState(null);
-  const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  //const [details, setDetails] = useState(null);
+  //const [isFetching, setIsFetching] = useState(true);
+  //const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
-  const getData = async () => {
-    try {
-      //primero traemos la lista de juegos favoritos
-      const response = await getFavGamesArrayService();
-      //segundo buscamos esos juegos de la API, todos a la vez
-      if (response.data.length !== 0) {
-        const finalResponse = await gameDetailsService(response.data);
-        setDetails(finalResponse.data);
-        setIsFetching(false);
-      } else {
-        setDetails(response.data);
-        setIsFetching(false);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
-    }
-  };
+  // const getData = async () => {
+  //   try {
+  //     //primero traemos la lista de juegos favoritos
+  //     const response = await getFavGamesArrayService();
+  //     //segundo buscamos esos juegos de la API, todos a la vez
+  //     if (response.data.length !== 0) {
+  //       const finalResponse = await gameDetailsService(response.data);
+  //       setDetails(finalResponse.data);
+  //       setIsFetching(false);
+  //     } else {
+  //       setDetails(response.data);
+  //       setIsFetching(false);
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 400) {
+  //       // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
+  //       setErrorMessage(error.response.data.errorMessage);
+  //     } else {
+  //       // si el error es otro (500) entonces si redirecciono a /error
+  //       navigate("/error");
+  //     }
+  //   }
+  // };
 
-  if (isFetching === true) {
-    return (
-      <DotLoader
-        color={"grey"}
-        loading={true}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-    );
-  }
+  // if (isFetching === true) {
+  //   return (
+  //     <DotLoader
+  //       color={"grey"}
+  //       loading={true}
+  //       size={150}
+  //       aria-label="Loading Spinner"
+  //       data-testid="loader"
+  //     />
+  //   );
+  // }
 
   return (
     <div>
@@ -68,7 +68,7 @@ function FavGamesList({ gameid }) {
 
       {/* } */}
 
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {/* {errorMessage !== "" && <p>{errorMessage}</p>} */}
     </div>
   );
 }

@@ -5,7 +5,6 @@ import {
   commentDeleteService,
   commentAddEventService,
 } from "../services/comment.service";
-import { getAnEventInfoService } from "../services/event.service";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
