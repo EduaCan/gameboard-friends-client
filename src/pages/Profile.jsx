@@ -30,18 +30,7 @@ function Profile() {
       //primero traemos la lista de juegos favoritos
       const response = await getFavGamesArrayService();
       const responseEvents = await eventListJoinedService();
-      // console.log("fav", response.data);
-      // console.log("events", responseEvents.data);
       setEventList(responseEvents.data);
-      //segundo buscamos esos juegos de la API, todos a la vez
-      if (response.data.length !== 0) {
-        const finalResponse = await gameDetailsService(response.data);
-        setDetails(finalResponse.data);
-        setIsFetching(false);
-      } else {
-        setDetails(response.data);
-        setIsFetching(false);
-      }
       //get events games pics
       if (responseEvents.data.length !== 0) {
         const finalResponse = await gameDetailsService(responseEvents.data.map((eachEvent) => {
@@ -51,6 +40,14 @@ function Profile() {
           return {'id': id, 'image_url': image_url}
         })
         setEventListGames(gameListImg);
+      }
+      //segundo buscamos esos juegos de la API, todos a la vez
+      if (response.data.length !== 0) {
+        const finalResponse = await gameDetailsService(response.data);
+        setDetails(finalResponse.data);
+        setIsFetching(false);
+      } else {
+        setDetails(response.data);
         setIsFetching(false);
       }
     } catch (error) {
