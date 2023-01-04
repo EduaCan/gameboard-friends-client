@@ -6,14 +6,14 @@ import Form from "react-bootstrap/Form";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { useFormHook } from "../hooks/useFormHook"
-import { useDarkThemeHook } from "../hooks/useDarkThemeHook"
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 
 
 //Muestra un formulario para que el user haga login
 function Login() {
   const { authenticaUser } = useContext(AuthContext);
-  const {cambiarTemaButton} = useDarkThemeHook()
+  const {cambiarTemaButton} = useContext(DarkThemeContext)
   const {handleChange, showData, showErrorMessage, changeErrorMessage} = useFormHook()
   const navigate = useNavigate();
 
