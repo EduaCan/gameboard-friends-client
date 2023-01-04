@@ -7,7 +7,9 @@ import {
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
+import { DarkThemeContext } from "../context/darkTheme.context";
 import { useContext } from "react";
+import { useFormHook } from "../hooks/useFormHook"
 import AddComment from "./AddComment";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -15,20 +17,22 @@ import Button from "react-bootstrap/Button";
 
 //Muestra la lista de comments
 function CommentListEvent({ elementId, players }) {
+  const { user, createdEdited } = useContext(AuthContext);
+
   const {
-    user,
     cambiarTema,
     cambiarTemaListScroll,
     cambiarTemaButton,
     cambiarTemaButtonRed,
     cambiarTemaButtonBlue,
-    createdEdited
-  } = useContext(AuthContext);
+  } = useContext(DarkThemeContext);
+
+  const { showErrorMessage, changeErrorMessage, handleChange } = useFormHook()
+
   const navigate = useNavigate();
 
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isModifyingComment, setIsModifyingComment] = useState(false);
   const [commentId, setCommentId] = useState(null);
   const [contentCom, setContentCom] = useState("");
@@ -66,13 +70,7 @@ function CommentListEvent({ elementId, players }) {
       setContent("");
       getData(elementId);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -89,13 +87,7 @@ function CommentListEvent({ elementId, players }) {
 
       setIsFetching(false);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -128,7 +120,8 @@ function CommentListEvent({ elementId, players }) {
                   <ul className="list-unstyled mb-0">
                     {players.map((eachMember, index) => {
                       return (
-                        <li key={eachMember._id}
+                        <li
+                          key={eachMember._id}
                           className={
                             players.length === index + 1
                               ? "p-2"
@@ -170,8 +163,8 @@ function CommentListEvent({ elementId, players }) {
                     .map((eachComment) => {
                       return (
                         <div>
-                          {(eachComment.idUser.username !==
-                          user.user.username && user.user.role !== "admin") ? (
+                          {eachComment.idUser.username !== user.user.username &&
+                          user.user.role !== "admin" ? (
                             <li
                               key={eachComment._id}
                               className="d-flex justify-content-between mb-4"
@@ -191,7 +184,8 @@ function CommentListEvent({ elementId, players }) {
                                     {eachComment.idUser.username}
                                   </p>
                                   <p className="text-muted small mb-0">
-                                    <i className="far fa-clock"></i>{createdEdited(eachComment)}
+                                    <i className="far fa-clock"></i>
+                                    {createdEdited(eachComment)}
                                   </p>
                                 </div>
                                 <div
@@ -215,11 +209,12 @@ function CommentListEvent({ elementId, players }) {
                                   style={cambiarTema()}
                                 >
                                   <p className="text-muted small mb-0">
-                                    <i className="far fa-clock"></i>{createdEdited(eachComment)}
+                                    <i className="far fa-clock"></i>
+                                    {createdEdited(eachComment)}
                                   </p>
                                   <div>
                                     <Button
-                                    size="sm"
+                                      size="sm"
                                       variant={cambiarTemaButtonBlue()}
                                       onClick={() =>
                                         handleModifyComment(
@@ -231,7 +226,7 @@ function CommentListEvent({ elementId, players }) {
                                       Modify
                                     </Button>
                                     <Button
-                                    size="sm"
+                                      size="sm"
                                       variant={cambiarTemaButtonRed()}
                                       onClick={() =>
                                         handleDeleteComment(eachComment._id)
@@ -248,7 +243,10 @@ function CommentListEvent({ elementId, players }) {
                                   className="card-body"
                                   style={cambiarTema()}
                                 >
-                                  <p className="mb-0 mb-0-right" style={cambiarTema()}>
+                                  <p
+                                    className="mb-0 mb-0-right"
+                                    style={cambiarTema()}
+                                  >
                                     {eachComment.content}
                                   </p>
                                 </div>
@@ -280,7 +278,7 @@ function CommentListEvent({ elementId, players }) {
                       onChange={handleContentChange}
                     ></textarea>
 
-                    <Button variant={cambiarTemaButton()} type="submit" >
+                    <Button variant={cambiarTemaButton()} type="submit">
                       Send
                     </Button>
                   </form>
@@ -290,7 +288,6 @@ function CommentListEvent({ elementId, players }) {
           </div>
         </div>
       </section>
-
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton></Modal.Header>
@@ -304,7 +301,7 @@ function CommentListEvent({ elementId, players }) {
           handleClose={handleClose}
         />
       </Modal>
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {showErrorMessage && <p>{showErrorMessage}</p>}
     </div>
   );
 }

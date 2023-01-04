@@ -14,10 +14,10 @@ import ChangePassword from "./pages/ChangePassword";
 import EventDetails from "./pages/EventDetails";
 
 import { useContext } from "react";
-import { AuthContext } from "./context/auth.context";
+import { DarkThemeContext } from "./context/darkTheme.context";
 
 function App() {
-  const { cambiarTema, toggleTheme } = useContext(AuthContext);
+  const { cambiarTema, toggleTheme } = useContext(DarkThemeContext);
 
   return (
     <div className="App" style={cambiarTema()}>

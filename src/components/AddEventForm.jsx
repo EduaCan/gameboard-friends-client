@@ -1,37 +1,21 @@
-import { useState } from "react";
 import { addEventService } from "../services/event.service";
 import { useNavigate } from "react-router-dom";
+import { useFormHook } from "../hooks/useFormHook";
 
-//Formulario para añadir evento
 function AddEventForm({ gameid, getData, handleCloseEventForm }) {
-  const [location, setLocation] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const {showErrorMessage, changeErrorMessage, handleChange, showData} = useFormHook()
 
   const navigate = useNavigate();
 
-  const handleLocationChange = (event) => setLocation(event.target.value);
-
   const handleComfirmEvent = async (event) => {
     event.preventDefault();
-
-    const newEvent = {
-      location: location,
-    };
-
     try {
-      await addEventService(gameid, newEvent);
+      await addEventService(gameid, showData());
       handleCloseEventForm();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
     getData(gameid);
-    setLocation("");
   };
 
   return (
@@ -41,12 +25,13 @@ function AddEventForm({ gameid, getData, handleCloseEventForm }) {
         <input
           type="text"
           name="location"
-          value={location}
-          onChange={handleLocationChange}
+          value={showData.location}
+          onChange={handleChange}
         />
 
         <button typr="submit">Comfirm Event</button>
       </form>
+      {showErrorMessage && <p>{showErrorMessage}</p>}
     </div>
   );
 }

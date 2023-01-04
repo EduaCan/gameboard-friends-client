@@ -9,18 +9,29 @@ import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddComment from "./AddComment";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button"; 
+import Button from "react-bootstrap/Button";
+import { DarkThemeContext } from "../context/darkTheme.context";
+import { useFormHook } from "../hooks/useFormHook";
+
 //https://mdbootstrap.com/docs/standard/extended/comments/
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentListGame({ elementId }) {
-  const { user, cambiarTemaButton, cambiarTemaButtonBlue,cambiarTemaButtonRed, cambiarTema, createdEdited } =
-    useContext(AuthContext);
+  const { user, createdEdited } = useContext(AuthContext);
+
+  const {
+    cambiarTemaButton,
+    cambiarTemaButtonBlue,
+    cambiarTemaButtonRed,
+    cambiarTema,
+  } = useContext(DarkThemeContext);
+
   const navigate = useNavigate();
+
+  const { showErrorMessage, changeErrorMessage } = useFormHook();
 
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isModifyingComment, setIsModifyingComment] = useState(false);
   const [commentId, setCommentId] = useState(null);
   const [contentCom, setContentCom] = useState("");
@@ -44,7 +55,6 @@ function CommentListGame({ elementId }) {
     setContentCom(content);
   };
 
-  //para eliminar un comment
   const handleDeleteComment = async (commentid) => {
     await commentDeleteService(commentid);
     getData(elementId);
@@ -56,13 +66,9 @@ function CommentListGame({ elementId }) {
       setComments(commentList.data);
       setIsFetching(false);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400
+        ? changeErrorMessage(error.response.data.errorMessage)
+        : navigate("/error");
     }
   };
 
@@ -86,82 +92,92 @@ function CommentListGame({ elementId }) {
         <div className="row d-flex justify-content-center">
           <div className="col-md-12 col-lg-10">
             <div className="card text-dark" style={cambiarTema()}>
-      {errorMessage !== "" && <p>{errorMessage}</p>}
-            <Button variant={cambiarTemaButton()} onClick={handleShow}>
-        Share a comment
-      </Button>
+              {showErrorMessage && <p>{showErrorMessage()}</p>}
+              <Button variant={cambiarTemaButton()} onClick={handleShow}>
+                Share a comment
+              </Button>
 
-      <Modal show={show} onHide={handleClose} style={cambiarTema()}>
-        <Modal.Header style={cambiarTema()} closeButton> Share your opinion </Modal.Header>
-        <AddComment
-          elementId={elementId}
-          getData={getData}
-          oldContent={contentCom}
-          commentId={commentId}
-          isModifyingComment={isModifyingComment}
-          setIsModifyingComment={setIsModifyingComment}
-          handleClose={handleClose}
-        />
-      </Modal>
+              <Modal show={show} onHide={handleClose} style={cambiarTema()}>
+                <Modal.Header style={cambiarTema()} closeButton>
+                  {" "}
+                  Share your opinion{" "}
+                </Modal.Header>
+                <AddComment
+                  elementId={elementId}
+                  getData={getData}
+                  oldContent={contentCom}
+                  commentId={commentId}
+                  isModifyingComment={isModifyingComment}
+                  setIsModifyingComment={setIsModifyingComment}
+                  handleClose={handleClose}
+                />
+              </Modal>
               {comments.length === 0 ? (
                 <h3>No comments yet</h3>
               ) : (
                 <div>
-                  {comments.slice(0).reverse().map((eachComment) => {
-                    return (
-                      <div key={eachComment._id} className="card-body p-3" style={cambiarTema()}>
-                        <div className="d-flex flex-start">
-                          <img
-                            className="rounded-circle shadow-1-strong me-3"
-                            src={`https://i.pravatar.cc/150?u=${eachComment.idUser._id}`}
-                            alt="avatar"
-                            width="60"
-                            height="60"
-                          />
-                          <div className="container my-0 py-0">
-                            <h6 className="fw-bold mb-1 game-comment-name-title">
-                              {eachComment.idUser.username}
-                            </h6>
-                                  {(eachComment.idUser.username ===
-                                    user.user.username ||
-                                    user.user.role === "admin") && (
-                                    <span  className="game-comment-button-span">
-                                      <Button
-                                      variant={cambiarTemaButtonBlue()}
-                                        size="sm"
-                                        onClick={() =>
-                                          handleModifyComment(
-                                            eachComment._id,
-                                            eachComment.content
-                                          )
-                                        }
-                                      >
-                                        Modify
-                                      </Button>
-                                
-                                      <Button
-                                      variant={cambiarTemaButtonRed()}
-                                      size="sm"
-                                        onClick={() =>
-                                          handleDeleteComment(eachComment._id)
-                                        }
-                                      >
-                                        Delete
-                                      </Button>
-                                    </span>
-                                  )}
-                            <div className="d-flex align-items-center mb-3">
-                              <p className="text-muted small mb-0">
-                                {createdEdited(eachComment)}
-                              </p>
+                  {comments
+                    .slice(0)
+                    .reverse()
+                    .map((eachComment) => {
+                      return (
+                        <div
+                          key={eachComment._id}
+                          className="card-body p-3"
+                          style={cambiarTema()}
+                        >
+                          <div className="d-flex flex-start">
+                            <img
+                              className="rounded-circle shadow-1-strong me-3"
+                              src={`https://i.pravatar.cc/150?u=${eachComment.idUser._id}`}
+                              alt="avatar"
+                              width="60"
+                              height="60"
+                            />
+                            <div className="container my-0 py-0">
+                              <h6 className="fw-bold mb-1 game-comment-name-title">
+                                {eachComment.idUser.username}
+                              </h6>
+                              {(eachComment.idUser.username ===
+                                user.user.username ||
+                                user.user.role === "admin") && (
+                                <span className="game-comment-button-span">
+                                  <Button
+                                    variant={cambiarTemaButtonBlue()}
+                                    size="sm"
+                                    onClick={() =>
+                                      handleModifyComment(
+                                        eachComment._id,
+                                        eachComment.content
+                                      )
+                                    }
+                                  >
+                                    Modify
+                                  </Button>
+
+                                  <Button
+                                    variant={cambiarTemaButtonRed()}
+                                    size="sm"
+                                    onClick={() =>
+                                      handleDeleteComment(eachComment._id)
+                                    }
+                                  >
+                                    Delete
+                                  </Button>
+                                </span>
+                              )}
+                              <div className="d-flex align-items-center mb-3">
+                                <p className="text-muted small mb-0">
+                                  {createdEdited(eachComment)}
+                                </p>
+                              </div>
+                              <p className="mb-0">{eachComment.content}</p>
                             </div>
-                            <p className="mb-0">{eachComment.content}</p>
                           </div>
+                          <hr className="my-0" />
                         </div>
-                        <hr className="my-0" />
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                 </div>
               )}
             </div>

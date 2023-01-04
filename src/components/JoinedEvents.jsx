@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { AuthContext } from "../context/auth.context";
+import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
 import { removePlayerFromEventService } from "../services/event.service";
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 //Muestra una lista de eventos en los que el user participa
 function JoinedEvents({ eventList, eventGamesImg, getData }) {
-  const [errorMessage, setErrorMessage] = useState("");
-  const { cambiarTema, cambiarTemaButton } = useContext(AuthContext);
+  const { showErrorMessage, changeErrorMessage} = useFormHook()
+  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext);
   const navigate = useNavigate();
 
   const handleRemovePlayer = async (eventid) => {
@@ -16,13 +16,7 @@ function JoinedEvents({ eventList, eventGamesImg, getData }) {
       await removePlayerFromEventService(eventid);
       getData();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -65,7 +59,7 @@ function JoinedEvents({ eventList, eventGamesImg, getData }) {
           </li>
         );
       })}
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {showErrorMessage !== "" && <p>{showErrorMessage}</p>}
     </ul>
   );
 }

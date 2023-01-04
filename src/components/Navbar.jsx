@@ -7,14 +7,17 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useState } from "react";
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 //Barra de navegacion con info privada, que muestra si estas logged
 function Navibar({ toggleTheme }) {
 
   const [expanded, setExpanded] = useState(false)
 
-  const { authenticaUser, isLoggedIn, user, cambiarTema, cambiarTemaButton } =
+  const { authenticaUser, isLoggedIn, user } =
     useContext(AuthContext);
+
+    const {cambiarTema, cambiarTemaButton} = useContext(DarkThemeContext)
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -51,7 +54,6 @@ function Navibar({ toggleTheme }) {
           id={`offcanvasNavbar-expand-${false}`}
           aria-labelledby={`offcanvasNavbarLabel-expand-${false}`}
           placement="end"
-          onClick={() => setExpanded(true)}
         >
           <Offcanvas.Header  style={cambiarTema()}>
             <Offcanvas.Title

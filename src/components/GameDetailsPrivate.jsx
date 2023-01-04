@@ -12,16 +12,19 @@ import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { useFormHook } from "../hooks/useFormHook"
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 //componente que evita que veas info privada si no estas logged
 function GameDetailsPrivate({ gameid, gameName }) {
-  const { isLoggedIn, cambiarTemaButton, cambiarTema } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
+  const {cambiarTema, cambiarTemaButton} = useContext(DarkThemeContext)
+  const { showErrorMessage, changeErrorMessage} = useFormHook()
 
   const navigate = useNavigate();
 
   const [favorites, setFavorites] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [showCommentsList, setShowCommentsList] = useState(false);
   const [showEventList, setShowEventList] = useState(false);
@@ -42,13 +45,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
       await addGameToFavouritesService(gameid);
       await checkFavorites();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -58,13 +55,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
       await removeGameFromFavouritesService(gameid);
       await checkFavorites();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -74,13 +65,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
       setFavorites(response.data);
       setIsFetching(false);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -134,7 +119,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
             Add game to favorite
           </Button>
         )}
-        {errorMessage !== "" && <p>{errorMessage}</p>}
+        {showErrorMessage && <p>{showErrorMessage()}</p>}
       </div>
     );
   }

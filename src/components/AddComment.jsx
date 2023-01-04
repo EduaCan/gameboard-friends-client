@@ -5,9 +5,10 @@ import {
 } from "../services/comment.service";
 import { useNavigate } from "react-router-dom";
 import { commentModifyService } from "../services/comment.service";
-import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import Button from "react-bootstrap/Button";
+import { DarkThemeContext } from "../context/darkTheme.context";
+import {useFormHook} from "../hooks/useFormHook.js"
 
 //Formulario para añadir un comment
 function AddComment({
@@ -22,12 +23,13 @@ function AddComment({
   const {
     cambiarTema,
     cambiarTemaButton
-  } = useContext(AuthContext);
+  } = useContext(DarkThemeContext);
+
+  const {showErrorMessage, changeErrorMessage} = useFormHook()
 
   const [contentUpdate, setContentUpdate] = useState(oldContent);
 
   const [content, setContent] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -40,7 +42,6 @@ function AddComment({
     setContentUpdate(oldContent);
   }, [oldContent]);
 
-  //funcion para modificar comments, que se invoca desde los childs
   const handleModifyComment = async (event) => {
     event.preventDefault();
 
@@ -55,15 +56,10 @@ function AddComment({
       setIsModifyingComment(false);
       handleClose();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
       }
     }
-  };
+ 
 
   const handleComfirmContent = async (event) => {
     event.preventDefault();
@@ -73,25 +69,14 @@ function AddComment({
     };
 
     try {
-      //este if permite discriminar entre game y evento y asi reusar el componente
-      if (elementId.length > 12) {
-        //mayor de 10 es un evento
-        await commentAddEventService(elementId, newComment);
-      } else {
-        //sino, es un juego
-        await commentAddGameService(elementId, newComment);
-      }
+     (elementId.length > 12) ?
+        await commentAddEventService(elementId, newComment):
+        await commentAddGameService(elementId, newComment)
       setContent("");
       getData(elementId);
       handleClose();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      (error.response && error.response.status === 400) ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error")
     }
   };
 
@@ -135,7 +120,7 @@ function AddComment({
         </div>
       )}
 
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {showErrorMessage && <p>{showErrorMessage}</p>}
     </div>
   );
 }

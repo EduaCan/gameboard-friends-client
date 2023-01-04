@@ -3,18 +3,19 @@ import { getAnEventInfoService } from "../services/event.service";
 import { useParams, useNavigate } from "react-router-dom";
 import DotLoader from "react-spinners/ClipLoader";
 import CommentListEvent from "../components/CommentListEvent";
-import { AuthContext } from "../context/auth.context";
+import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 //Muestra los detalles de un evento
 function EventDetails() {
   const { eventid } = useParams();
   const navigate = useNavigate();
-  const {  cambiarTema } = useContext(AuthContext);
+  const {  cambiarTema } = useContext(DarkThemeContext);
+  const {showErrorMessage, changeErrorMessage} = useFormHook()
 
 
   const [details, setDetails] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -27,11 +28,7 @@ function EventDetails() {
       setDetails(response.data);
       setIsFetching(false);
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -51,7 +48,7 @@ function EventDetails() {
 
   return (
     <div>
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {showErrorMessage !== "" && <p>{showErrorMessage}</p>}
       <h3>Details of this event and game {details.location}</h3>
       <CommentListEvent elementId={details._id} players={details.players}/>
     </div>

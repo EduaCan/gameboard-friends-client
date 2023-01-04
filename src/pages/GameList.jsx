@@ -5,15 +5,16 @@ import DotLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 //Muestra la lista de juegos que viene de la API
 function GameList() {
-  const [errorMessage, setErrorMessage] = useState("");
   const [list, setList] = useState("");
+  const {showErrorMessage, changeErrorMessage} = useFormHook()
   const [isFetching, setIsFetching] = useState(true);
-  const { cambiarTema } = useContext(AuthContext);
+  const { cambiarTema } = useContext(DarkThemeContext);
 
   const navigate = useNavigate();
 
@@ -28,13 +29,7 @@ function GameList() {
       setIsFetching(false);
       return;
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -61,7 +56,7 @@ function GameList() {
         justifyContent: "center",
       }}
     >
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {showErrorMessage !== "" && <p>{showErrorMessage}</p>}
 
       {list.map((eachGame) => {
         return (
@@ -98,7 +93,6 @@ function GameList() {
           </Card>
         );
       })}
-      {errorMessage !== "" && <p>{errorMessage}</p>}
     </div>
   );
 }

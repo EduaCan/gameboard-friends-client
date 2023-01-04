@@ -1,76 +1,56 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// import { useContext } from "react"
-// import { AuthContext } from "../context/auth.context";
+import { useFormHook } from "../hooks/useFormHook"
+import Button from "react-bootstrap/Button";
+import { useContext } from "react"
 import { changePasswordService } from "../services/auth.service";
+import { DarkThemeContext } from "../context/darkTheme.context";
 
-//Muestra formulario para que el user cambie su contraseña
 function ChangePassword() {
-  // const { authenticaUser } = useContext(AuthContext)
+
+  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext)
+  const {handleChange, showData, showErrorMessage, changeErrorMessage} = useFormHook()
   const navigate = useNavigate();
-
-  const [oldPassword, setOldPassword] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const handleOldPasswordChange = (event) => setOldPassword(event.target.value);
-  const handlePasswordChange = (event) => setPassword(event.target.value);
-  const handlePassword2Change = (event) => setPassword2(event.target.value);
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
-
-    const newPassword = {
-      oldPassword: oldPassword,
-      password: password,
-      password2: password2,
-    };
     try {
-      await changePasswordService(newPassword);
+      await changePasswordService(showData);
       navigate("/profile");
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleChangePassword}>
+    <div style={cambiarTema()}>
+      <form onSubmit={handleChangePassword} style={cambiarTema()} >
         <label>Old Password:</label>
         <input
           type="password"
-          name="oldpassword"
-          value={oldPassword}
-          onChange={handleOldPasswordChange}
+          name="oldPassword"
+          value={showData.oldPassword}
+          onChange={handleChange}
         />
 
         <label>New Password:</label>
         <input
           type="password"
           name="password"
-          value={password}
-          onChange={handlePasswordChange}
+          value={showData.password}
+          onChange={handleChange}
         />
 
         <label>Retype New Password:</label>
         <input
           type="password"
           name="password2"
-          value={password2}
-          onChange={handlePassword2Change}
+          value={showData.password2}
+          onChange={handleChange}
         />
 
-        <button type="submit">Change Password</button>
+        <Button type="submit" variant={cambiarTemaButton()}>Change Password</Button>
 
-        {errorMessage !== "" && <p>{errorMessage}</p>}
+        {showErrorMessage && <p>{showErrorMessage()}</p>}
       </form>
     </div>
   );

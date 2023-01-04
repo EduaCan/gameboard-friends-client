@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { gameDetailsService } from "../services/game.service";
+import { useFormHook } from "../hooks/useFormHook"
 import DotLoader from "react-spinners/ClipLoader";
 import { eventListJoinedService } from "../services/event.service";
 import { getFavGamesArrayService } from "../services/user.service";
@@ -16,10 +17,9 @@ function Profile() {
   const { user } = useContext(AuthContext);
   const [details, setDetails] = useState(null);
   const [eventList, setEventList] = useState(null);
+  const {showErrorMessage, changeErrorMessage} = useFormHook()
   const [eventListGames, setEventListGames] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-
-  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     getData();
@@ -27,8 +27,7 @@ function Profile() {
 
   const getData = async () => {
     try {
-      //primero traemos la lista de juegos favoritos
-      const response = await getFavGamesArrayService();
+      const responseFavGames = await getFavGamesArrayService();
       const responseEvents = await eventListJoinedService();
       setEventList(responseEvents.data);
       //get events games pics
@@ -43,25 +42,18 @@ function Profile() {
         });
         setEventListGames(gameListImg);
       }
-      //segundo buscamos esos juegos de la API, todos a la vez
-      if (response.data.length !== 0) {
-        const finalResponse = await gameDetailsService(response.data);
+      
+      if (responseFavGames.data.length !== 0) {
+        const finalResponse = await gameDetailsService(responseFavGames.data);
         setDetails(finalResponse.data);
         setIsFetching(false);
       } else {
-        setDetails(response.data);
+        setDetails(responseFavGames.data);
         setIsFetching(false);
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
-    console.log("eventListGames", eventListGames);
   };
 
   if (isFetching === true) {
@@ -93,6 +85,7 @@ function Profile() {
           />
         </div>
       </div>
+      {showErrorMessage && <p>{showErrorMessage()}</p>}
     </div>
   );
 }

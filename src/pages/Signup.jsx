@@ -1,44 +1,28 @@
-import { useState } from "react";
+
 import { signupService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
-
-import { useForm } from "./Login";
+import { useFormHook } from "../hooks/useFormHook"
+import { DarkThemeContext } from "../context/darkTheme.context";
 
 //Muestra un formulario para que el user se registre
 function Signup() {
 
-  const {handleChange, showData, editData, showErrorMessage, changeErrorMessage} = useForm()
+  const {handleChange, showData, showErrorMessage, changeErrorMessage} = useFormHook()
 
-  const { cambiarTemaButton } = useContext(AuthContext);
-
-  // configuramos el uso de navigate
+  const { cambiarTemaButton } = useContext(DarkThemeContext);
   const navigate = useNavigate();
 
 
   const handleSignup = async (event) => {
     event.preventDefault();
-    // ... signup logic here
-
-    // recopilar la informacion del usuario
-
     try {
-      // contactar el backend para crear el usuario (servicio)
       await signupService(showData());
-
-      // redirecciónar a login
       navigate("/login");
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        changeErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -83,7 +67,7 @@ function Signup() {
             onChange={handleChange}
           />
           <Form.Text className="text-muted">
-            We encrypt passwords very very carefully, promise.
+            Min 8 chars long, 1 capital letter, 1 number, 1 special char
           </Form.Text>
         </Form.Group>
 

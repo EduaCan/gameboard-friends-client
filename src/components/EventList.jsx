@@ -10,16 +10,20 @@ import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddEventForm from "./AddEventForm";
 import DotLoader from "react-spinners/ClipLoader";
-
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { DarkThemeContext } from "../context/darkTheme.context";
+import { useFormHook } from "../hooks/useFormHook"
 
 //Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
-  const {  user, createdEdited, cambiarTema, cambiarTemaButton } = useContext(AuthContext);
+  const {  user, createdEdited } = useContext(AuthContext);
+  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext)
+
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { showErrorMessage, changeErrorMessage } = useFormHook()
+  
 
   const [showEventForm, setShowEventForm] = useState(false);
 
@@ -32,29 +36,21 @@ function EventList({ gameid }) {
     getData();
   }, []);
 
-  //para añadir el user al evento mediante boton
   const handleAddPlayer = async (eventid) => {
     try {
       await addPlayerToEventService(eventid);
       getData();
     } catch (error) {
-      console.log(error);
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
-  //para quitar al user del evento
   const handleRemovePlayer = async (eventid) => {
     try {
       await removePlayerFromEventService(eventid);
       getData();
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        // si el error es de tipo 400 me quedo en el componente y muestro el mensaje de error
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        // si el error es otro (500) entonces si redirecciono a /error
-        navigate("/error");
-      }
+      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
     }
   };
 
@@ -134,9 +130,6 @@ function EventList({ gameid }) {
         })}
       </div>)}
 
-
-
-
       <Button variant={cambiarTemaButton()} onClick={handleShowEventForm}>
         Create an Event
       </Button>
@@ -148,7 +141,7 @@ function EventList({ gameid }) {
           handleCloseEventForm={handleCloseEventForm}
         />
       </Modal>
-      {errorMessage !== "" && <p>{errorMessage}</p>}
+      {showErrorMessage && <p>{showErrorMessage()}</p>}
     </div>
   );
 }

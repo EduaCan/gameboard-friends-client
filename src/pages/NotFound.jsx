@@ -4,7 +4,7 @@ import React from "react";
 function NotFound() {
   return (
     <div>
-      <h3>There are not the drones you looking for. (404)</h3>
+      <h3>There are not the drones you're looking for. (404)</h3>
     </div>
   );
 }
