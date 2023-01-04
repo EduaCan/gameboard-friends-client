@@ -20,10 +20,10 @@ function CommentListGame({ elementId }) {
   const { createdEdited } = useUtilsHook()
 
   const {
-    cambiarTemaButton,
-    cambiarTemaButtonBlue,
-    cambiarTemaButtonRed,
-    cambiarTema,
+    changeThemeButton,
+    changeThemeButtonBlue,
+    changeThemeButtonRed,
+    changeTheme,
   } = useContext(DarkThemeContext);
 
 
@@ -76,18 +76,18 @@ function CommentListGame({ elementId }) {
   }
 
   return (
-    <section style={cambiarTema()}>
+    <section style={changeTheme()}>
       <div className="container my-2 py-1">
         <div className="row d-flex justify-content-center">
           <div className="col-md-12 col-lg-10">
-            <div className="card text-dark" style={cambiarTema()}>
+            <div className="card text-dark" style={changeTheme()}>
               {showErrorMessage && <p>{showErrorMessage()}</p>}
-              <Button variant={cambiarTemaButton()} onClick={handleShow}>
+              <Button variant={changeThemeButton()} onClick={handleShow}>
                 Share a comment
               </Button>
 
-              <Modal show={show} onHide={handleClose} style={cambiarTema()}>
-                <Modal.Header style={cambiarTema()} closeButton>
+              <Modal show={show} onHide={handleClose} style={changeTheme()}>
+                <Modal.Header style={changeTheme()} closeButton>
                   {" "}
                   Share your opinion{" "}
                 </Modal.Header>
@@ -113,7 +113,7 @@ function CommentListGame({ elementId }) {
                         <div
                           key={eachComment._id}
                           className="card-body p-3"
-                          style={cambiarTema()}
+                          style={changeTheme()}
                         >
                           <div className="d-flex flex-start">
                             <img
@@ -132,7 +132,7 @@ function CommentListGame({ elementId }) {
                                 user.user.role === "admin") && (
                                 <span className="game-comment-button-span">
                                   <Button
-                                    variant={cambiarTemaButtonBlue()}
+                                    variant={changeThemeButtonBlue()}
                                     size="sm"
                                     onClick={() =>
                                       handleModifyComment(
@@ -145,7 +145,7 @@ function CommentListGame({ elementId }) {
                                   </Button>
 
                                   <Button
-                                    variant={cambiarTemaButtonRed()}
+                                    variant={changeThemeButtonRed()}
                                     size="sm"
                                     onClick={() =>
                                       handleDeleteComment(eachComment._id)

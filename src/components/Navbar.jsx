@@ -16,7 +16,7 @@ function Navibar({ toggleTheme }) {
   const { authenticaUser, isLoggedIn, user } =
     useContext(AuthContext);
 
-    const {cambiarTema, cambiarTemaButton} = useContext(DarkThemeContext)
+    const {changeTheme, changeThemeButton} = useContext(DarkThemeContext)
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -28,12 +28,12 @@ function Navibar({ toggleTheme }) {
       key={false}
       expand={false}
       className="mb-3 NavBar"
-      style={cambiarTema()}
+      style={changeTheme()}
       expanded={expanded}
       
     >
-      <Container fluid style={cambiarTema()} onClick={() => setExpanded(expanded ? false : "expanded")}>
-        <Navbar.Brand href="#" style={cambiarTema()}>
+      <Container fluid style={changeTheme()} onClick={() => setExpanded(expanded ? false : "expanded")}>
+        <Navbar.Brand href="#" style={changeTheme()}>
           <NavLink to="/" >
             <img
               id="logo-navbar"
@@ -53,10 +53,10 @@ function Navibar({ toggleTheme }) {
           aria-labelledby={`offcanvasNavbarLabel-expand-${false}`}
           placement="end"
         >
-          <Offcanvas.Header  style={cambiarTema()}>
+          <Offcanvas.Header  style={changeTheme()}>
             <Offcanvas.Title
               id={`offcanvasNavbarLabel-expand-${false}`}
-              style={cambiarTema()}
+              style={changeTheme()}
             >
               {user ? (
                 <NavLink to="/profile" onClick={() => setExpanded(false)}>
@@ -75,18 +75,18 @@ function Navibar({ toggleTheme }) {
               )}
             </Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body style={cambiarTema()}>
-            <Nav className="d-grid gap-2 pe-3" style={cambiarTema()}>
+          <Offcanvas.Body style={changeTheme()}>
+            <Nav className="d-grid gap-2 pe-3" style={changeTheme()}>
               <NavLink to="/game" onClick={() => setExpanded(false)}>
                 <Button
-                  variant={cambiarTemaButton()}
+                  variant={changeThemeButton()}
                   style={{ minWidth: "100%" }}
                 >
                   Game List
                 </Button>
               </NavLink >
               <Button
-                variant={cambiarTemaButton()}
+                variant={changeThemeButton()}
                 style={{ minWidth: "100%" }}
                 onClick={()=> {toggleTheme() ; setExpanded(false)}}
               >
@@ -97,7 +97,7 @@ function Navibar({ toggleTheme }) {
                 <div className="d-grid gap-2 pe-3 padding0" style={{ minWidth: "100%", padding: "0px" }}>
                   <NavLink to="/changepassword" onClick={() => setExpanded(false)}>
                     <Button
-                      variant={cambiarTemaButton()}
+                      variant={changeThemeButton()}
                       style={{ minWidth: "100%" }}
                     >
                       Cambiar password
@@ -105,7 +105,7 @@ function Navibar({ toggleTheme }) {
                   </NavLink>
                   <NavLink to="/">
                     <Button
-                      variant={cambiarTemaButton()}
+                      variant={changeThemeButton()}
                       style={{ minWidth: "100%" }}
                       onClick={handleLogout}
                     >
@@ -120,7 +120,7 @@ function Navibar({ toggleTheme }) {
                 >
                   <NavLink to="/signup" onClick={() => setExpanded(false)}>
                     <Button
-                      variant={cambiarTemaButton()}
+                      variant={changeThemeButton()}
                       style={{ minWidth: "100%" }}
                     >
                       Signup
@@ -128,7 +128,7 @@ function Navibar({ toggleTheme }) {
                   </NavLink>
                   <NavLink to="/login" onClick={() => setExpanded(false)}>
                     <Button
-                      variant={cambiarTemaButton()}
+                      variant={changeThemeButton()}
                       style={{ minWidth: "100%" }}
                     >
                       Login

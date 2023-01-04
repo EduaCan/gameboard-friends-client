@@ -7,7 +7,7 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 
 function ChangePassword() {
 
-  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext)
+  const { changeTheme, changeThemeButton } = useContext(DarkThemeContext)
   const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
   const navigate = useNavigate();
 
@@ -21,8 +21,8 @@ function ChangePassword() {
   };
 
   return (
-    <div style={cambiarTema()}>
-      <form onSubmit={handleChangePassword} style={cambiarTema()} >
+    <div style={changeTheme()}>
+      <form onSubmit={handleChangePassword} style={changeTheme()} >
         <label>Old Password:</label>
         <input
           type="password"
@@ -47,7 +47,7 @@ function ChangePassword() {
           onChange={handleChange}
         />
 
-        <Button type="submit" variant={cambiarTemaButton()}>Change Password</Button>
+        <Button type="submit" variant={changeThemeButton()}>Change Password</Button>
 
         {showErrorMessage && <p>{showErrorMessage()}</p>}
       </form>

@@ -13,7 +13,7 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 //Muestra un formulario para que el user haga login
 function Login() {
   const { authenticaUser } = useContext(AuthContext);
-  const {cambiarTemaButton} = useContext(DarkThemeContext)
+  const {changeThemeButton} = useContext(DarkThemeContext)
   const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
   const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ function Login() {
             onChange={handleChange}
           />
         </Form.Group>
-        <Button variant={cambiarTemaButton()} type="submit">
+        <Button variant={changeThemeButton()} type="submit">
           Submit
         </Button>
         {showErrorMessage && <p>{showErrorMessage()}</p>}

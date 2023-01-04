@@ -49,23 +49,23 @@ function DarkThemeWrapper(props) {
     flexDirection: "column-reverse",
   };
 
-  const cambiarTema = () => {
+  const changeTheme = () => {
     return darkMode ? darkTheme : lightTheme;
   };
 
-  const cambiarTemaListScroll = () => {
+  const changeThemeListScroll = () => {
     return darkMode ? darkThemeListScroll : lightThemeListScroll;
   };
 
-  const cambiarTemaButton = () => {
+  const changeThemeButton = () => {
     return darkModeButton === "dark" ? "dark" : "success";
   };
 
-  const cambiarTemaButtonRed = () => {
+  const changeThemeButtonRed = () => {
     return darkModeButtonRed === "dark" ? "dark" : "danger";
   };
 
-  const cambiarTemaButtonBlue = () => {
+  const changeThemeButtonBlue = () => {
     return darkModeButtonBlue === "dark" ? "dark" : "primary";
   };
 
@@ -75,11 +75,11 @@ function DarkThemeWrapper(props) {
     lightTheme,
     darkThemeListScroll,
     lightThemeListScroll,
-    cambiarTema,
-    cambiarTemaListScroll,
-    cambiarTemaButton,
-    cambiarTemaButtonRed,
-    cambiarTemaButtonBlue,
+    changeTheme,
+    changeThemeListScroll,
+    changeThemeButton,
+    changeThemeButtonRed,
+    changeThemeButtonBlue,
   };
 
   return (

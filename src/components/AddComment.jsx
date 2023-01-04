@@ -19,14 +19,13 @@ function AddComment({
   handleClose,
 }) {
   const {
-    cambiarTema,
-    cambiarTemaButton
+    changeTheme,
+    changeThemeButton
   } = useContext(DarkThemeContext);
 
   const {showErrorMessage, navigateError} = useFormHook()
 
   const [contentUpdate, setContentUpdate] = useState(oldContent);
-
   const [content, setContent] = useState("");
 
   const handleContentChange = (event) => {
@@ -40,11 +39,9 @@ function AddComment({
 
   const handleModifyComment = async (event) => {
     event.preventDefault();
-
     const updateComment = {
       content: content,
     };
-
     try {
       await commentModifyService(commentId, updateComment);
       setContent("");
@@ -58,11 +55,9 @@ function AddComment({
 
   const handleComfirmContent = async (event) => {
     event.preventDefault();
-
     const newComment = {
       content: content,
     };
-
     try {
      (elementId.length > 12) ?
         await commentAddEventService(elementId, newComment):
@@ -75,7 +70,7 @@ function AddComment({
   };
 
   return (
-    <div style={cambiarTema()}>
+    <div style={changeTheme()}>
       {isModifyingComment === true ? (
         <div className="form-outline mb-3" >
           <form onSubmit={handleModifyComment} >
@@ -86,10 +81,10 @@ function AddComment({
               cols="30"
               rows="10"
               value={contentUpdate}
-              style={cambiarTema()}
+              style={changeTheme()}
               onChange={handleContentChange}
             ></textarea>
-            <Button variant={cambiarTemaButton()} type="submit">
+            <Button variant={changeThemeButton()} type="submit">
               Modify Comment
             </Button>
           </form>
@@ -104,10 +99,10 @@ function AddComment({
             cols="30"
             rows="10"
             value={content}
-            style={cambiarTema()}
+            style={changeTheme()}
             onChange={handleContentChange}
           ></textarea>
-          <Button variant={cambiarTemaButton()} type="submit">
+          <Button variant={changeThemeButton()} type="submit">
             Send
           </Button>
         </form>

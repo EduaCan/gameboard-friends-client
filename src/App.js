@@ -17,10 +17,10 @@ import { useContext } from "react";
 import { DarkThemeContext } from "./context/darkTheme.context";
 
 function App() {
-  const { cambiarTema, toggleTheme } = useContext(DarkThemeContext);
+  const { changeTheme, toggleTheme } = useContext(DarkThemeContext);
 
   return (
-    <div className="App" style={cambiarTema()}>
+    <div className="App" style={changeTheme()}>
       <Navibar toggleTheme={toggleTheme} />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -17,7 +17,7 @@ import { useUtilsHook } from "../hooks/useUtilsHook";
 
 function EventList({ gameid }) {
   const {  user } = useContext(AuthContext);
-  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext)
+  const { changeTheme, changeThemeButton } = useContext(DarkThemeContext)
   const { createdEdited } = useUtilsHook()
 
   const [eventList, setEventList] = useState(null);
@@ -70,12 +70,12 @@ function EventList({ gameid }) {
   }
 
   return (
-    <div style={cambiarTema()}>{eventList.length === 0 ?
+    <div style={changeTheme()}>{eventList.length === 0 ?
       (<h3>No events</h3>):
       (<div >
         {eventList.map((eachEvent) => {
           return (
-            <div key={eachEvent._id} className="card text-center" style={cambiarTema()}>
+            <div key={eachEvent._id} className="card text-center" style={changeTheme()}>
             <div className="card-body">
               <Link to={`/event/${eachEvent._id}`}>
                 <h5 className="card-title">{eachEvent.location}</h5>
@@ -84,16 +84,16 @@ function EventList({ gameid }) {
               {eachEvent.players.some(
                 (eachPlayer) => eachPlayer.username === user.user.username
               ) ? (
-                <Button variant={cambiarTemaButton()} onClick={() => handleRemovePlayer(eachEvent._id)}>
+                <Button variant={changeThemeButton()} onClick={() => handleRemovePlayer(eachEvent._id)}>
                   Quit Event
                 </Button>
               ) : (
-                <Button variant={cambiarTemaButton()} onClick={() => handleAddPlayer(eachEvent._id)}>
+                <Button variant={changeThemeButton()} onClick={() => handleAddPlayer(eachEvent._id)}>
                   Join to Event
                 </Button>
               )}
               {user.user.role === "admin" && (
-                <Button variant={cambiarTemaButton()} onClick={() => handleDeleteEvent(eachEvent._id)}>
+                <Button variant={changeThemeButton()} onClick={() => handleDeleteEvent(eachEvent._id)}>
                   Delete Event
                 </Button>
               )}
@@ -104,7 +104,7 @@ function EventList({ gameid }) {
         })}
       </div>)}
 
-      <Button variant={cambiarTemaButton()} onClick={handleShowEventForm}>
+      <Button variant={changeThemeButton()} onClick={handleShowEventForm}>
         Create an Event
       </Button>
       <Modal show={showEventForm} onHide={handleCloseEventForm}>

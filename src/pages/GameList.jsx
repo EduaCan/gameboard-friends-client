@@ -11,7 +11,7 @@ function GameList() {
   const [list, setList] = useState("");
   const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
   const [isFetching, setIsFetching] = useState(true);
-  const { cambiarTema } = useContext(DarkThemeContext);
+  const { changeTheme } = useContext(DarkThemeContext);
 
 
 
@@ -55,26 +55,26 @@ function GameList() {
               variant="top"
               src={eachGame.image_url}
               alt={eachGame.name}
-              style={cambiarTema()}
+              style={changeTheme()}
             />
-            <Card.Body style={cambiarTema()}>
-              <Card.Title style={cambiarTema()}>{eachGame.name}</Card.Title>
-              <Card.Text style={cambiarTema()}>
+            <Card.Body style={changeTheme()}>
+              <Card.Title style={changeTheme()}>{eachGame.name}</Card.Title>
+              <Card.Text style={changeTheme()}>
                 {eachGame.description}
               </Card.Text>
             </Card.Body>
-            <ListGroup className="list-group-flush" style={cambiarTema()}>
-              <ListGroup.Item style={cambiarTema()}>
+            <ListGroup className="list-group-flush" style={changeTheme()}>
+              <ListGroup.Item style={changeTheme()}>
                 Price: {eachGame.price}
               </ListGroup.Item>
-              <ListGroup.Item style={cambiarTema()}>
+              <ListGroup.Item style={changeTheme()}>
                 Min Players: {eachGame.min_players}
               </ListGroup.Item>
-              <ListGroup.Item style={cambiarTema()}>
+              <ListGroup.Item style={changeTheme()}>
                 Max Players: {eachGame.max_players}
               </ListGroup.Item>
             </ListGroup>
-            <Card.Body style={cambiarTema()}>
+            <Card.Body style={changeTheme()}>
               <Link to={`/game/${eachGame.id}`}>View Details</Link>
             </Card.Body>
           </Card>

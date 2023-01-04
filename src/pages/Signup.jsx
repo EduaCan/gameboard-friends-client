@@ -12,7 +12,7 @@ function Signup() {
 
   const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
 
-  const { cambiarTemaButton } = useContext(DarkThemeContext);
+  const { changeThemeButton } = useContext(DarkThemeContext);
   const navigate = useNavigate();
 
 
@@ -83,7 +83,7 @@ function Signup() {
             Please re-type for security reasons.
           </Form.Text>
         </Form.Group>
-        <Button variant={cambiarTemaButton()} type="submit">
+        <Button variant={changeThemeButton()} type="submit">
           Submit
         </Button>
         {showErrorMessage && <p>{showErrorMessage()}</p>}

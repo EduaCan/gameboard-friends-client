@@ -16,7 +16,7 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 //componente que evita que veas info privada si no estas logged
 function GameDetailsPrivate({ gameid, gameName }) {
   const { isLoggedIn } = useContext(AuthContext);
-  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext);
+  const { changeTheme, changeThemeButton } = useContext(DarkThemeContext);
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
 
   const [favorites, setFavorites] = useState(null);
@@ -72,15 +72,15 @@ function GameDetailsPrivate({ gameid, gameName }) {
   if (isLoggedIn === true) {
     return (
       <div>
-        <Button variant={cambiarTemaButton()} onClick={handleShowCommentsList}>
+        <Button variant={changeThemeButton()} onClick={handleShowCommentsList}>
           See Comments
         </Button>
-        <Button variant={cambiarTemaButton()} onClick={handleShowEventList}>
+        <Button variant={changeThemeButton()} onClick={handleShowEventList}>
           See Events
         </Button>
 
         <Modal show={showCommentsList} onHide={handleCloseCommentsList}>
-          <Modal.Header closeButton style={cambiarTema()}>
+          <Modal.Header closeButton style={changeTheme()}>
             {" "}
             {gameName}{" "}
           </Modal.Header>
@@ -88,7 +88,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
           <CommentListGame elementId={gameid} />
         </Modal>
         <Modal show={showEventList} onHide={handleCloseEventList}>
-          <Modal.Header closeButton style={cambiarTema()}>
+          <Modal.Header closeButton style={changeTheme()}>
             {" "}
             Events{" "}
           </Modal.Header>
@@ -98,14 +98,14 @@ function GameDetailsPrivate({ gameid, gameName }) {
 
         {favorites.some((elem) => elem === gameid) ? (
           <Button
-            variant={cambiarTemaButton()}
+            variant={changeThemeButton()}
             onClick={() => handleRemoveGameFromFavourites(gameid)}
           >
             Remove game from favourites
           </Button>
         ) : (
           <Button
-            variant={cambiarTemaButton()}
+            variant={changeThemeButton()}
             onClick={() => handleAddGameToFavourites(gameid)}
           >
             Add game to favorite

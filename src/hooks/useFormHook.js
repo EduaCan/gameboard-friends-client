@@ -2,13 +2,9 @@ import { useState } from "react";
 import DotLoader from "react-spinners/ClipLoader";
 import { useNavigate } from "react-router-dom";
 
-
   export const useFormHook = () => {
-
-    const [data, setData] = useState("")
-    const [errorMessage, setErrorMessage] = useState("")
-  
     //change form
+    const [data, setData] = useState("")
     const handleChange = (event) => {
       const  {name, value} = event.target
       setData({...data, [name]: value})
@@ -17,6 +13,7 @@ import { useNavigate } from "react-router-dom";
     const showData = () => data
     const editData = (data) => setData(data)
     //error
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
     const showErrorMessage = () => errorMessage
     const changeErrorMessage = (error) => setErrorMessage(error)
@@ -36,7 +33,6 @@ import { useNavigate } from "react-router-dom";
         );
       }
     
-
     return {
       handleChange,
       showData,

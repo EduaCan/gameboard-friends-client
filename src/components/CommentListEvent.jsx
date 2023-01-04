@@ -19,11 +19,11 @@ function CommentListEvent({ elementId, players }) {
   const { createdEdited } = useUtilsHook();
 
   const {
-    cambiarTema,
-    cambiarTemaListScroll,
-    cambiarTemaButton,
-    cambiarTemaButtonRed,
-    cambiarTemaButtonBlue,
+    changeTheme,
+    changeThemeListScroll,
+    changeThemeButton,
+    changeThemeButtonRed,
+    changeThemeButtonBlue,
   } = useContext(DarkThemeContext);
 
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
@@ -92,7 +92,7 @@ function CommentListEvent({ elementId, players }) {
 
   return (
     <div>
-      <section style={cambiarTema()}>
+      <section style={changeTheme()}>
         <div className="container py-5">
           <div className="row">
             <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
@@ -100,7 +100,7 @@ function CommentListEvent({ elementId, players }) {
                 Members
               </h5>
               <div className="card">
-                <div className="card-body" style={cambiarTema()}>
+                <div className="card-body" style={changeTheme()}>
                   <ul className="list-unstyled mb-0">
                     {players.map((eachMember, index) => {
                       return (
@@ -111,7 +111,7 @@ function CommentListEvent({ elementId, players }) {
                               ? "p-2"
                               : "p-2 border-bottom"
                           }
-                          style={cambiarTema()}
+                          style={changeTheme()}
                         >
                           <div className="d-flex justify-content-between">
                             <div className="d-flex flex-row">
@@ -137,7 +137,7 @@ function CommentListEvent({ elementId, players }) {
             </div>
 
             <div className="col-md-6 col-lg-7 col-xl-8">
-              <ul id="list-scroll" style={cambiarTemaListScroll()}>
+              <ul id="list-scroll" style={changeThemeListScroll()}>
                 {comments.length === 0 ? (
                   <h3>No comments yet, be the first to comment</h3>
                 ) : (
@@ -162,7 +162,7 @@ function CommentListEvent({ elementId, players }) {
                               <div className="card card-100">
                                 <div
                                   className="card-header d-flex justify-content-between p-3"
-                                  style={cambiarTema()}
+                                  style={changeTheme()}
                                 >
                                   <p className="fw-bold mb-0">
                                     {eachComment.idUser.username}
@@ -174,7 +174,7 @@ function CommentListEvent({ elementId, players }) {
                                 </div>
                                 <div
                                   className="card-body"
-                                  style={cambiarTema()}
+                                  style={changeTheme()}
                                 >
                                   <p className="mb-0 mb-0-left">
                                     {eachComment.content}
@@ -190,7 +190,7 @@ function CommentListEvent({ elementId, players }) {
                               <div className="card w-100">
                                 <div
                                   className="card-header d-flex justify-content-between p-3"
-                                  style={cambiarTema()}
+                                  style={changeTheme()}
                                 >
                                   <p className="text-muted small mb-0">
                                     <i className="far fa-clock"></i>
@@ -199,7 +199,7 @@ function CommentListEvent({ elementId, players }) {
                                   <div>
                                     <Button
                                       size="sm"
-                                      variant={cambiarTemaButtonBlue()}
+                                      variant={changeThemeButtonBlue()}
                                       onClick={() =>
                                         handleModifyComment(
                                           eachComment._id,
@@ -211,7 +211,7 @@ function CommentListEvent({ elementId, players }) {
                                     </Button>
                                     <Button
                                       size="sm"
-                                      variant={cambiarTemaButtonRed()}
+                                      variant={changeThemeButtonRed()}
                                       onClick={() =>
                                         handleDeleteComment(eachComment._id)
                                       }
@@ -225,11 +225,11 @@ function CommentListEvent({ elementId, players }) {
                                 </div>
                                 <div
                                   className="card-body"
-                                  style={cambiarTema()}
+                                  style={changeTheme()}
                                 >
                                   <p
                                     className="mb-0 mb-0-right"
-                                    style={cambiarTema()}
+                                    style={changeTheme()}
                                   >
                                     {eachComment.content}
                                   </p>
@@ -250,19 +250,19 @@ function CommentListEvent({ elementId, players }) {
               </ul>
               <div className="bg-white mb-3">
                 <div className="form-outline">
-                  <form onSubmit={handleComfirmContent} style={cambiarTema()}>
+                  <form onSubmit={handleComfirmContent} style={changeTheme()}>
                     <textarea
                       className="form-control"
                       id="textAreaExample2"
                       name="content"
                       cols="30"
                       rows="4"
-                      style={cambiarTema()}
+                      style={changeTheme()}
                       value={content}
                       onChange={handleContentChange}
                     ></textarea>
 
-                    <Button variant={cambiarTemaButton()} type="submit">
+                    <Button variant={changeThemeButton()} type="submit">
                       Send
                     </Button>
                   </form>

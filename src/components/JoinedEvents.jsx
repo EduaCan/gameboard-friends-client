@@ -8,7 +8,7 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 //Muestra una lista de eventos en los que el user participa
 function JoinedEvents({ eventList, eventGamesImg, getData }) {
   const { showErrorMessage, navigateError} = useFormHook()
-  const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext);
+  const { changeTheme, changeThemeButton } = useContext(DarkThemeContext);
 
   const handleRemovePlayer = async (eventid) => {
     try {
@@ -19,13 +19,13 @@ function JoinedEvents({ eventList, eventGamesImg, getData }) {
   };
 
   return (
-    <ul className="list-group list-group-light " style={cambiarTema()}>
+    <ul className="list-group list-group-light " style={changeTheme()}>
       {eventList.map((eachEvent) => {
         return (
           <li
             key={eachEvent._id}
             className="list-group-item d-flex justify-content-between align-items-center"
-            style={cambiarTema()}
+            style={changeTheme()}
           >
             <div className="d-flex align-items-center">
               <img
@@ -48,7 +48,7 @@ function JoinedEvents({ eventList, eventGamesImg, getData }) {
               </div>
             </div>
             <Button
-              variant={cambiarTemaButton()}
+              variant={changeThemeButton()}
               className="btn btn-success btn-rounded btn-sm"
               onClick={() => handleRemovePlayer(eachEvent._id)}
             >
