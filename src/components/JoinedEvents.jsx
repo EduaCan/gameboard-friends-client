@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
@@ -7,17 +7,15 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 
 //Muestra una lista de eventos en los que el user participa
 function JoinedEvents({ eventList, eventGamesImg, getData }) {
-  const { showErrorMessage, changeErrorMessage} = useFormHook()
+  const { showErrorMessage, navigateError} = useFormHook()
   const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext);
-  const navigate = useNavigate();
 
   const handleRemovePlayer = async (eventid) => {
     try {
       await removePlayerFromEventService(eventid);
       getData();
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
+      navigateError(error)    }
   };
 
   return (
@@ -59,7 +57,7 @@ function JoinedEvents({ eventList, eventGamesImg, getData }) {
           </li>
         );
       })}
-      {showErrorMessage !== "" && <p>{showErrorMessage}</p>}
+      {showErrorMessage && <p>{showErrorMessage()}</p>}
     </ul>
   );
 }

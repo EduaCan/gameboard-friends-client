@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
 import {
   commentListEventService,
   commentDeleteService,
   commentAddEventService,
 } from "../services/comment.service";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import { useContext } from "react";
-import { useFormHook } from "../hooks/useFormHook"
+import { useFormHook } from "../hooks/useFormHook";
 import AddComment from "./AddComment";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { useUtilsHook } from "../hooks/useUtilsHook";
 //https://mdbootstrap.com/docs/standard/extended/chat/
 
-//Muestra la lista de comments
 function CommentListEvent({ elementId, players }) {
-  const { user, createdEdited } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { createdEdited } = useUtilsHook();
 
   const {
     cambiarTema,
@@ -27,9 +26,7 @@ function CommentListEvent({ elementId, players }) {
     cambiarTemaButtonBlue,
   } = useContext(DarkThemeContext);
 
-  const { showErrorMessage, changeErrorMessage, handleChange } = useFormHook()
-
-  const navigate = useNavigate();
+  const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
 
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -70,11 +67,10 @@ function CommentListEvent({ elementId, players }) {
       setContent("");
       getData(elementId);
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
+      navigateError(error);
     }
   };
 
-  //para eliminar un comment
   const handleDeleteComment = async (commentid) => {
     await commentDeleteService(commentid);
     getData(elementId);
@@ -84,25 +80,14 @@ function CommentListEvent({ elementId, players }) {
     try {
       let commentList = await commentListEventService(elementId);
       setComments(commentList.data);
-
       setIsFetching(false);
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
+      navigateError(error);
     }
   };
 
-  if (isFetching === true) {
-    return (
-      <div>
-        <ClipLoader
-          color={"grey"}
-          loading={true}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
-    );
+  if (isFetching) {
+    return fetchingLoader();
   }
 
   return (
@@ -114,7 +99,6 @@ function CommentListEvent({ elementId, players }) {
               <h5 className="font-weight-bold mb-3 text-center text-lg-start">
                 Members
               </h5>
-
               <div className="card">
                 <div className="card-body" style={cambiarTema()}>
                   <ul className="list-unstyled mb-0">

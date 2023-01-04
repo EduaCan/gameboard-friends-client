@@ -10,7 +10,7 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 //Muestra un formulario para que el user se registre
 function Signup() {
 
-  const {handleChange, showData, showErrorMessage, changeErrorMessage} = useFormHook()
+  const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
 
   const { cambiarTemaButton } = useContext(DarkThemeContext);
   const navigate = useNavigate();
@@ -22,8 +22,7 @@ function Signup() {
       await signupService(showData());
       navigate("/login");
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
+      navigateError(error)    }
   };
 
   return (

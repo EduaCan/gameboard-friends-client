@@ -3,14 +3,12 @@ import {
   commentAddGameService,
   commentAddEventService,
 } from "../services/comment.service";
-import { useNavigate } from "react-router-dom";
 import { commentModifyService } from "../services/comment.service";
 import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import {useFormHook} from "../hooks/useFormHook.js"
 
-//Formulario para añadir un comment
 function AddComment({
   elementId,
   getData,
@@ -25,13 +23,11 @@ function AddComment({
     cambiarTemaButton
   } = useContext(DarkThemeContext);
 
-  const {showErrorMessage, changeErrorMessage} = useFormHook()
+  const {showErrorMessage, navigateError} = useFormHook()
 
   const [contentUpdate, setContentUpdate] = useState(oldContent);
 
   const [content, setContent] = useState("");
-
-  const navigate = useNavigate();
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
@@ -56,8 +52,7 @@ function AddComment({
       setIsModifyingComment(false);
       handleClose();
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-      }
+      navigateError(error)      }
     }
  
 
@@ -76,8 +71,7 @@ function AddComment({
       getData(elementId);
       handleClose();
     } catch (error) {
-      (error.response && error.response.status === 400) ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error")
-    }
+      navigateError(error)    }
   };
 
   return (
@@ -120,7 +114,7 @@ function AddComment({
         </div>
       )}
 
-      {showErrorMessage && <p>{showErrorMessage}</p>}
+      {showErrorMessage && <p>{showErrorMessage()}</p>}
     </div>
   );
 }

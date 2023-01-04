@@ -1,7 +1,5 @@
 import { gameListService } from "../services/game.service";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DotLoader from "react-spinners/ClipLoader";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -9,44 +7,33 @@ import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
 import { DarkThemeContext } from "../context/darkTheme.context";
 
-//Muestra la lista de juegos que viene de la API
 function GameList() {
   const [list, setList] = useState("");
-  const {showErrorMessage, changeErrorMessage} = useFormHook()
+  const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
   const [isFetching, setIsFetching] = useState(true);
   const { cambiarTema } = useContext(DarkThemeContext);
 
-  const navigate = useNavigate();
+
 
   useEffect(() => {
-    handleGameList();
+    getData();
   }, []);
 
-  const handleGameList = async () => {
+  const getData = async () => {
     try {
       const response = await gameListService();
       setList(response.data);
       setIsFetching(false);
       return;
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
+      navigateError(error)    }
   };
 
-  if (isFetching === true) {
+  if (isFetching) {
     return (
-      <div>
-        <DotLoader
-          color={"grey"}
-          loading={true}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
+      fetchingLoader()
     );
   }
-
   return (
     <div
       style={{
@@ -56,7 +43,7 @@ function GameList() {
         justifyContent: "center",
       }}
     >
-      {showErrorMessage !== "" && <p>{showErrorMessage}</p>}
+      {showErrorMessage  && <p>{showErrorMessage}</p>}
 
       {list.map((eachGame) => {
         return (

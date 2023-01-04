@@ -1,11 +1,8 @@
 import { addEventService } from "../services/event.service";
-import { useNavigate } from "react-router-dom";
 import { useFormHook } from "../hooks/useFormHook";
 
 function AddEventForm({ gameid, getData, handleCloseEventForm }) {
-  const {showErrorMessage, changeErrorMessage, handleChange, showData} = useFormHook()
-
-  const navigate = useNavigate();
+  const {showErrorMessage, navigateError, handleChange, showData} = useFormHook()
 
   const handleComfirmEvent = async (event) => {
     event.preventDefault();
@@ -13,9 +10,8 @@ function AddEventForm({ gameid, getData, handleCloseEventForm }) {
       await addEventService(gameid, showData());
       handleCloseEventForm();
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
-    getData(gameid);
+      navigateError(error)    }
+      getData(gameid);
   };
 
   return (
@@ -31,7 +27,7 @@ function AddEventForm({ gameid, getData, handleCloseEventForm }) {
 
         <button typr="submit">Comfirm Event</button>
       </form>
-      {showErrorMessage && <p>{showErrorMessage}</p>}
+      {showErrorMessage && <p>{showErrorMessage()}</p>}
     </div>
   );
 }

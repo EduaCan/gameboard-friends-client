@@ -9,7 +9,6 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { useState } from "react";
 import { DarkThemeContext } from "../context/darkTheme.context";
 
-//Barra de navegacion con info privada, que muestra si estas logged
 function Navibar({ toggleTheme }) {
 
   const [expanded, setExpanded] = useState(false)
@@ -21,7 +20,6 @@ function Navibar({ toggleTheme }) {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    // despues de borrar el token, volvemos a invocar la funcion de validarlo
     authenticaUser();
   };
 

@@ -5,32 +5,30 @@ import {
   removePlayerFromEventService,
   eventDeleteService,
 } from "../services/event.service";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddEventForm from "./AddEventForm";
-import DotLoader from "react-spinners/ClipLoader";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import { useFormHook } from "../hooks/useFormHook"
+import { useUtilsHook } from "../hooks/useUtilsHook";
 
-//Muestra la lista de eventos de un juego
 function EventList({ gameid }) {
-  const {  user, createdEdited } = useContext(AuthContext);
+  const {  user } = useContext(AuthContext);
   const { cambiarTema, cambiarTemaButton } = useContext(DarkThemeContext)
+  const { createdEdited } = useUtilsHook()
 
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const { showErrorMessage, changeErrorMessage } = useFormHook()
+  const { showErrorMessage, navigateError, fetchingLoader } = useFormHook()
   
 
   const [showEventForm, setShowEventForm] = useState(false);
 
   const handleCloseEventForm = () => setShowEventForm(false);
   const handleShowEventForm = () => setShowEventForm(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -41,8 +39,7 @@ function EventList({ gameid }) {
       await addPlayerToEventService(eventid);
       getData();
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
+      navigateError(error)    }
   };
 
   const handleRemovePlayer = async (eventid) => {
@@ -50,11 +47,9 @@ function EventList({ gameid }) {
       await removePlayerFromEventService(eventid);
       getData();
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
+      navigateError(error)    }
   };
 
-  //para que el admin borre el evento
   const handleDeleteEvent = async (eventid) => {
     await eventDeleteService(eventid);
   };
@@ -65,21 +60,12 @@ function EventList({ gameid }) {
       setEventList(response.data);
       setIsFetching(false);
     } catch (error) {
-      navigate("/error");
-    }
+      navigateError(error)    }
   };
 
-  if (isFetching === true) {
+  if (isFetching) {
     return (
-      <div style={cambiarTema()}>
-      <DotLoader
-        color={"red"}
-        loading={true}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-      </div>
+      fetchingLoader()
     );
   }
 
@@ -89,22 +75,12 @@ function EventList({ gameid }) {
       (<div >
         {eventList.map((eachEvent) => {
           return (
-
-
             <div key={eachEvent._id} className="card text-center" style={cambiarTema()}>
             <div className="card-body">
               <Link to={`/event/${eachEvent._id}`}>
                 <h5 className="card-title">{eachEvent.location}</h5>
               </Link>
-
-
-
-             
                   <p className="card-text">Number of Players Joined: {eachEvent.players.length}</p>
-
-
-
-
               {eachEvent.players.some(
                 (eachPlayer) => eachPlayer.username === user.user.username
               ) ? (
@@ -121,8 +97,6 @@ function EventList({ gameid }) {
                   Delete Event
                 </Button>
               )}
-
-
                 </div>
                 <div className="card-footer text-muted">{createdEdited(eachEvent)}</div>
             </div>

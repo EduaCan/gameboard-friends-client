@@ -1,7 +1,6 @@
 import { gameDetailsService } from "../services/game.service";
-import DotLoader from "react-spinners/ClipLoader";
 import { useFormHook } from "../hooks/useFormHook"
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import GameDetailsPrivate from "../components/GameDetailsPrivate";
@@ -9,8 +8,7 @@ import GameDetailsPrivate from "../components/GameDetailsPrivate";
 //Muestra detalles de un juego
 function GameDetails() {
   const { gameid } = useParams();
-  const {showErrorMessage, changeErrorMessage} = useFormHook()
-  const navigate = useNavigate();
+  const {showErrorMessage, fetchingLoader, navigateError} = useFormHook()
 
   const [details, setDetails] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -25,21 +23,13 @@ function GameDetails() {
       setDetails(response.data[0]);
       setIsFetching(false);
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
+      navigateError(error)
     }
   };
 
-  if (isFetching === true) {
+  if (isFetching) {
     return (
-      <div>
-        <DotLoader
-          color={"grey"}
-          loading={true}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
+      fetchingLoader()
     );
   }
 

@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
 import {
   commentListGameService,
   commentDeleteService,
 } from "../services/comment.service";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import { useContext } from "react";
 import AddComment from "./AddComment";
@@ -12,12 +10,14 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import { useFormHook } from "../hooks/useFormHook";
+import { useUtilsHook } from "../hooks/useUtilsHook";
 
 //https://mdbootstrap.com/docs/standard/extended/comments/
 
 //Muestra la lista de comments, sea del juego o del evento
 function CommentListGame({ elementId }) {
-  const { user, createdEdited } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { createdEdited } = useUtilsHook()
 
   const {
     cambiarTemaButton,
@@ -26,9 +26,8 @@ function CommentListGame({ elementId }) {
     cambiarTema,
   } = useContext(DarkThemeContext);
 
-  const navigate = useNavigate();
 
-  const { showErrorMessage, changeErrorMessage } = useFormHook();
+  const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
 
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -66,23 +65,13 @@ function CommentListGame({ elementId }) {
       setComments(commentList.data);
       setIsFetching(false);
     } catch (error) {
-      error.response && error.response.status === 400
-        ? changeErrorMessage(error.response.data.errorMessage)
-        : navigate("/error");
+      navigateError(error)
     }
   };
 
-  if (isFetching === true) {
+  if (isFetching) {
     return (
-      <div style={cambiarTema()}>
-        <ClipLoader
-          color={"red"}
-          loading={true}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
+      fetchingLoader()
     );
   }
 

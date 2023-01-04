@@ -14,7 +14,7 @@ import { DarkThemeContext } from "../context/darkTheme.context";
 function Login() {
   const { authenticaUser } = useContext(AuthContext);
   const {cambiarTemaButton} = useContext(DarkThemeContext)
-  const {handleChange, showData, showErrorMessage, changeErrorMessage} = useFormHook()
+  const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
@@ -25,8 +25,8 @@ function Login() {
       authenticaUser(); 
       navigate("/profile");
     } catch (error) {
-      error.response && error.response.status === 400 ? changeErrorMessage(error.response.data.errorMessage) : navigate("/error");
-    }
+      navigateError(error)
+     }
   };
   return (
     <div>
