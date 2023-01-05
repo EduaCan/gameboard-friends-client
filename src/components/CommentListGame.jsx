@@ -22,7 +22,7 @@ function CommentListGame({ elementId }) {
     changeTheme,
   } = useContext(DarkThemeContext);
   //hooks
-  const { createdEdited } = useUtilsHook()
+  const { createdEdited } = useUtilsHook();
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
   //states
   const [comments, setComments] = useState(null);
@@ -60,14 +60,12 @@ function CommentListGame({ elementId }) {
       setComments(commentList.data);
       setIsFetching(false);
     } catch (error) {
-      navigateError(error)
+      navigateError(error);
     }
   };
 
   if (isFetching) {
-    return (
-      fetchingLoader()
-    );
+    return fetchingLoader();
   }
 
   return (
@@ -96,7 +94,7 @@ function CommentListGame({ elementId }) {
                   handleClose={handleClose}
                 />
               </Modal>
-              
+
               {comments.length === 0 ? (
                 <h3>No comments yet</h3>
               ) : (

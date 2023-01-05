@@ -1,16 +1,16 @@
-
 import { signupService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useContext } from "react";
 import { DarkThemeContext } from "../context/darkTheme.context";
-import { useFormHook } from "../hooks/useFormHook"
+import { useFormHook } from "../hooks/useFormHook";
 
 //Muestra un formulario para que el user se registre
 function Signup() {
   //hook
-  const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
+  const { handleChange, showData, showErrorMessage, navigateError } =
+    useFormHook();
   //context
   const { changeThemeButton } = useContext(DarkThemeContext);
   //to navigate to login after signup
@@ -22,7 +22,8 @@ function Signup() {
       await signupService(showData());
       navigate("/login");
     } catch (error) {
-      navigateError(error)    }
+      navigateError(error);
+    }
   };
 
   return (

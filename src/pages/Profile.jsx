@@ -1,6 +1,6 @@
 import { AuthContext } from "../context/auth.context";
 import { useEffect, useState, useContext } from "react";
-import { useFormHook } from "../hooks/useFormHook"
+import { useFormHook } from "../hooks/useFormHook";
 import { gameDetailsService } from "../services/game.service";
 import { eventListJoinedService } from "../services/event.service";
 import { getFavGamesArrayService } from "../services/user.service";
@@ -12,7 +12,7 @@ function Profile() {
   //context
   const { user } = useContext(AuthContext);
   //hook
-  const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
+  const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
   //states
   const [details, setDetails] = useState(null);
   const [eventList, setEventList] = useState(null);
@@ -30,9 +30,9 @@ function Profile() {
       const responseEvents = await eventListJoinedService();
       setEventList(responseEvents.data);
       //get events game pics
-      if (responseEvents.data.length !== 0) { 
+      if (responseEvents.data.length !== 0) {
         const finalResponse = await gameDetailsService(
-          responseEvents.data.map(eachEvent =>  eachEvent.game)
+          responseEvents.data.map((eachEvent) => eachEvent.game)
         );
         let gameListImg = finalResponse.data.map(({ id, image_url }) => {
           return { id: id, image_url: image_url };
@@ -49,13 +49,12 @@ function Profile() {
         setIsFetching(false);
       }
     } catch (error) {
-        navigateError(error)    }
+      navigateError(error);
+    }
   };
 
   if (isFetching) {
-    return (
-      fetchingLoader()
-    );
+    return fetchingLoader();
   }
 
   return (

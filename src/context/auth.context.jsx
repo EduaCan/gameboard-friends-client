@@ -8,7 +8,7 @@ function AuthWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const { fetchingLoader } = useFormHook()
+  const { fetchingLoader } = useFormHook();
 
   useEffect(() => {
     authenticaUser();
@@ -33,13 +33,11 @@ function AuthWrapper(props) {
     user,
     authenticaUser,
     setIsLoggedIn,
-    setUser
+    setUser,
   };
 
   if (isFetching) {
-    return (
-      fetchingLoader()
-    );
+    return fetchingLoader();
   }
 
   return (

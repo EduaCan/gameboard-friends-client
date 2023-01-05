@@ -1,9 +1,15 @@
 import { addEventService } from "../services/event.service";
 import { useFormHook } from "../hooks/useFormHook";
+import { useContext } from "react";
+import { DarkThemeContext } from "../context/darkTheme.context";
+import Button from "react-bootstrap/Button";
 
 function AddEventForm({ gameid, getData, handleCloseEventForm }) {
+  //contexts
+  const { changeTheme, changeThemeButton } = useContext(DarkThemeContext)
   //hook
-  const {showErrorMessage, navigateError, handleChange, showData} = useFormHook()
+  const { showErrorMessage, navigateError, handleChange, showData } =
+    useFormHook();
   //create a new event
   const handleComfirmEvent = async (event) => {
     event.preventDefault();
@@ -11,14 +17,15 @@ function AddEventForm({ gameid, getData, handleCloseEventForm }) {
       await addEventService(gameid, showData());
       handleCloseEventForm();
     } catch (error) {
-      navigateError(error)    }
-      getData(gameid);
+      navigateError(error);
+    }
+    getData(gameid);
   };
 
   return (
-    <div>
+    <div style={changeTheme()}>
       <form onSubmit={handleComfirmEvent}>
-        <label>Location: </label>
+        <label> Event Name/Location: </label>
         <input
           type="text"
           name="location"
@@ -26,7 +33,9 @@ function AddEventForm({ gameid, getData, handleCloseEventForm }) {
           onChange={handleChange}
         />
 
-        <button typr="submit">Comfirm Event</button>
+<Button variant={changeThemeButton()} type="submit">
+              Create Event
+            </Button>
       </form>
       {showErrorMessage && <p>{showErrorMessage()}</p>}
     </div>

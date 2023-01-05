@@ -2,20 +2,19 @@ import { loginService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useFormHook } from "../hooks/useFormHook"
+import { useFormHook } from "../hooks/useFormHook";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { DarkThemeContext } from "../context/darkTheme.context";
-
-
 
 //form to login a pre-registered user
 function Login() {
   //contexts
   const { authenticaUser } = useContext(AuthContext);
-  const {changeThemeButton} = useContext(DarkThemeContext)
+  const { changeThemeButton } = useContext(DarkThemeContext);
   //states
-  const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
+  const { handleChange, showData, showErrorMessage, navigateError } =
+    useFormHook();
   //to navigate to profile after login
   const navigate = useNavigate();
   //send auth token
@@ -24,11 +23,11 @@ function Login() {
     try {
       const response = await loginService(showData());
       localStorage.setItem("authToken", response.data.authToken);
-      authenticaUser(); 
+      authenticaUser();
       navigate("/profile");
     } catch (error) {
-      navigateError(error)
-     }
+      navigateError(error);
+    }
   };
   return (
     <div>

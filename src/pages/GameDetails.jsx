@@ -1,5 +1,5 @@
 import { gameDetailsService } from "../services/game.service";
-import { useFormHook } from "../hooks/useFormHook"
+import { useFormHook } from "../hooks/useFormHook";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GameDetailsPrivate from "../components/GameDetailsPrivate";
@@ -9,7 +9,7 @@ function GameDetails() {
   //params
   const { gameid } = useParams();
   //hook
-  const {showErrorMessage, fetchingLoader, navigateError} = useFormHook()
+  const { showErrorMessage, fetchingLoader, navigateError } = useFormHook();
   //states
   const [details, setDetails] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -17,21 +17,19 @@ function GameDetails() {
   useEffect(() => {
     getData();
   }, []);
-  //get full info of a game  
+  //get full info of a game
   const getData = async () => {
     try {
       const response = await gameDetailsService(gameid);
       setDetails(response.data[0]);
       setIsFetching(false);
     } catch (error) {
-      navigateError(error)
+      navigateError(error);
     }
   };
 
   if (isFetching) {
-    return (
-      fetchingLoader()
-    );
+    return fetchingLoader();
   }
 
   return (
@@ -42,7 +40,7 @@ function GameDetails() {
       <p>Min Players: {details.min_players}</p>
       <p>Max Players: {details.max_players}</p>
       <p>{details.description}</p>
-      <GameDetailsPrivate gameid={gameid} gameName={details.name}/>
+      <GameDetailsPrivate gameid={gameid} gameName={details.name} />
       {showErrorMessage && <p>{showErrorMessage}</p>}
     </div>
   );

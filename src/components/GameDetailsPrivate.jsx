@@ -70,7 +70,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
     return fetchingLoader();
   }
 
-  //info only alllowed to registered users
+  //just 3 buttons (plus 2 modals) only alllowed to registered users
   if (isLoggedIn === true) {
     return (
       <div>
@@ -110,7 +110,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
             variant={changeThemeButton()}
             onClick={() => handleAddGameToFavourites(gameid)}
           >
-            Add game to favorite
+            Add game to favorites
           </Button>
         )}
         {showErrorMessage && <p>{showErrorMessage()}</p>}
