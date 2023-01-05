@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   commentListEventService,
   commentDeleteService,
@@ -6,18 +6,15 @@ import {
 } from "../services/comment.service";
 import { AuthContext } from "../context/auth.context";
 import { DarkThemeContext } from "../context/darkTheme.context";
-import { useContext } from "react";
 import { useFormHook } from "../hooks/useFormHook";
+import { useUtilsHook } from "../hooks/useUtilsHook";
 import AddComment from "./AddComment";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { useUtilsHook } from "../hooks/useUtilsHook";
-//https://mdbootstrap.com/docs/standard/extended/chat/
-
+//list of comments of an event
 function CommentListEvent({ elementId, players }) {
+  //contexts
   const { user } = useContext(AuthContext);
-  const { createdEdited } = useUtilsHook();
-
   const {
     changeTheme,
     changeThemeListScroll,
@@ -25,18 +22,18 @@ function CommentListEvent({ elementId, players }) {
     changeThemeButtonRed,
     changeThemeButtonBlue,
   } = useContext(DarkThemeContext);
-
+  //hooks
+  const { createdEdited } = useUtilsHook();
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
-
+  //states
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [isModifyingComment, setIsModifyingComment] = useState(false);
   const [commentId, setCommentId] = useState(null);
   const [contentCom, setContentCom] = useState("");
   const [content, setContent] = useState("");
-
   const [show, setShow] = useState(false);
-
+  //modify comment modal handlers
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -44,6 +41,7 @@ function CommentListEvent({ elementId, players }) {
     getData(elementId);
   }, []);
 
+  //comment form change handlers
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
@@ -54,14 +52,12 @@ function CommentListEvent({ elementId, players }) {
     handleShow();
     setContentCom(content);
   };
-
+  //save content
   const handleComfirmContent = async (event) => {
     event.preventDefault();
-
     const newComment = {
       content: content,
     };
-
     try {
       await commentAddEventService(elementId, newComment);
       setContent("");
@@ -70,12 +66,12 @@ function CommentListEvent({ elementId, players }) {
       navigateError(error);
     }
   };
-
+  //delete comment
   const handleDeleteComment = async (commentid) => {
     await commentDeleteService(commentid);
     getData(elementId);
   };
-
+  //get comment list of an event
   const getData = async (elementId) => {
     try {
       let commentList = await commentListEventService(elementId);

@@ -2,8 +2,9 @@ import { addEventService } from "../services/event.service";
 import { useFormHook } from "../hooks/useFormHook";
 
 function AddEventForm({ gameid, getData, handleCloseEventForm }) {
+  //hook
   const {showErrorMessage, navigateError, handleChange, showData} = useFormHook()
-
+  //create a new event
   const handleComfirmEvent = async (event) => {
     event.preventDefault();
     try {

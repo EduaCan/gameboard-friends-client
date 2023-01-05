@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
-
 const DarkThemeContext = createContext();
-
+//handler for light/dark theme
 function DarkThemeWrapper(props) {
   const [darkMode, setDarkMode] = useState(false);
   const [darkModeButton, setDarkModeButton] = useState("success");
@@ -20,17 +19,17 @@ function DarkThemeWrapper(props) {
       setDarkModeButtonBlue("primary");
     }
   };
-
+  //dark theme styles
   const darkTheme = {
     backgroundColor: "rgb(20, 20, 20)",
     color: "wheat",
   };
-
+  //light theme styles
   const lightTheme = {
     backgroundColor: "#ffffff",
     color: "black",
   };
-
+  //dark theme styles for event chatroom
   const darkThemeListScroll = {
     backgroundColor: "rgb(20, 20, 20)",
     color: "wheat",
@@ -39,7 +38,7 @@ function DarkThemeWrapper(props) {
     display: "flex",
     flexDirection: "column-reverse",
   };
-
+  //light theme styles for event chatroom
   const lightThemeListScroll = {
     backgroundColor: "#ffffff",
     color: "black",
@@ -48,27 +47,27 @@ function DarkThemeWrapper(props) {
     display: "flex",
     flexDirection: "column-reverse",
   };
-
+  //main theme toggler
   const changeTheme = () => {
     return darkMode ? darkTheme : lightTheme;
   };
-
+  //event chatroom toggler
   const changeThemeListScroll = () => {
     return darkMode ? darkThemeListScroll : lightThemeListScroll;
   };
-
+  //theme for primary buttons toggler
   const changeThemeButton = () => {
     return darkModeButton === "dark" ? "dark" : "success";
   };
-
+  //theme for delete buttons toggler
   const changeThemeButtonRed = () => {
     return darkModeButtonRed === "dark" ? "dark" : "danger";
   };
-
+  //theme for modify buttons toggler
   const changeThemeButtonBlue = () => {
     return darkModeButtonBlue === "dark" ? "dark" : "primary";
   };
-
+  //functions export
   const passedContext = {
     toggleTheme,
     darkTheme,

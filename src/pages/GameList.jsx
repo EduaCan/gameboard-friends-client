@@ -1,24 +1,25 @@
 import { gameListService } from "../services/game.service";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useFormHook } from "../hooks/useFormHook"
-import { useContext } from "react";
 import { DarkThemeContext } from "../context/darkTheme.context";
 
 function GameList() {
-  const [list, setList] = useState("");
-  const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
-  const [isFetching, setIsFetching] = useState(true);
+  //context
   const { changeTheme } = useContext(DarkThemeContext);
-
-
+  //hook
+  const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
+  //states
+  const [list, setList] = useState("");
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     getData();
   }, []);
-
+  
+  //get a full game list from external API
   const getData = async () => {
     try {
       const response = await gameListService();
@@ -44,7 +45,6 @@ function GameList() {
       }}
     >
       {showErrorMessage  && <p>{showErrorMessage}</p>}
-
       {list.map((eachGame) => {
         return (
           <Card

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
+//list of games with their pics
 function FavGamesList({ details }) {
-
   return (
     <div>
       {details.map((eachGame) => {

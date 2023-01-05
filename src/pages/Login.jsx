@@ -1,22 +1,24 @@
-
 import { loginService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import { useFormHook } from "../hooks/useFormHook"
 import { DarkThemeContext } from "../context/darkTheme.context";
 
 
 
-//Muestra un formulario para que el user haga login
+//form to login a pre-registered user
 function Login() {
+  //contexts
   const { authenticaUser } = useContext(AuthContext);
   const {changeThemeButton} = useContext(DarkThemeContext)
+  //states
   const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
+  //to navigate to profile after login
   const navigate = useNavigate();
-
+  //send auth token
   const handleLogin = async (event) => {
     event.preventDefault();
     try {

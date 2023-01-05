@@ -1,42 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   commentListGameService,
   commentDeleteService,
 } from "../services/comment.service";
-import { AuthContext } from "../context/auth.context";
-import { useContext } from "react";
 import AddComment from "./AddComment";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { DarkThemeContext } from "../context/darkTheme.context";
+import { AuthContext } from "../context/auth.context";
 import { useFormHook } from "../hooks/useFormHook";
 import { useUtilsHook } from "../hooks/useUtilsHook";
 
-//https://mdbootstrap.com/docs/standard/extended/comments/
-
-//Muestra la lista de comments, sea del juego o del evento
+//lit of comments of a game
 function CommentListGame({ elementId }) {
+  //contexts
   const { user } = useContext(AuthContext);
-  const { createdEdited } = useUtilsHook()
-
   const {
     changeThemeButton,
     changeThemeButtonBlue,
     changeThemeButtonRed,
     changeTheme,
   } = useContext(DarkThemeContext);
-
-
+  //hooks
+  const { createdEdited } = useUtilsHook()
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
-
+  //states
   const [comments, setComments] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [isModifyingComment, setIsModifyingComment] = useState(false);
   const [commentId, setCommentId] = useState(null);
-  const [contentCom, setContentCom] = useState("");
-
+  const [commentContent, setCommentContent] = useState("");
   const [show, setShow] = useState(false);
-
+  //addComment modal handlers
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
@@ -46,19 +41,19 @@ function CommentListGame({ elementId }) {
   useEffect(() => {
     getData(elementId);
   }, []);
-
+  //to modify a comment
   const handleModifyComment = (elemId, content) => {
     setCommentId(elemId);
     handleShow();
     setIsModifyingComment(true);
-    setContentCom(content);
+    setCommentContent(content);
   };
-
+  //to delete a comment
   const handleDeleteComment = async (commentid) => {
     await commentDeleteService(commentid);
     getData(elementId);
   };
-
+  //get list of comments of a game
   const getData = async (elementId) => {
     try {
       let commentList = await commentListGameService(elementId);
@@ -94,13 +89,14 @@ function CommentListGame({ elementId }) {
                 <AddComment
                   elementId={elementId}
                   getData={getData}
-                  oldContent={contentCom}
+                  oldContent={commentContent}
                   commentId={commentId}
                   isModifyingComment={isModifyingComment}
                   setIsModifyingComment={setIsModifyingComment}
                   handleClose={handleClose}
                 />
               </Modal>
+              
               {comments.length === 0 ? (
                 <h3>No comments yet</h3>
               ) : (

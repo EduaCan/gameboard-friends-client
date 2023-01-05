@@ -1,3 +1,4 @@
+//minimalistic home page
 function Home() {
   return (
     <div className="Home">

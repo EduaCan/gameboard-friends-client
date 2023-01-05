@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
+import { DarkThemeContext } from "../context/darkTheme.context";
+import { useFormHook } from "../hooks/useFormHook";
 import CommentListGame from "./CommentListGame";
 import EventList from "./EventList";
 import {
@@ -10,24 +11,23 @@ import {
 } from "../services/user.service";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { useFormHook } from "../hooks/useFormHook";
-import { DarkThemeContext } from "../context/darkTheme.context";
 
-//componente que evita que veas info privada si no estas logged
+//shows info reserved to registered users
 function GameDetailsPrivate({ gameid, gameName }) {
+  //contexts
   const { isLoggedIn } = useContext(AuthContext);
   const { changeTheme, changeThemeButton } = useContext(DarkThemeContext);
+  //hook
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
-
-  const [favorites, setFavorites] = useState(null);
+  //states
   const [isFetching, setIsFetching] = useState(true);
-
+  const [favorites, setFavorites] = useState(null);
   const [showCommentsList, setShowCommentsList] = useState(false);
   const [showEventList, setShowEventList] = useState(false);
-
+  //game comments modal handler
   const handleCloseCommentsList = () => setShowCommentsList(false);
   const handleShowCommentsList = () => setShowCommentsList(true);
-
+  //events modal handler
   const handleCloseEventList = () => setShowEventList(false);
   const handleShowEventList = () => setShowEventList(true);
 
@@ -35,6 +35,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
     checkFavorites();
   }, []);
 
+  //add game to user favorites list handler
   const handleAddGameToFavourites = async (gameid) => {
     setIsFetching(true);
     try {
@@ -44,7 +45,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
       navigateError(error);
     }
   };
-
+  //remove game of user favorites list handler
   const handleRemoveGameFromFavourites = async (gameid) => {
     setIsFetching(true);
     try {
@@ -54,7 +55,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
       navigateError(error);
     }
   };
-
+  //check if this game is in favorite game list of the user
   const checkFavorites = async () => {
     try {
       const response = await getFavGamesArrayService();
@@ -69,6 +70,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
     return fetchingLoader();
   }
 
+  //info only alllowed to registered users
   if (isLoggedIn === true) {
     return (
       <div>

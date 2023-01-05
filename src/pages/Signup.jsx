@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useContext } from "react";
-import { useFormHook } from "../hooks/useFormHook"
 import { DarkThemeContext } from "../context/darkTheme.context";
+import { useFormHook } from "../hooks/useFormHook"
 
 //Muestra un formulario para que el user se registre
 function Signup() {
-
+  //hook
   const {handleChange, showData, showErrorMessage, navigateError} = useFormHook()
-
+  //context
   const { changeThemeButton } = useContext(DarkThemeContext);
+  //to navigate to login after signup
   const navigate = useNavigate();
-
-
+  //save user signup credentials
   const handleSignup = async (event) => {
     event.preventDefault();
     try {

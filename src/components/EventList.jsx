@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   eventListService,
   addPlayerToEventService,
@@ -6,27 +6,27 @@ import {
   eventDeleteService,
 } from "../services/event.service";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../context/auth.context";
-import { useContext } from "react";
 import AddEventForm from "./AddEventForm";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { AuthContext } from "../context/auth.context";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import { useFormHook } from "../hooks/useFormHook"
 import { useUtilsHook } from "../hooks/useUtilsHook";
 
+//list of events for this game
 function EventList({ gameid }) {
+  //contexts
   const {  user } = useContext(AuthContext);
   const { changeTheme, changeThemeButton } = useContext(DarkThemeContext)
+  //hooks
   const { createdEdited } = useUtilsHook()
-
+  const { showErrorMessage, navigateError, fetchingLoader } = useFormHook()
+  //states
   const [eventList, setEventList] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const { showErrorMessage, navigateError, fetchingLoader } = useFormHook()
-  
-
   const [showEventForm, setShowEventForm] = useState(false);
-
+  //event modal handlers
   const handleCloseEventForm = () => setShowEventForm(false);
   const handleShowEventForm = () => setShowEventForm(true);
 
@@ -34,6 +34,7 @@ function EventList({ gameid }) {
     getData();
   }, []);
 
+  //user joins event
   const handleAddPlayer = async (eventid) => {
     try {
       await addPlayerToEventService(eventid);
@@ -42,6 +43,7 @@ function EventList({ gameid }) {
       navigateError(error)    }
   };
 
+  //user quits event
   const handleRemovePlayer = async (eventid) => {
     try {
       await removePlayerFromEventService(eventid);
@@ -50,10 +52,12 @@ function EventList({ gameid }) {
       navigateError(error)    }
   };
 
+  //event without players, last player quits event
   const handleDeleteEvent = async (eventid) => {
     await eventDeleteService(eventid);
   };
 
+  //get list of events by gameId
   const getData = async () => {
     try {
       const response = await eventListService(gameid);

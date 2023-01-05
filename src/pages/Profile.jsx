@@ -1,20 +1,21 @@
 import { AuthContext } from "../context/auth.context";
-import { useContext } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { gameDetailsService } from "../services/game.service";
+import { useEffect, useState, useContext } from "react";
 import { useFormHook } from "../hooks/useFormHook"
+import { gameDetailsService } from "../services/game.service";
 import { eventListJoinedService } from "../services/event.service";
 import { getFavGamesArrayService } from "../services/user.service";
 import FavGamesList from "../components/FavGamesList";
 import JoinedEvents from "../components/JoinedEvents";
 
-//Muestra la info personal del usuario
+//show user's relevant info
 function Profile() {
+  //context
   const { user } = useContext(AuthContext);
+  //hook
+  const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
+  //states
   const [details, setDetails] = useState(null);
   const [eventList, setEventList] = useState(null);
-  const {showErrorMessage, navigateError, fetchingLoader} = useFormHook()
   const [eventListGames, setEventListGames] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -24,11 +25,12 @@ function Profile() {
 
   const getData = async () => {
     try {
+      //get favGames list and joinedEvents list
       const responseFavGames = await getFavGamesArrayService();
       const responseEvents = await eventListJoinedService();
       setEventList(responseEvents.data);
-      //get events games pics
-      if (responseEvents.data.length !== 0) {
+      //get events game pics
+      if (responseEvents.data.length !== 0) { 
         const finalResponse = await gameDetailsService(
           responseEvents.data.map(eachEvent =>  eachEvent.game)
         );
@@ -37,7 +39,7 @@ function Profile() {
         });
         setEventListGames(gameListImg);
       }
-      
+      //get fav games pics
       if (responseFavGames.data.length !== 0) {
         const finalResponse = await gameDetailsService(responseFavGames.data);
         setDetails(finalResponse.data);

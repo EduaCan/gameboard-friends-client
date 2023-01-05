@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import { removePlayerFromEventService } from "../services/event.service";
 import { useFormHook } from "../hooks/useFormHook"
 import { useContext } from "react";
-import { removePlayerFromEventService } from "../services/event.service";
 import { DarkThemeContext } from "../context/darkTheme.context";
+import Button from "react-bootstrap/Button";
 
-//Muestra una lista de eventos en los que el user participa
+//user joined events list
 function JoinedEvents({ eventList, eventGamesImg, getData }) {
+  //hook
   const { showErrorMessage, navigateError} = useFormHook()
+  //context
   const { changeTheme, changeThemeButton } = useContext(DarkThemeContext);
-
+  //remove player from an event
   const handleRemovePlayer = async (eventid) => {
     try {
       await removePlayerFromEventService(eventid);

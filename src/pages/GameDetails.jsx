@@ -1,22 +1,23 @@
 import { gameDetailsService } from "../services/game.service";
 import { useFormHook } from "../hooks/useFormHook"
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameDetailsPrivate from "../components/GameDetailsPrivate";
 
 //Muestra detalles de un juego
 function GameDetails() {
+  //params
   const { gameid } = useParams();
+  //hook
   const {showErrorMessage, fetchingLoader, navigateError} = useFormHook()
-
+  //states
   const [details, setDetails] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     getData();
   }, []);
-
+  //get full info of a game  
   const getData = async () => {
     try {
       const response = await gameDetailsService(gameid);

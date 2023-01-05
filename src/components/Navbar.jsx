@@ -1,23 +1,21 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/auth.context";
+import { DarkThemeContext } from "../context/darkTheme.context";
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { useState } from "react";
-import { DarkThemeContext } from "../context/darkTheme.context";
 
+//navigation right-side modal
 function Navibar({ toggleTheme }) {
-
+  //state
   const [expanded, setExpanded] = useState(false)
-
-  const { authenticaUser, isLoggedIn, user } =
-    useContext(AuthContext);
-
-    const {changeTheme, changeThemeButton} = useContext(DarkThemeContext)
-
+  //contexts
+  const { authenticaUser, isLoggedIn, user } = useContext(AuthContext);
+  const {changeTheme, changeThemeButton} = useContext(DarkThemeContext)
+  //removes user token from its local storage
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     authenticaUser();
@@ -30,7 +28,6 @@ function Navibar({ toggleTheme }) {
       className="mb-3 NavBar"
       style={changeTheme()}
       expanded={expanded}
-      
     >
       <Container fluid style={changeTheme()} onClick={() => setExpanded(expanded ? false : "expanded")}>
         <Navbar.Brand href="#" style={changeTheme()}>

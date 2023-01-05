@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   commentAddGameService,
   commentAddEventService,
 } from "../services/comment.service";
 import { commentModifyService } from "../services/comment.service";
-import { useContext } from "react";
-import Button from "react-bootstrap/Button";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import {useFormHook} from "../hooks/useFormHook.js"
+import Button from "react-bootstrap/Button";
 
 function AddComment({
   elementId,
@@ -18,25 +17,26 @@ function AddComment({
   oldContent,
   handleClose,
 }) {
+  //contexts
   const {
     changeTheme,
     changeThemeButton
   } = useContext(DarkThemeContext);
-
+  //hook
   const {showErrorMessage, navigateError} = useFormHook()
-
+  //states
   const [contentUpdate, setContentUpdate] = useState(oldContent);
   const [content, setContent] = useState("");
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
-    setContentUpdate(event.target.value);
-  };
 
   useEffect(() => {
     setContentUpdate(oldContent);
   }, [oldContent]);
-
+  //comments content change handlers
+  const handleContentChange = (event) => {
+    setContent(event.target.value);
+    setContentUpdate(event.target.value);
+  };
+  //update comment
   const handleModifyComment = async (event) => {
     event.preventDefault();
     const updateComment = {
@@ -50,9 +50,8 @@ function AddComment({
       handleClose();
     } catch (error) {
       navigateError(error)      }
-    }
- 
-
+  }
+  //create new comment
   const handleComfirmContent = async (event) => {
     event.preventDefault();
     const newComment = {
@@ -68,7 +67,7 @@ function AddComment({
     } catch (error) {
       navigateError(error)    }
   };
-
+  //2 forms, one creates, one modifies
   return (
     <div style={changeTheme()}>
       {isModifyingComment === true ? (
@@ -108,7 +107,6 @@ function AddComment({
         </form>
         </div>
       )}
-
       {showErrorMessage && <p>{showErrorMessage()}</p>}
     </div>
   );
