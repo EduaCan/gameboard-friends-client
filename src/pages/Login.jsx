@@ -6,6 +6,7 @@ import { useFormHook } from "../hooks/useFormHook";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { DarkThemeContext } from "../context/darkTheme.context";
+import SEO from "../components/SEO";
 
 //form to login a pre-registered user
 function Login() {
@@ -29,8 +30,15 @@ function Login() {
       navigateError(error);
     }
   };
+  console.log("showErrorMessage", showErrorMessage())
   return (
     <div>
+    <SEO
+        title="Login"
+        description="Login for registered users of Boardgame friends"
+        name="Boardgame Friends"
+        type="website"
+      />
       <Form onSubmit={handleLogin}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
@@ -40,6 +48,7 @@ function Login() {
             name="username"
             value={showData.username}
             onChange={handleChange}
+            // style={(showErrorMessage !== "" && showData.username === "") ? {borderColor:"red"} : {borderColor:"blue"}} //#ced4da
           />
           <Form.Text className="text-muted">Nice to see you again!</Form.Text>
         </Form.Group>

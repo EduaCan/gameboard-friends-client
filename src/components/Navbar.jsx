@@ -43,6 +43,7 @@ function Navibar({ toggleTheme }) {
               style={{ maxWidth: "10vw", height: "auto" }}
             />
           </NavLink>
+          GameBoard Friends
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls={`offcanvasNavbar-expand-${false}`}
@@ -78,6 +79,14 @@ function Navibar({ toggleTheme }) {
           </Offcanvas.Header>
           <Offcanvas.Body style={changeTheme()}>
             <Nav className="d-grid gap-2 pe-3" style={changeTheme()}>
+            <NavLink to="/" onClick={() => setExpanded(false)}>
+                <Button
+                  variant={changeThemeButton()}
+                  style={{ minWidth: "100%" }}
+                >
+                  Home
+                </Button>
+              </NavLink>
               <NavLink to="/game" onClick={() => setExpanded(false)}>
                 <Button
                   variant={changeThemeButton()}
@@ -110,7 +119,7 @@ function Navibar({ toggleTheme }) {
                       variant={changeThemeButton()}
                       style={{ minWidth: "100%" }}
                     >
-                      Cambiar password
+                      Change password
                     </Button>
                   </NavLink>
                   <NavLink to="/">
@@ -119,7 +128,7 @@ function Navibar({ toggleTheme }) {
                       style={{ minWidth: "100%" }}
                       onClick={handleLogout}
                     >
-                      Cerrar Sesión
+                      Log Out
                     </Button>
                   </NavLink>
                 </div>

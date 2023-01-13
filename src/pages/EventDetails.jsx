@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getAnEventInfoService } from "../services/event.service";
+import { gameDetailsService } from "../services/game.service";
 import { useParams } from "react-router-dom";
 import { useFormHook } from "../hooks/useFormHook";
 import CommentListEvent from "../components/CommentListEvent";
+import SEO from "../components/SEO";
 
 //details of an event
 function EventDetails() {
@@ -12,6 +14,7 @@ function EventDetails() {
   const { showErrorMessage, navigateError, fetchingLoader } = useFormHook();
   //states
   const [details, setDetails] = useState(null);
+  const [gameTitle, setGameTitle] = useState(null)
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -21,8 +24,10 @@ function EventDetails() {
   //get info of a event
   const getData = async () => {
     try {
-      const response = await getAnEventInfoService(eventid);
-      setDetails(response.data);
+      const eventResponse = await getAnEventInfoService(eventid);
+      const gameResponse = await gameDetailsService(eventResponse.data.game)
+      setDetails(eventResponse.data);
+      setGameTitle(gameResponse.data[0].name)
       setIsFetching(false);
     } catch (error) {
       navigateError(error);
@@ -35,8 +40,14 @@ function EventDetails() {
 
   return (
     <div>
+    <SEO
+        title={`${details.location} for ${gameTitle}`}
+        description={`Chat room to talk about ${gameTitle}`}
+        name="Boardgame Friends"
+        type="website"
+      />
       {showErrorMessage && <p>{showErrorMessage()}</p>}
-      <h3>Details of this event and game {details.location}</h3>
+      <h1>{details.location} for {gameTitle}</h1>
       <CommentListEvent elementId={details._id} players={details.players} />
     </div>
   );

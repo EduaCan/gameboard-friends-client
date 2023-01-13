@@ -6,6 +6,7 @@ import { eventListJoinedService } from "../services/event.service";
 import { getFavGamesArrayService } from "../services/user.service";
 import FavGamesList from "../components/FavGamesList";
 import JoinedEvents from "../components/JoinedEvents";
+import SEO from "../components/SEO";
 
 //show user's relevant info
 function Profile() {
@@ -59,14 +60,20 @@ function Profile() {
 
   return (
     <div>
+    <SEO
+        title={`${user.user.username} Profile Page`}
+        description="Personal information of the user"
+        name="Boardgame Friends"
+        type="website"
+      />
       <h2>Hello {user.user.username}</h2>
       <div className="container py-5">
         <div>
-          <h3>Fav Games:</h3>
+          <h1>Fav Games:</h1>
           <FavGamesList details={details} />
         </div>
         <div>
-          <h3>Joined Events:</h3>
+          <h1>Joined Events:</h1>
           <JoinedEvents
             eventList={eventList}
             eventGamesImg={eventListGames}

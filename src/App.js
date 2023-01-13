@@ -12,14 +12,17 @@ import GameList from "./pages/GameList";
 import GameDetails from "./pages/GameDetails";
 import ChangePassword from "./pages/ChangePassword";
 import EventDetails from "./pages/EventDetails";
+import EmailContactForm from "./pages/EmailContactForm";
 
 import { useContext } from "react";
 import { DarkThemeContext } from "./context/darkTheme.context";
+import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
   const { changeTheme, toggleTheme } = useContext(DarkThemeContext);
 
   return (
+    <HelmetProvider>
     <div className="App" style={changeTheme()}>
       <Navibar toggleTheme={toggleTheme} />
       <Routes>
@@ -28,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/game" element={<GameList />} />
         <Route path="/game/:gameid" element={<GameDetails />} />
+        <Route path="/mailme" element={<EmailContactForm />} />
 
         {/* rutas privadas */}
         <Route path="/profile" element={<Profile />} />
@@ -39,6 +43,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
+    </HelmetProvider>
   );
 }
 

@@ -3,6 +3,7 @@ import { useFormHook } from "../hooks/useFormHook";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GameDetailsPrivate from "../components/GameDetailsPrivate";
+import SEO from "../components/SEO";
 
 //Muestra detalles de un juego
 function GameDetails() {
@@ -34,6 +35,12 @@ function GameDetails() {
 
   return (
     <div>
+      <SEO
+        title={`${details.name}`}
+        description={`All the information about the boardgame ${details.name}`}
+        name="Boardgame Friends"
+        type="website"
+      />
       <img src={details.image_url} alt={details.name} width={100} />
       <h5>{details.name}</h5>
       <p>Price: {details.price}</p>

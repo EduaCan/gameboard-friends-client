@@ -2,6 +2,7 @@
   text-align: center;
   min-height: 100vh;
   padding-top: 10vh;
+  padding-bottom: 10vh;
 }
 
 .padding0, ::before, ::after {
@@ -30,6 +31,10 @@
   width: 100%;
 }
 
+.game-list-card-text {
+  text-align:justify;
+}
+
 #avatar-name-navbar {
   display:flex;
   align-items: flex-start;
@@ -47,6 +52,13 @@
 
 Button {
   margin: 0.5vw
+}
+
+#home-img {
+  width: auto;
+  height: 60vh ;
+  display:block;
+  margin: auto
 }
 
 @media only screen and (min-width: 600px) {

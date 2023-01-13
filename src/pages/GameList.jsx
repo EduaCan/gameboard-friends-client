@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useFormHook } from "../hooks/useFormHook";
 import { DarkThemeContext } from "../context/darkTheme.context";
+import SEO from "../components/SEO";
 
 function GameList() {
   //context
@@ -43,6 +44,12 @@ function GameList() {
         justifyContent: "center",
       }}
     >
+      <SEO
+        title="Boardgames List"
+        description="List of the best rated boardgames of all times"
+        name="Boardgame Friends"
+        type="website"
+      />
       {showErrorMessage && <p>{showErrorMessage}</p>}
       {list.map((eachGame) => {
         return (
@@ -58,8 +65,8 @@ function GameList() {
             />
             <Card.Body style={changeTheme()}>
               <Card.Title style={changeTheme()}>{eachGame.name}</Card.Title>
-              <Card.Text style={changeTheme()}>
-                {eachGame.description}
+              <Card.Text style={changeTheme()} className="game-list-card-text">
+                {eachGame.description.replace(/(&quot;\b)|(<\/?[^>]+(>|$))|(\b&quot;)/g, "")}
               </Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush" style={changeTheme()}>

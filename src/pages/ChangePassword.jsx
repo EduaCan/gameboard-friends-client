@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import { changePasswordService } from "../services/auth.service";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import SEO from "../components/SEO";
 
 //page to let user change its password
 function ChangePassword() {
@@ -18,7 +20,7 @@ function ChangePassword() {
   const handleChangePassword = async (event) => {
     event.preventDefault();
     try {
-      await changePasswordService(showData);
+      await changePasswordService(showData());
       navigate("/profile");
     } catch (error) {
       navigateError(error);
@@ -27,37 +29,53 @@ function ChangePassword() {
 
   return (
     <div style={changeTheme()}>
-      <form onSubmit={handleChangePassword} style={changeTheme()}>
-        <label>Old Password:</label>
-        <input
-          type="password"
-          name="oldPassword"
-          value={showData.oldPassword}
-          onChange={handleChange}
-        />
+    <SEO
+        title="Change your password"
+        description="Form to change user's password"
+        name="Boardgame Friends"
+        type="website"
+      />
+      <Form onSubmit={handleChangePassword} style={changeTheme()}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Old Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Old Password"
+            name="oldPassword"
+            value={showData.oldPassword}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-        <label>New Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={showData.password}
-          onChange={handleChange}
-        />
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>New Password:</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="New Password"
+            name="password"
+            value={showData.password}
+            onChange={handleChange}
+          />
+          <Form.Text className="text-muted">
+            Min 8 characters long with 1 capital letter and 1 number and 1 special char
+          </Form.Text>
+        </Form.Group>
 
-        <label>Retype New Password:</label>
-        <input
-          type="password"
-          name="password2"
-          value={showData.password2}
-          onChange={handleChange}
-        />
-
-        <Button type="submit" variant={changeThemeButton()}>
-          Change Password
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Retype New Password:</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Retype New Password"
+            name="password2"
+            value={showData.password2}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Button variant={changeThemeButton()} type="submit">
+        Change Password
         </Button>
-
         {showErrorMessage && <p>{showErrorMessage()}</p>}
-      </form>
+      </Form>
     </div>
   );
 }

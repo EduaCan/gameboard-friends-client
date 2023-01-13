@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useContext } from "react";
 import { DarkThemeContext } from "../context/darkTheme.context";
 import { useFormHook } from "../hooks/useFormHook";
+import SEO from "../components/SEO";
 
 //Muestra un formulario para que el user se registre
 function Signup() {
@@ -28,6 +29,12 @@ function Signup() {
 
   return (
     <div>
+      <SEO
+        title="SignUp"
+        description="Form to register a new user to Boardgames Friends DataBase"
+        name="Boardgame Friends"
+        type="website"
+      />
       <h1>Sign Up</h1>
 
       <Form onSubmit={handleSignup}>
@@ -67,7 +74,7 @@ function Signup() {
             onChange={handleChange}
           />
           <Form.Text className="text-muted">
-            Min 8 chars long, 1 capital letter, 1 number, 1 special char
+          Min 8 characters long with 1 capital letter and 1 number and 1 special char
           </Form.Text>
         </Form.Group>
 
