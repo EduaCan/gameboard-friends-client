@@ -46,7 +46,7 @@ function EventDetails() {
         name="Boardgame Friends"
         type="website"
       />
-      {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
+      {showErrorMessage() && <p style={{color:"red"}}>{showErrorMessage()}</p>}
       <h1>{details.location} for {gameTitle}</h1>
       <CommentListEvent elementId={details._id} players={details.players} />
     </div>

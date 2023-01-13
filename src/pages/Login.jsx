@@ -12,14 +12,12 @@ import SEO from "../components/SEO";
 function Login() {
   //contexts
   const { authenticaUser } = useContext(AuthContext);
-  const { changeThemeButton } = useContext(DarkThemeContext);
+  const { changeThemeButton, blankInputError } = useContext(DarkThemeContext);
   //hook
-  const { handleChange, showData, showErrorMessage, navigateError } =
+  const { handleChange, showData, showErrorMessage, navigateError, placeholderWarningIfEmpty, inputWarningStyleIfEmpty } =
     useFormHook();
   //to navigate to profile after login
   const navigate = useNavigate();
-  //control var to change form inputs border color if empty when submit
-  //...
   //send auth token
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -45,10 +43,11 @@ function Login() {
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Username"
+            placeholder={placeholderWarningIfEmpty(showErrorMessage(), showData().username, "Username")}
             name="username"
             value={showData.username}
             onChange={handleChange}
+            style={inputWarningStyleIfEmpty(showErrorMessage(), showData().username, blankInputError)}
           />
           <Form.Text className="text-muted">Nice to see you again!</Form.Text>
         </Form.Group>
@@ -57,16 +56,18 @@ function Login() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder={placeholderWarningIfEmpty(showErrorMessage(), showData().username, "Password")}
             name="password"
             value={showData.password}
             onChange={handleChange}
+            style={inputWarningStyleIfEmpty(showErrorMessage(), showData().password, blankInputError)}
+
           />
         </Form.Group>
         <Button variant={changeThemeButton()} type="submit">
           Submit
         </Button>
-        {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>} 
+        {showErrorMessage() && <p style={{color:"red"}}>{showErrorMessage()}</p>} 
       </Form>
     </div>
   );

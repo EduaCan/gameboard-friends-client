@@ -142,7 +142,7 @@ function EventList({ gameid }) {
           handleCloseEventForm={handleCloseEventForm}
         />
       </Modal>
-      {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
+      {showErrorMessage() && <p style={{color:"red"}}>{showErrorMessage()}</p>}
     </div>
   );
 }

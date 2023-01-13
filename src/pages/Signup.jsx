@@ -10,10 +10,10 @@ import SEO from "../components/SEO";
 //Muestra un formulario para que el user se registre
 function Signup() {
   //hook
-  const { handleChange, showData, showErrorMessage, navigateError } =
+  const { handleChange, showData, showErrorMessage, navigateError, placeholderWarningIfEmpty, inputWarningStyleIfEmpty } =
     useFormHook();
   //context
-  const { changeThemeButton } = useContext(DarkThemeContext);
+  const { changeThemeButton, blankInputError } = useContext(DarkThemeContext);
   //to navigate to login after signup
   const navigate = useNavigate();
   //save user signup credentials
@@ -42,10 +42,11 @@ function Signup() {
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Username"
+            placeholder={placeholderWarningIfEmpty(showErrorMessage(), showData().username, "Username")}
             name="username"
             value={showData.username}
             onChange={handleChange}
+            style={inputWarningStyleIfEmpty(showErrorMessage(), showData().username, blankInputError)}
           />
           <Form.Text className="text-muted">Nice to meet you!</Form.Text>
         </Form.Group>
@@ -54,10 +55,11 @@ function Signup() {
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Email"
+            placeholder={placeholderWarningIfEmpty(showErrorMessage(), showData().username, "Email")}
             name="email"
             value={showData.email}
             onChange={handleChange}
+            style={inputWarningStyleIfEmpty(showErrorMessage(), showData().email, blankInputError)}
           />
           <Form.Text className="text-muted">
             We don't send you any spam!
@@ -68,13 +70,14 @@ function Signup() {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder={placeholderWarningIfEmpty(showErrorMessage(), showData().username, "Password")}
             name="password"
             value={showData.password}
             onChange={handleChange}
+            style={inputWarningStyleIfEmpty(showErrorMessage(), showData().password, blankInputError)}
           />
           <Form.Text className="text-muted">
-          Min 8 characters long with 1 capital letter and 1 number and 1 special char
+          Min 8 characters long with 1 capital letter and 1 number
           </Form.Text>
         </Form.Group>
 
@@ -82,10 +85,11 @@ function Signup() {
           <Form.Label>Re-type Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder={placeholderWarningIfEmpty(showErrorMessage(), showData().username, "Password")}
             name="password2"
             value={showData.password2}
             onChange={handleChange}
+            style={inputWarningStyleIfEmpty(showErrorMessage(), showData().password2, blankInputError)}
           />
           <Form.Text className="text-muted">
             Please re-type for security reasons.
@@ -94,7 +98,7 @@ function Signup() {
         <Button variant={changeThemeButton()} type="submit">
           Submit
         </Button>
-        {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
+        {showErrorMessage() && <p style={{color:"red"}}>{showErrorMessage()}</p>}
       </Form>
     </div>
   );

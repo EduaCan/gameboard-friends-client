@@ -67,6 +67,14 @@ function DarkThemeWrapper(props) {
   const changeThemeButtonBlue = () => {
     return darkModeButtonBlue === "dark" ? "dark" : "primary";
   };
+  //form error warnings styles
+  const blankInputError = {
+    borderColor: "red",
+    color: "red",
+    boxShadow: "0 0 5px 5px red",
+  }
+
+
   //functions export
   const passedContext = {
     toggleTheme,
@@ -79,6 +87,7 @@ function DarkThemeWrapper(props) {
     changeThemeButton,
     changeThemeButtonRed,
     changeThemeButtonBlue,
+    blankInputError
   };
 
   return (

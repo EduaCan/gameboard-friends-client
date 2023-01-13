@@ -74,7 +74,7 @@ function CommentListGame({ elementId }) {
         <div className="row d-flex justify-content-center">
           <div className="col-md-12 col-lg-10">
             <div className="card text-dark" style={changeTheme()}>
-              {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
+              {showErrorMessage() && <p style={{color:"red"}}>{showErrorMessage()}</p>}
               <Button variant={changeThemeButton()} onClick={handleShow}>
                 Share a comment
               </Button>

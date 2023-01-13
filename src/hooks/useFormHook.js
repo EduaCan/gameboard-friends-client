@@ -35,7 +35,14 @@ export const useFormHook = () => {
       </div>
     );
   };
-
+  //form input placeholder warning if empty
+  const placeholderWarningIfEmpty = (errorMessage, inputValue, correctString) => {
+    return (errorMessage === "You must fill all the fields" && !inputValue) ? errorMessage : correctString
+  }
+  //form input warning style if empty
+  const inputWarningStyleIfEmpty = (errorMessage, inputValue, warningStyles) => {
+    return (errorMessage === "You must fill all the fields" && !inputValue) ? warningStyles : {borderColor: "#ced4da"}
+  }
   return {
     handleChange,
     showData,
@@ -44,5 +51,7 @@ export const useFormHook = () => {
     changeErrorMessage,
     navigateError,
     fetchingLoader,
+    placeholderWarningIfEmpty,
+    inputWarningStyleIfEmpty
   };
 };
