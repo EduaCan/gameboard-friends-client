@@ -37,7 +37,7 @@ function GameDetails() {
     <div>
       <SEO
         title={`${details.name}`}
-        description={`All the information about the boardgame ${details.name}`}
+        description={`All the information about the boardgame ${details.name}, ${details.description.replace(/(&quot;\b)|(<\/?[^>]+(>|$))|(\b&quot;)/g, "")}`}
         name="Boardgame Friends"
         type="website"
       />
