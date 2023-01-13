@@ -74,7 +74,7 @@ function ChangePassword() {
         <Button variant={changeThemeButton()} type="submit">
         Change Password
         </Button>
-        {showErrorMessage && <p>{showErrorMessage()}</p>}
+        {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
       </Form>
     </div>
   );

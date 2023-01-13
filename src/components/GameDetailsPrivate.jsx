@@ -113,7 +113,7 @@ function GameDetailsPrivate({ gameid, gameName }) {
             Add game to favorites
           </Button>
         )}
-        {showErrorMessage && <p>{showErrorMessage()}</p>}
+        {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
       </div>
     );
   }

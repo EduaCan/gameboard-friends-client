@@ -37,7 +37,7 @@ function AddEventForm({ gameid, getData, handleCloseEventForm }) {
               Create Event
             </Button>
       </form>
-      {showErrorMessage && <p>{showErrorMessage()}</p>}
+      {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
     </div>
   );
 }

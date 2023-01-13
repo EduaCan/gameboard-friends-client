@@ -13,11 +13,13 @@ function Login() {
   //contexts
   const { authenticaUser } = useContext(AuthContext);
   const { changeThemeButton } = useContext(DarkThemeContext);
-  //states
+  //hook
   const { handleChange, showData, showErrorMessage, navigateError } =
     useFormHook();
   //to navigate to profile after login
   const navigate = useNavigate();
+  //control var to change form inputs border color if empty when submit
+  //...
   //send auth token
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -30,7 +32,6 @@ function Login() {
       navigateError(error);
     }
   };
-  console.log("showErrorMessage", showErrorMessage())
   return (
     <div>
     <SEO
@@ -48,7 +49,6 @@ function Login() {
             name="username"
             value={showData.username}
             onChange={handleChange}
-            // style={(showErrorMessage !== "" && showData.username === "") ? {borderColor:"red"} : {borderColor:"blue"}} //#ced4da
           />
           <Form.Text className="text-muted">Nice to see you again!</Form.Text>
         </Form.Group>
@@ -66,7 +66,7 @@ function Login() {
         <Button variant={changeThemeButton()} type="submit">
           Submit
         </Button>
-        {showErrorMessage && <p>{showErrorMessage()}</p>}
+        {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>} 
       </Form>
     </div>
   );

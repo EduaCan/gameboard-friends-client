@@ -94,7 +94,7 @@ function Signup() {
         <Button variant={changeThemeButton()} type="submit">
           Submit
         </Button>
-        {showErrorMessage && <p>{showErrorMessage()}</p>}
+        {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
       </Form>
     </div>
   );

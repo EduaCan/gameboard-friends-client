@@ -46,7 +46,7 @@ function GameDetails() {
       <p>Price: {details.price}</p>
       <p>Min Players: {details.min_players}</p>
       <p>Max Players: {details.max_players}</p>
-      <p>{details.description}</p>
+      <p>{details.description.replace(/(&quot;\b)|(<\/?[^>]+(>|$))|(\b&quot;)/g, "")}</p>
       <GameDetailsPrivate gameid={gameid} gameName={details.name} />
       {showErrorMessage && <p>{showErrorMessage}</p>}
     </div>

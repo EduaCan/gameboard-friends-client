@@ -106,7 +106,7 @@ function AddComment({
           </form>
         </div>
       )}
-      {showErrorMessage && <p>{showErrorMessage()}</p>}
+      {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
     </div>
   );
 }

@@ -60,7 +60,7 @@ function JoinedEvents({ eventList, eventGamesImg, getData }) {
           </li>
         );
       })}
-      {showErrorMessage && <p>{showErrorMessage()}</p>}
+      {showErrorMessage && <p style={{color:"red"}}>{showErrorMessage()}</p>}
     </ul>
   );
 }
